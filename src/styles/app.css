@@ -1,0 +1,251 @@
+@font-face {
+    font-family: 'Montserrat-Regular';
+    src: url('../fonts/Montserrat-Regular.woff') format('woff'), url('../fonts/Montserrat-Regular.woff2') format('woff2');
+}
+  
+  @font-face {
+    font-family: 'Montserrat-Bold';
+    src: url('../fonts/Montserrat-Bold.woff') format('woff'), url('../fonts/Montserrat-Bold.woff2') format('woff2');
+}
+
+main {
+    background-image: url('../images/header-background.png');
+    background-repeat: no-repeat;
+    background-size: 100%;
+    
+    margin-top: -10px;
+}
+
+.button {
+    width: 188px;
+    height: 48px;
+    font-family: Montserrat-Regular;
+    font-size: 18px;
+
+    border: 1px solid;
+    border-radius: 5px;
+    background: none;
+    text-transform: uppercase;
+    transition: all 0.35s ease;
+}
+
+.white-button {
+    border-color: #ffffff;
+    color: #ffffff;
+}
+
+.light-blue-button {
+    border-color: #00ffff;
+    color: #00ffff;
+}
+
+.green-button {
+    border-color: #5D8383;
+    color: #5D8383;
+}
+
+.white-button:hover {
+    filter: drop-shadow(0px 0px 7px #ffffff);
+}
+
+.light-blue-button:hover {
+    filter: drop-shadow(0px 0px 7px #00ffff);
+}
+
+.green-button:hover {
+    filter: drop-shadow(0px 0px 7px #5D8383);
+}
+
+.app-navigation {
+    display: flex;
+    justify-content: space-between;
+
+    width: 1104px;
+    margin-top: 10px;
+}
+
+.app-menu {
+    list-style: none;
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+
+    width: 150px;
+    padding: 0;
+}
+
+.app-logo {
+    font-family: Montserrat-Bold;
+    font-size: 18px;
+    text-transform: uppercase;
+    color: #ffffff;
+    padding-top: 8px;
+
+    display: block;
+    
+    width: 100px;
+    height: 29px;
+    border-right: 1px solid #ffffff;
+
+    margin-top: -8px;
+}
+
+.menu-button {
+    width: 32px;
+    height: 30px;
+
+    margin-top: -5px;
+}
+
+.app-authorization {
+    width: 176px;
+    list-style: none;
+
+    padding: 0;
+    margin-top: 12px;
+
+    display: flex;  
+    justify-content: space-between;
+}
+
+.auth-button {
+    width: 73px;
+    height: 30px;
+
+    font-size: 12px;
+}
+
+.app-header {
+    margin-left: 195px;
+}
+
+.app-title {
+    margin-top: 100px;
+}
+
+.app-description {
+    font-family: Montserrat-Regular;
+    font-size: 18px;
+    color: #ffffff;
+    
+    margin-top: 0;
+    margin-bottom: 11px;
+}
+
+  
+.main-title {
+    font-family: Montserrat-Regular;
+    font-size: 48px;
+    color: #ffffff;
+
+    display: inline-block;
+    width: 446px;
+
+    margin: 0;
+}
+
+.app-title__authorization {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    
+    width: 385px;
+
+    padding: 0;
+    margin-top: 32px;
+    margin-bottom: 0;
+}
+
+.url-input-form {
+    position: relative;
+}
+
+.url-input {
+    width: 1084px;
+    height: 50px;
+
+    border: 1px solid #5D8383;
+    border-radius: 5px;
+
+    margin-top: 209px;
+    margin-left: 193px;
+
+    font-family: Montserrat-Regular;
+    font-size: 18px;
+    padding-left: 20px;
+}
+
+.shorten-button {
+    width: 89px;
+    height: 43px;
+
+    font-size: 14px;
+
+    position: absolute;
+
+    top: 214px;
+    right: 243px;
+}
+
+.url-input:focus {
+    outline: none;
+}
+
+.auth-block {
+    width: 357px;
+    text-align: center;
+
+    margin-left: 568px;
+    margin-top: 110px;
+}
+
+.auth-title {
+    font-family: Montserrat-Bold;
+    font-size: 24px;
+    color: #5D8383;
+
+    margin-top: 0px;
+    margin-bottom: 28px;
+}
+
+.auth-form {
+    height: 304px;
+    border: 1px solid #5D8383;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+    align-items: center;
+}
+
+.auth-input {
+    width: 291px;
+    height: 47px;
+
+    border: 1px solid #5D8383;
+    border-radius: 5px;
+
+    padding-left: 15px;
+
+    font-family: Montserrat-Regular;
+    font-size: 14px;
+    color: #5D8383;
+}
+
+.auth-input:focus {
+    outline: none;
+}
+
+.auth-button {
+    width: 306px;
+    height: 47px;
+
+    background-color: #5D8383;
+
+    font-family: Montserrat-Bold;
+    font-size: 14px;
+    color: #ffffff;
+}
+
+
