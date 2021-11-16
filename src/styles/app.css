@@ -56,6 +56,22 @@ main {
     filter: drop-shadow(0px 0px 7px #5D8383);
 }
 
+.app-header {
+    position: relative;
+}
+
+.app-header::after {
+    content: '';
+
+    position: absolute;
+    width: 493px;
+    height: 436px;
+    background-image: url('../images/illustration.png');
+    background-repeat: no-repeat;
+    top: 77px;
+    right: 87px;
+}
+
 .app-navigation {
     display: flex;
     justify-content: space-between;
@@ -219,6 +235,10 @@ main {
     align-items: center;
 }
 
+.login-form {
+    height: 260px;
+}
+
 .auth-input {
     width: 291px;
     height: 47px;
@@ -237,7 +257,7 @@ main {
     outline: none;
 }
 
-.auth-button {
+.authorize-button {
     width: 306px;
     height: 47px;
 
@@ -246,6 +266,22 @@ main {
     font-family: Montserrat-Bold;
     font-size: 14px;
     color: #ffffff;
+}
+
+.auth-subtitle {
+    font-family: Montserrat-Regular;
+    font-size: 14px;
+    color: #5D8383;
+
+    margin-top: 39px;
+    margin-bottom: 12px;
+}
+
+.other-auth-method-button {
+    width: 261px;
+    height: 47px;
+
+    font-size: 14px;
 }
 
 

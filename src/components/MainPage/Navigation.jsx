@@ -1,5 +1,6 @@
 import React from 'react';
 import { AiOutlineMenu } from 'react-icons/ai';
+import { Link } from 'react-router-dom';
 import MyButton from './MyButton';
 
 function Navigation () {
@@ -15,10 +16,10 @@ function Navigation () {
             </ul>
             <ul className='app-authorization'>
                 <li>
-                    <MyButton buttonType='button auth-button white-button' text='log in' />
+                    <Link to='/login'><MyButton buttonType='button auth-button white-button' text='log in' /></Link>
                 </li>
                 <li>
-                    <MyButton buttonType='button auth-button light-blue-button' text='sign up' />
+                    <Link to='/signup'><MyButton buttonType='button auth-button light-blue-button' text='sign up' /></Link>
                 </li>
             </ul>
         </nav>

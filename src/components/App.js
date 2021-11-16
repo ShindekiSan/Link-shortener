@@ -1,12 +1,11 @@
 import React from 'react';
-// import MainPage from './MainPage/MainPage.jsx';
-import SignUp from './AuthPage/SignUp.jsx';
 import '../styles/app.css';
 import '../styles/normalize.css';
+import MainPage from './MainPage/MainPage.jsx';
 
 function App () {
     return (
-        <SignUp />
+        <MainPage />
     )
 }
 

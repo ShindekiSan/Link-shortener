@@ -1,5 +1,6 @@
 import React from 'react';
 import MyButton from './MyButton';
+import { Link } from 'react-router-dom';
 import Navigation from './Navigation';
 
 function Header () {
@@ -11,14 +12,13 @@ function Header () {
                 <h1 className='main-title'>Make your link as small as calibri.</h1>
                 <ul className='app-title__authorization'>
                     <li>
-                        <MyButton buttonType='button white-button' text='sign up' />
+                        <Link to='/signup'><MyButton buttonType='button white-button' text='sign up' /></Link>
                     </li>
                     <li>
-                        <MyButton buttonType='button light-blue-button' text='log in' />
+                        <Link to='/login'><MyButton buttonType='button light-blue-button' text='log in' /></Link>
                     </li>
                 </ul>
             </div>
-            
         </header>
     )
 };
