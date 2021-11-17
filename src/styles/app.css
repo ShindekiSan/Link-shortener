@@ -200,11 +200,25 @@ main {
     position: absolute;
 
     top: 214px;
-    right: 243px;
+    right: 233px;
 }
 
 .url-input:focus {
     outline: none;
+}
+
+.guest-warn {
+    width: 289px;
+    height: 30px;
+    display: block;
+    text-align: center;
+
+    margin-top: 12px;
+    margin-left: 621px;
+
+    font-family: Montserrat-Regular;
+    font-size: 18px;
+    color: #5D8383;
 }
 
 .auth-block {

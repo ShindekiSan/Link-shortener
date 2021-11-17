@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM  from 'react-dom';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import App from './components/App';
-import SignUp from '../src/components/AuthPage/SignUp';
-import LogIn from '../src/components/AuthPage/LogIn'
+import SignUp from '../src/components/AuthPage/SignUp.jsx';
+import LogIn from '../src/components/AuthPage/LogIn.jsx'
 
 ReactDOM.render(
     <BrowserRouter>

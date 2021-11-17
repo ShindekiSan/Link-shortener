@@ -30,7 +30,7 @@ router.post(
             } else {
                 // const hashedPassword = await bcrypt.hash(req.body.password, 12)
                 const newUser = new User({
-                    userName: req.body.userName,
+                    userName: req.body.username,
                     email: req.body.email,
                     password: req.body.password
                 })
@@ -65,7 +65,7 @@ router.post(
             if (!user) {
                 return resp.status(400).json({ email: 'There is no user with this email'})
             } else {
-                const passwordMatch = password === user.password;
+                const passwordMatch = req.body.password === user.password;
 
                 if (!passwordMatch) {
                     return resp.status(400).json({ message: 'Invalid email or password, try again' });
@@ -77,7 +77,7 @@ router.post(
                     { expiresIn: '1h' }
                 )
 
-                resp.json({ token, userName: userName })
+                resp.json({ token, userName: user.userName })
             }
         })
     } catch (e) {
