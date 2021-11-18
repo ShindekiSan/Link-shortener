@@ -11,11 +11,11 @@ import '../styles/normalize.css';
 
 
 function App () {
-    const {token, login, logout, userName} = useAuth()
+    const {token, login, logout, userName, userId} = useAuth()
     const isAuthenticated = !!token
     return (
         <AuthContext.Provider value={{
-            token, login, logout, userName, isAuthenticated
+            userId, token, login, logout, userName, isAuthenticated
         }}>
             <BrowserRouter>
                 <Routes>

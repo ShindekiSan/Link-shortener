@@ -50,7 +50,7 @@ router.post(
             }
         })
     } catch (e) {
-        resp.status(500).json({ message: 'Something went wrong, try again' })
+        return resp.status(500).json({ message: 'Something went wrong, try again' })
     }
 });
 
@@ -83,16 +83,16 @@ router.post(
                 }
 
                 const token = jwt.sign(
-                    { userName: user.userName },
+                    { userId: user.id },
                     config.get('jwtSecret'),
                     { expiresIn: '1h' }
                 )
 
-                resp.json({ token, userName: user.userName })
+                resp.json({ token, userId: user.id, userName: user.userName })
             }
         })
     } catch (e) {
-        resp.status(500).json({ message: 'Something went wrong, try again' })
+        return resp.status(500).json({ message: 'Something went wrong, try again' })
     }
 });
 
