@@ -1,19 +1,26 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import MyBytton from '../MainPage/MyButton';
 import { useHttp } from '../../hooks/http.hook';
-import { useState } from 'react'
+import { useState, useContext } from 'react';
+import { AuthContext } from '../../context/AuthContext';
 
 function LogIn () {
-    const {loading, request} = useHttp()
+    const navigate = useNavigate()
+    const auth = useContext(AuthContext)
+    const {loading, request, error, clearError} = useHttp()
     const [form, setForm] = useState({
         email: '', password: ''
     })
 
     const authorizationHandler = async () => {
         try {
+            if (error) {
+                clearError()
+            }
             const data = await request('http://localhost:5000/api/auth/login', 'POST', {...form})
-            console.log('Data', data)
+            auth.login(data.token, data.userName)
+            navigate('/')
         } catch (e) {
             console.log('Error', e.message)
         }
@@ -36,7 +43,7 @@ function LogIn () {
                     onChange={changeHandler} />
                 <input 
                     className='auth-input' 
-                    type='text' 
+                    type='password' 
                     name='password' 
                     id='user-password' 
                     placeholder='Password'
@@ -49,12 +56,13 @@ function LogIn () {
                         Log in
                 </button>
             </div>
+            <p className='auth-fail-message'>{ error }</p>
             <h3 className='auth-subtitle'>You do not have an account?</h3>
             <Link to='/signup'>
                 <MyBytton 
                     buttonType='button green-button other-auth-method-button' 
                     text='Sign up'/>
-                </Link>
+            </Link>
         </div>
     )
 }

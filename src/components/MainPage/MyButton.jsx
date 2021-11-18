@@ -1,8 +1,8 @@
 import React from 'react';
 
-function MyAuthButton ({ text, buttonType }) {
+function MyAuthButton ({ text, buttonType, clickFunc }) {
     return (
-        <button className={buttonType}>{text}</button>
+        <button className={buttonType} onClick={clickFunc} >{text}</button>
     )
 }
 

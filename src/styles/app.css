@@ -191,6 +191,10 @@ main {
     padding-left: 20px;
 }
 
+.url-input--authorized-user {
+    margin-top: 289px
+}
+
 .shorten-button {
     width: 89px;
     height: 43px;
@@ -200,7 +204,11 @@ main {
     position: absolute;
 
     top: 214px;
-    right: 233px;
+    right: 247px;
+}
+
+.shorten-button--authorized-user {
+    top: 294px;
 }
 
 .url-input:focus {
@@ -282,6 +290,12 @@ main {
     color: #ffffff;
 }
 
+.auth-fail-message {
+    font-family: Montserrat-Regular;
+    font-size: 14px;
+    color: #5D8383;
+}
+
 .auth-subtitle {
     font-family: Montserrat-Regular;
     font-size: 14px;
@@ -296,6 +310,20 @@ main {
     height: 47px;
 
     font-size: 14px;
+}
+
+.authorized-user {
+    display: none;
+}
+
+.authorized-user-profile-name {
+    font-family: Montserrat-Regular;
+    font-size: 18px;
+    color: #ffffff;
+
+    margin-top: 5px;
+    margin-bottom: 31px;
+    text-decoration: none;
 }
 
 

@@ -1,5 +1,4 @@
 const {Router} = require('express');
-// const bcrypt = require('bcryptjs')
 const config = require('config')
 const jwt = require('jsonwebtoken');
 const {check, validationResult} = require('express-validator')
@@ -18,7 +17,7 @@ router.post(
         const errors  = validationResult(req);
 
         if (!errors.isEmpty()) {
-            resp.status(400).json({ 
+            return resp.status(400).json({ 
                 errors: errors.array(),
                 message: 'Invalid registration information'
             })
@@ -28,14 +27,26 @@ router.post(
             if (user) {
                 return resp.status(400).json({ message: 'A user has already registered with this email' })
             } else {
-                // const hashedPassword = await bcrypt.hash(req.body.password, 12)
-                const newUser = new User({
-                    userName: req.body.username,
-                    email: req.body.email,
-                    password: req.body.password
+                User.findOne({ userName: req.body.username }).then((user) => {
+                    if (user) {
+                        return resp.status(400).json({ message: 'A user has already registered with this username' })
+                    } else {
+                        const newUser = new User({
+                            userName: req.body.username,
+                            email: req.body.email,
+                            password: req.body.password
+                        })
+                        newUser.save()
+
+                        const token = jwt.sign(
+                            { userName: newUser.userName },
+                            config.get('jwtSecret'),
+                            { expiresIn: '1h' }
+                        )
+
+                        return resp.status(201).json({ message: 'New user has been registered', token, userName: newUser.userName })
+                    }
                 })
-                newUser.save()
-                return resp.status(201).json({ message: 'New user has been registered' })
             }
         })
     } catch (e) {
@@ -55,7 +66,7 @@ router.post(
         const errors  = validationResult(req);
 
         if (!errors.isEmpty()) {
-            resp.status(400).json({ 
+            return resp.status(400).json({ 
                 errors: errors.array(),
                 message: 'Invalid authorization information'
             })
@@ -63,7 +74,7 @@ router.post(
 
         User.findOne({ email: req.body.email }).then((user) => {
             if (!user) {
-                return resp.status(400).json({ email: 'There is no user with this email'})
+                return resp.status(400).json({ message: 'There is no user with this email'})
             } else {
                 const passwordMatch = req.body.password === user.password;
 

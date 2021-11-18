@@ -1,8 +1,8 @@
-import {useState, useCallback} from 'react'
+import { useState, useCallback, useEffect } from 'react'
 
 export function useHttp () {
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null)
+    const [error, setError] = useState(null);
 
     const request = useCallback(async (url, method = 'GET', body = null, headers = {}) => {
         setLoading(true)
@@ -24,13 +24,13 @@ export function useHttp () {
             return data
 
         } catch (e) {
-            setLoading(false)
             setError(e.message)
+            setLoading(false)
             throw e
         }
     }, [])
 
-    const clearError = () => {setError(null)}
+    const clearError = useCallback(() => {setError(null)}, [])
 
     return {loading, error, request, clearError}
 }

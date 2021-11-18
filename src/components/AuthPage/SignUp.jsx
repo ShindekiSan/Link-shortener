@@ -1,20 +1,27 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useHttp } from '../../hooks/http.hook';
-import { useState } from 'react'
+import { useState, useContext } from 'react';
+import { AuthContext } from '../../context/AuthContext';
+import { useNavigate } from 'react-router';
 
 function SignUp () {
-    const {loading, request} = useHttp()
+    const navigate = useNavigate()
+    const auth = useContext(AuthContext)
+    const {loading, request, error, clearError} = useHttp()
     const [form, setForm] = useState({
         username:'', email: '', password: ''
     })
 
     const registerHandler = async () => {
         try {
+            if (error) {
+                clearError();
+            }
             const data = await request('http://localhost:5000/api/auth/register', 'POST', {...form})
-            console.log('Data', data)
+            auth.login(data.token, data.userName)
+            navigate('/')
         } catch (e) {
-            console.log('Error', e.message)
         }
     }
 
@@ -43,7 +50,8 @@ function SignUp () {
                 />
                 <input 
                     className='auth-input' 
-                    type='text' name='password' 
+                    type='password' 
+                    name='password' 
                     id='user-password' 
                     placeholder='Password' 
                     onChange={changeHandler}
@@ -56,6 +64,7 @@ function SignUp () {
                         Create an account
                 </button>
             </div>
+            <p className='auth-fail-message'>{ error }</p>
             <h3 className='auth-subtitle'>Do you already have an account?</h3>
             <Link to='/login'>
                 <button 
