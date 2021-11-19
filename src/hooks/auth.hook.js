@@ -6,6 +6,7 @@ export function useAuth ()  {
     const [token, setToken] = useState(null)
     const [userId, setUserId] = useState(null)
     const [userName, setUserName] = useState(null)
+    
 
     const login = useCallback((jwtToken, id, name) => {
         setToken(jwtToken)
@@ -22,7 +23,6 @@ export function useAuth ()  {
         setUserName(null)
 
         localStorage.removeItem(storageName)
-        window.location.reload();
     }, [])
 
     useEffect(() => {

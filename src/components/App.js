@@ -2,6 +2,7 @@ import React from 'react';
 import LogIn from './AuthPage/LogIn';
 import SignUp from './AuthPage/SignUp';
 import MainPage from './MainPage/MainPage';
+import Profile from './ProfilePage/Profile';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useAuth } from '../hooks/auth.hook';
 import { AuthContext } from '../context/AuthContext.js';
@@ -22,6 +23,7 @@ function App () {
                     <Route path='/' element={<MainPage />} />
                     <Route path ='/login' element={<LogIn />} />
                     <Route path='/signup' element={<SignUp />} />
+                    <Route path='/profile' element={<Profile />} />
                 </Routes>
             </BrowserRouter>
         </AuthContext.Provider>

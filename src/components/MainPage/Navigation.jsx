@@ -1,19 +1,29 @@
 import React, { useContext } from 'react';
 import { AiOutlineMenu } from 'react-icons/ai';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import { useAuth } from '../../hooks/auth.hook';
 import MyButton from './MyButton';
 
 function Navigation () {
     const auth = useContext(AuthContext)
+    const navigate = useNavigate()
     const { logout } = useAuth();
+
+    const handleLogout = () => {
+        logout();
+        navigate('/');
+        window.location.reload();
+    }
+
     return (
         <nav className='app-navigation'>
             <ul className='app-menu'>
-                <li className='app-logo'>
-                    <span>calibri</span>
-                </li>
+                <Link to='/' className='logo-link'>
+                    <li className='app-logo'>
+                        <span>calibri</span>
+                    </li>
+                </Link>
                 <li>
                     <AiOutlineMenu className='menu-button' />
                 </li>
@@ -21,19 +31,27 @@ function Navigation () {
             {auth.isAuthenticated ? (
                 <ul className='app-authorization'>
                     <li>
-                        <p className='authorized-user-profile-name'>{auth.userName}</p>
+                        <Link to='/profile' className='username-link'>
+                            <p className='authorized-user-name'>{auth.userName}</p>
+                        </Link>
                     </li>
                     <li>
-                        <Link to='/'><MyButton buttonType='button auth-button light-blue-button' text='log out' clickFunc={logout} /></Link>
+                        <Link to='/'>
+                            <MyButton buttonType='button auth-button light-blue-button' text='log out' clickFunc={handleLogout} />
+                        </Link>
                     </li>
                 </ul>
             ) : (
                 <ul className='app-authorization'>
                     <li>
-                        <Link to='/login'><MyButton buttonType='button auth-button white-button' text='log in' /></Link>
+                        <Link to='/login'>
+                            <MyButton buttonType='button auth-button white-button' text='log in' />
+                        </Link>
                     </li>
                     <li>
-                        <Link to='/signup'><MyButton buttonType='button auth-button light-blue-button' text='sign up' /></Link>
+                        <Link to='/signup'>
+                            <MyButton buttonType='button auth-button light-blue-button' text='sign up' />
+                        </Link>
                     </li>
                 </ul>
             )}

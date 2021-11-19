@@ -5,10 +5,12 @@ import { useHttp } from '../../hooks/http.hook';
 function LinkInput () {
     const {request} = useHttp()
     const [link, setLink] = useState('')
+    const [input, setInput] = useState('')
     const auth = useContext(AuthContext)
 
     const changeHandler = evt => {
         setLink(evt.target.value)
+        setInput(evt.target.value)
     }
 
     const pressHandler = async evt => {
@@ -21,6 +23,7 @@ function LinkInput () {
             } catch (e) {
 
             }
+            setInput('')
         }
     }
     return (
@@ -29,6 +32,7 @@ function LinkInput () {
                 <input 
                     className={auth.isAuthenticated ? 'url-input url-input--authorized-user' : 'url-input'} 
                     type='text' 
+                    value={input}
                     disabled={!auth.isAuthenticated}
                     onChange={changeHandler}
                     onKeyPress={pressHandler}>

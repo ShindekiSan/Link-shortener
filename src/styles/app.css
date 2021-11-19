@@ -69,7 +69,7 @@ main {
     background-image: url('../images/illustration.png');
     background-repeat: no-repeat;
     top: 77px;
-    right: 87px;
+    right: 67px;
 }
 
 .app-navigation {
@@ -204,7 +204,7 @@ main {
     position: absolute;
 
     top: 214px;
-    right: 247px;
+    right: 227px;
 }
 
 .shorten-button--authorized-user {
@@ -224,6 +224,39 @@ main {
     margin-top: 12px;
     margin-left: 621px;
 
+    font-family: Montserrat-Regular;
+    font-size: 18px;
+    color: #5D8383;
+}
+
+.page-footer {
+    width: 100%;
+    height: 166px;
+
+    border-top: 1px solid #5D8383;
+
+    margin-top: 97px;
+
+    text-align: center;
+}
+
+.page-footer-title {
+    font-family: Montserrat-Bold;
+    font-size: 24px;
+    color: #5D8383;
+    text-transform: uppercase;
+
+    margin-top: 40px;
+    margin-bottom: 0px;
+}
+
+.page-footer-app-description {
+    width: 289px;
+
+    display: inline-block;
+
+    margin-top: 13px;
+    
     font-family: Montserrat-Regular;
     font-size: 18px;
     color: #5D8383;
@@ -316,7 +349,11 @@ main {
     display: none;
 }
 
-.authorized-user-profile-name {
+.username-link {
+    text-decoration: none;
+}
+
+.authorized-user-name {
     font-family: Montserrat-Regular;
     font-size: 18px;
     color: #ffffff;
@@ -324,6 +361,103 @@ main {
     margin-top: 5px;
     margin-bottom: 31px;
     text-decoration: none;
+}
+
+.profile-header {
+    margin-left: 195px;
+}
+
+.logo-link {
+    text-decoration: none;
+    height: 30px;
+}
+
+.profile-logo {
+    color: #5D8383;
+    border-color: #5D8383;
+}
+
+.profile-navigation {
+    margin-top: 0px;
+}
+
+.profile-logout {
+    width: 76px;
+}
+
+.profile-title {
+    font-family: Montserrat-Regular;
+    font-size: 48px;
+    color: #5D8383;
+
+    display: inline-block;
+    width: 446px;
+
+    margin: 0;
+    margin-top: 100px;
+    margin-left: 0px;
+}
+
+.profile-subtitle {
+    font-family: Montserrat-Regular;
+    font-size: 18px;
+    color: #5D8383;
+    
+    margin: 0;
+    margin-left: 10px;
+    margin-bottom: 32px;
+}
+
+.profile-links-list {
+    margin-top: 0px;
+    margin-left: 193px;
+}
+
+.profile-link-block {
+    width: 1104px;
+
+    height: 160px;
+
+    border: 1px solid #5D8383;
+
+    margin-top: 24px;
+}
+
+.profile-link-title {
+    font-family: Montserrat-Regular;
+    font-size: 24px;
+    color: #5D8383;
+
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+.profile-link-your-link {
+    font-family: Montserrat-Regular;
+    font-size: 18px;
+    color: #5D8383;
+
+    margin-left: 20px;
+    margin-top: 0px;
+    margin-bottom: 24px;
+}
+
+.profile-link-more {
+    font-family: Montserrat-Regular;
+    font-size: 18px;
+    color: #5D8383;
+
+    margin-left: 20px;
+    margin-bottom: 0px;
+}
+
+.loader {
+    font-family: Montserrat-Bold;
+    font-size: 30px;
+    color: #5D8383;
+
+    margin-left: 675px;
+    margin-top: 80px;
 }
 
 
