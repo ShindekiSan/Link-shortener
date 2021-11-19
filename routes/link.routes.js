@@ -27,12 +27,6 @@ router.post('/generate', auth, async(req, resp) => {
 
         link.save()
 
-        // User.findOne({ id: req.user.userId }).then((user) => {
-        //     if (user) {
-        //         user.links.push(link.id)
-        //     }
-        // })
-
         return resp.status(201).json({ link })
     } catch (e) {
         return resp.status(500).json({ message: 'Something went wrong, try again' });
@@ -50,8 +44,8 @@ router.get('/', auth, async(req, resp) => {
 
 router.get('/:id', auth, async(req, resp) => {
     try {
-        const link = Link.findById(req.params.id);
-        res.json(link);
+        const link = await Link.findById( req.params.id );
+        resp.json(link);
     } catch (e) {
         return resp.status(500).json({ message: 'Something went wrong, try again' });
     };

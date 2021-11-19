@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
-import { AiOutlineMenu } from 'react-icons/ai';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import { useAuth } from '../../hooks/auth.hook';
 import MyButton from './MyButton';
+import Logo from './Logo';
 
 function Navigation () {
     const auth = useContext(AuthContext)
@@ -19,14 +19,7 @@ function Navigation () {
     return (
         <nav className='app-navigation'>
             <ul className='app-menu'>
-                <Link to='/' className='logo-link'>
-                    <li className='app-logo'>
-                        <span>calibri</span>
-                    </li>
-                </Link>
-                <li>
-                    <AiOutlineMenu className='menu-button' />
-                </li>
+                <Logo />
             </ul>
             {auth.isAuthenticated ? (
                 <ul className='app-authorization'>

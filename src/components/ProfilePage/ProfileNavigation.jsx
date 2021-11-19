@@ -1,5 +1,6 @@
 import React from 'react';
 import MyButton from '../MainPage/MyButton';
+import Logo from '../MainPage/Logo';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/auth.hook';
 import { useNavigate } from 'react-router';
@@ -17,11 +18,7 @@ function ProfileNavigation () {
     return (
         <nav className='app-navigation profile-navigation'>
             <ul className='app-menu'>
-                <Link to='/' className='logo-link'>
-                    <li className='app-logo profile-logo'>
-                        <span>calibri</span>
-                    </li>
-                </Link>
+                <Logo logoStyles={'green-logo'} />
             </ul>
             <ul className='app-authorization profile-logout'>
                 <li>

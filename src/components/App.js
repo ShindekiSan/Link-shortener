@@ -3,7 +3,8 @@ import LogIn from './AuthPage/LogIn';
 import SignUp from './AuthPage/SignUp';
 import MainPage from './MainPage/MainPage';
 import Profile from './ProfilePage/Profile';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import LinkDetails from './ProfilePage/LinkDetails'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from '../hooks/auth.hook';
 import { AuthContext } from '../context/AuthContext.js';
 import '../styles/app.css';
@@ -24,6 +25,7 @@ function App () {
                     <Route path ='/login' element={<LogIn />} />
                     <Route path='/signup' element={<SignUp />} />
                     <Route path='/profile' element={<Profile />} />
+                    <Route path={'/link-detail/:id'} element={<LinkDetails />} />
                 </Routes>
             </BrowserRouter>
         </AuthContext.Provider>

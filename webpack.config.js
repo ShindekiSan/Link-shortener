@@ -5,7 +5,7 @@ module.exports = {
     entry: "./src/index.js",
     output: {
         path: path.join(__dirname, "/dist"),
-        filename: "index_bundle.js"
+        filename: "index_bundle.js",
     },
     resolve: {
         extensions: ['', '.js', '.jsx']
@@ -28,4 +28,7 @@ module.exports = {
             template: "./src/index.html"
         })
     ],
+    devServer: {
+        historyApiFallback: true,
+    }
 };
