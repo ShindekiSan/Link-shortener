@@ -8,7 +8,7 @@ function LinksBlock ({ linksArray }) {
         <div className='profile-links-list'>
             <ClicksAmount links={linksArray} />
             {linksArray.slice(0).map(link => {
-                return <LinkInfo to={link.to} key={link._id} id={link._id} />
+                return <LinkInfo from={link.from} key={link._id} id={link._id} />
             })}
         </div>
     )

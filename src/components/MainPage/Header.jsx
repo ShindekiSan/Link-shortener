@@ -12,14 +12,23 @@ function Header () {
             <div className='app-title'>
                 <p className='app-description'>URL Shortener</p>
                 <h1 className='main-title'>Make your link as small as calibri.</h1>
-                <ul className={auth.isAuthenticated ? 'authorized-user' : 'app-title__authorization'}>
-                    <li>
-                        <Link to='/signup'><MyButton buttonType='button white-button' text='sign up' /></Link>
-                    </li>
-                    <li>
-                        <Link to='/login'><MyButton buttonType='button light-blue-button' text='log in' /></Link>
-                    </li>
-                </ul>
+                {auth.isAuthenticated ? 
+                (
+                    <ul className='app-title__button-links'>
+                        <li>
+                        <Link to='/shortener'><MyButton buttonType='button white-button' text='start' /></Link>
+                        </li>     
+                    </ul>
+                ) : (
+                    <ul className='app-title__button-links'>
+                        <li>
+                            <Link to='/signup'><MyButton buttonType='button white-button' text='sign up' /></Link>
+                        </li>
+                        <li>
+                            <Link to='/login'><MyButton buttonType='button light-blue-button' text='log in' /></Link>
+                        </li>
+                    </ul>
+                )}
             </div>
         </header>
     )

@@ -9,7 +9,7 @@ const router = Router();
 router.post('/generate', auth, async(req, resp) => {
     try {
         const baseUrl = config.get('baseUrl');
-        const from = req.body.from
+        const {from, tags} = req.body
         const code = shortId.generate()
 
         const existing = await Link.findOne({ from: from, owner: req.user.userId })
@@ -22,7 +22,7 @@ router.post('/generate', auth, async(req, resp) => {
         
 
         const link = new Link({
-            code, to, from: from, owner: req.user.userId
+            code, to, from: from, tags: tags, owner: req.user.userId
         })
 
         link.save()

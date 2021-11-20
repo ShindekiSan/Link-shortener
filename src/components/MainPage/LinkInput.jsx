@@ -6,6 +6,7 @@ function LinkInput () {
     const {request} = useHttp()
     const [link, setLink] = useState('')
     const [input, setInput] = useState('')
+    const [notify, setNotify] = useState('')
     const auth = useContext(AuthContext)
 
     const changeHandler = evt => {
@@ -13,19 +14,29 @@ function LinkInput () {
         setInput(evt.target.value)
     }
 
-    const pressHandler = async evt => {
-        if (evt.key === 'Enter') {
+    const clickHandler = async () => {
+        if (!link) {
+            setNotify('Enter a link for shortening')
+        } else {
             try {
-                const data = await request('http://localhost:5000/api/link/generate', 'POST', {from: link}, {
+                const data = await request('http://localhost:5000/api/link/generate', 'POST', {from: link, tags: tags}, {
                     Authorization: `Bearer ${auth.token}`
                 })
                 console.log(data)
+                setNotify('Your link has been shortened successfully! Check profile')
             } catch (e) {
-
+                
             }
-            setInput('')
+        }
+        setInput('')
+    }
+
+    const pressHandler = async evt => {
+        if (evt.key === 'Enter') {
+            clickHandler();
         }
     }
+
     return (
         <div>
             <div className='url-input-form'>
@@ -38,13 +49,13 @@ function LinkInput () {
                     onKeyPress={pressHandler}>
                 </input>
                 <button 
-                    className={auth.isAuthenticated ? 'button green-button shorten-button shorten-button--authorized-user' 
-                    : 'button green-button shorten-button'}
-                    disabled={!auth.isAuthenticated}>
+                    className='button green-button shorten-button shorten-button' 
+                    disabled={!auth.isAuthenticated}
+                    onClick={clickHandler}>
                         shorten
                     </button>
             </div>
-            <p className={auth.isAuthenticated ? 'authorized-user' : 'guest-warn'}>Can only be used by an authorized user</p>
+            <p className='url-input__notification'>{auth.isAuthenticated ? `${notify}` : 'Can only be used by authorized user' }</p>
         </div>
         
     )

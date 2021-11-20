@@ -160,7 +160,7 @@ main {
     margin: 0;
 }
 
-.app-title__authorization {
+.app-title__button-links {
     list-style: none;
     display: flex;
     justify-content: space-between;
@@ -192,7 +192,7 @@ main {
 }
 
 .url-input--authorized-user {
-    margin-top: 289px
+    margin-top: 209px
 }
 
 .shorten-button {
@@ -207,15 +207,11 @@ main {
     right: 227px;
 }
 
-.shorten-button--authorized-user {
-    top: 294px;
-}
-
 .url-input:focus {
     outline: none;
 }
 
-.guest-warn {
+.url-input__notification {
     width: 289px;
     height: 30px;
     display: block;
@@ -436,8 +432,6 @@ main {
 .profile-link-info {
     width: 1104px;
 
-    height: 160px;
-
     border: 1px solid #5D8383;
 
     margin-top: 24px;
@@ -468,7 +462,7 @@ main {
     color: #5D8383;
 
     margin-left: 20px;
-    margin-bottom: 0px;
+    margin-bottom: 20px;
 }
 
 .loader {
@@ -506,6 +500,69 @@ main {
     width: 1000px;
 }
 
+.shortener-navigation {
+    margin-top: 0px;
+    margin-left: 195px;
+}
 
+.shortener-block {
+    margin-top: 70px;
+    margin-left: 195px;
+}
+
+.shortener-title {
+    font-family: Montserrat-Regular;
+    font-size: 36px;
+    color: #5D8383;
+}
+
+.shortener-form {
+    height: 300px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.shortener-form__link-input {
+    width: 700px;
+    height: 50px;
+
+    border: 1px solid #5D8383;
+    border-radius: 5px;
+
+    font-family: Montserrat-Regular;
+    font-size: 18px;
+    padding-left: 20px;
+}
+
+.shortener-form__link-input:focus {
+    outline: none;
+}
+
+.shortener-form__tags-input {
+    width: 700px;
+    height: 100px;
+
+    border: 1px solid #5D8383;
+    border-radius: 5px;
+
+    font-family: Montserrat-Regular;
+    font-size: 18px;
+    padding-left: 20px;
+    padding-top: 20px;
+
+    resize: none;
+}
+
+.shortener-form__tags-input:focus {
+    outline: none;
+}
+
+.shortening-block__notification {
+    font-family: Montserrat-Regular;
+    font-size: 18px;
+    color: #5D8383;
+}
 
 

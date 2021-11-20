@@ -4,12 +4,13 @@ import SignUp from './AuthPage/SignUp';
 import MainPage from './MainPage/MainPage';
 import Profile from './ProfilePage/Profile';
 import LinkDetails from './ProfilePage/LinkDetails'
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useAuth } from '../hooks/auth.hook';
 import { AuthContext } from '../context/AuthContext.js';
 import '../styles/app.css';
 import 'materialize-css';
 import '../styles/normalize.css';
+import ShortenerPage from './ShortenerPage/ShortenerPage';
 
 
 function App () {
@@ -26,6 +27,7 @@ function App () {
                     <Route path='/signup' element={<SignUp />} />
                     <Route path='/profile' element={<Profile />} />
                     <Route path={'/link-detail/:id'} element={<LinkDetails />} />
+                    <Route path='/shortener' element={<ShortenerPage />} />
                 </Routes>
             </BrowserRouter>
         </AuthContext.Provider>

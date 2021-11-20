@@ -23,6 +23,7 @@ const linkSchema = new Schema({
         type: Number,
         default: 0
     },
+    tags: '',
     owner: {
         type: Types.ObjectId,
         ref: 'User'
@@ -30,4 +31,3 @@ const linkSchema = new Schema({
 })
 
 module.exports = Link = model('Link', linkSchema)
-Link.collection.dropIndex('from_1')
