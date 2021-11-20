@@ -1,9 +1,9 @@
 const {Schema, model, Types} = require('mongoose')
 
-const userSchema = new Schema({
+const linkSchema = new Schema({
     from: {
         type: String,
-        required: true
+        required: true,
     },
     to: {
         type: String, 
@@ -29,4 +29,5 @@ const userSchema = new Schema({
     }
 })
 
-module.exports = Link = model('Link', userSchema)
+module.exports = Link = model('Link', linkSchema)
+Link.collection.dropIndex('from_1')
