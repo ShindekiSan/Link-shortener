@@ -25,7 +25,7 @@ function LinkInput () {
                 console.log(data)
                 setNotify('Your link has been shortened successfully! Check profile')
             } catch (e) {
-                
+
             }
         }
         setInput('')
@@ -53,7 +53,7 @@ function LinkInput () {
                     disabled={!auth.isAuthenticated}
                     onClick={clickHandler}>
                         shorten
-                    </button>
+                </button>
             </div>
             <p className='url-input__notification'>{auth.isAuthenticated ? `${notify}` : 'Can only be used by authorized user' }</p>
         </div>

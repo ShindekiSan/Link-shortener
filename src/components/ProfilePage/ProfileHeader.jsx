@@ -9,7 +9,7 @@ function ProfileHeader () {
     return (
         <div className='profile-header'>
             <ProfileNavigation />
-            <h2 className='profile-title'>Welcome {auth.userName}!</h2>
+            <h2 className='profile-title'>Welcome, {auth.userName}!</h2>
             <p className='profile-subtitle'>Your list of shortened links</p>
         </div>
     )

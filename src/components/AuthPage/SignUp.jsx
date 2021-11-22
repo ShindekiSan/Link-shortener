@@ -20,7 +20,7 @@ function SignUp () {
                 clearError();
             }
             const data = await request('http://localhost:5000/api/auth/register', 'POST', {...form})
-            auth.login(data.token, data.userName, data.userId)
+            auth.login(data.token, data.userId, data.userName)
             navigate('/')
         } catch (e) {
         }

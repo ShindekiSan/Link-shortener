@@ -14,7 +14,7 @@ function ClicksAmount ({ links }) {
     }, [getClicksNumber])
 
     return (
-        <p className='profile-links-clicks-amount'>Amout of clicks on all your links is: {clicks}</p>
+        <p className='profile-links-clicks-amount'>Amount of clicks on all your links is: {clicks}</p>
     )
 }
 

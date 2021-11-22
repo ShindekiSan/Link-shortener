@@ -23,7 +23,12 @@ const linkSchema = new Schema({
         type: Number,
         default: 0
     },
-    tags: '',
+    tags: [{
+        tagName: String
+    }],
+    description: {
+        type: String
+    },
     owner: {
         type: Types.ObjectId,
         ref: 'User'

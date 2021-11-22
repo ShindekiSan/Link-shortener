@@ -392,7 +392,7 @@ main {
     color: #5D8383;
 
     display: inline-block;
-    width: 446px;
+    width: 670px;
 
     margin: 0;
     margin-top: 100px;
@@ -477,6 +477,9 @@ main {
 .link-card {
     margin-top: 30px;
     margin-left: 100px;
+
+    display: flex;
+    flex-direction: column;
 }
 
 .back-button {
@@ -500,6 +503,34 @@ main {
     width: 1000px;
 }
 
+.edit-button {
+    width: 130px;
+    height: 45px;
+
+    font-size: 16px;
+}
+
+.link-card-editor__textarea {
+    width: 400px;
+    height: 50px;
+
+    border: 1px solid #5D8383;
+    border-radius: 5px;
+
+    font-family: Montserrat-Regular;
+    font-size: 16px;
+    padding-left: 15px;
+    padding-top: 15px;
+
+    margin-bottom: 20px;
+
+    resize: none;
+}
+
+.link-card-editor__textarea:focus { 
+    outline: none
+}
+
 .shortener-navigation {
     margin-top: 0px;
     margin-left: 195px;
@@ -517,7 +548,7 @@ main {
 }
 
 .shortener-form {
-    height: 300px;
+    height: 450px;
 
     display: flex;
     flex-direction: column;
@@ -540,7 +571,7 @@ main {
     outline: none;
 }
 
-.shortener-form__tags-input {
+.shortener-form__textarea {
     width: 700px;
     height: 100px;
 
@@ -555,7 +586,7 @@ main {
     resize: none;
 }
 
-.shortener-form__tags-input:focus {
+.shortener-form__textarea:focus {
     outline: none;
 }
 
