@@ -10,11 +10,11 @@ function LinkDetails () {
     const {request, loading} = useHttp()
     const auth = useContext(AuthContext)
     const [link, setLink] = useState(null)
-    const linkId = useParams().id
-
+    const {id} = useParams()
+ 
     const getLink = useCallback(async() => {
         try {
-            const fetched = await request(`http://localhost:5000/api/link/${linkId}`, 'GET', null, {
+            const fetched = await request(`http://localhost:5000/api/link/${id}`, 'GET', null, {
                 Authorization: `Bearer ${auth.token}`
             })
     
@@ -23,7 +23,7 @@ function LinkDetails () {
         } catch (e) {
             console.log(e.message);
         }
-    }, [auth.token, linkId, request])
+    }, [auth.token, id, request])
     
     useEffect(() => {
         getLink();

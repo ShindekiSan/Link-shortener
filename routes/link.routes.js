@@ -78,7 +78,6 @@ router.get('/search/:tagName', async(req, resp) => {
 router.get('/link-info/:id', async(req, resp) => {
     try {
         const link = await Link.findById( req.params.id );
-        console.log(link, req.params)
         resp.json({
             from: link.from,
             to: link.to,

@@ -29,6 +29,6 @@ async function start () {
         console.log('Server Error', JSON.stringify(e))
         process.exit(1)
     }
-};
+}
 
 start()
