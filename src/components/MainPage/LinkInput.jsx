@@ -19,13 +19,13 @@ function LinkInput () {
             setNotify('Enter a link for shortening')
         } else {
             try {
-                const data = await request('http://localhost:5000/api/link/generate', 'POST', {from: link, tags: tags}, {
+                const data = await request('http://localhost:5000/api/link/generate', 'POST', {from: link, tags: [], description: ''}, {
                     Authorization: `Bearer ${auth.token}`
                 })
                 console.log(data)
-                setNotify('Your link has been shortened successfully! Check profile')
+                setNotify(data.message)
             } catch (e) {
-
+                setNotify('Error:', e.message)
             }
         }
         setInput('')

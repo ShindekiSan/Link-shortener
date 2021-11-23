@@ -62,7 +62,7 @@ function LinkCard ({ link }) {
             console.log(data)
             setEditState(false)
         }catch (e) {
-
+            console.log('Error', e.message)
         }
         setUpload('confirm')
         console.log(linkInfo)

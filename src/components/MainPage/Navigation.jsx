@@ -8,12 +8,12 @@ import Logo from './Logo';
 function Navigation () {
     const auth = useContext(AuthContext)
     const navigate = useNavigate()
-    const { logout } = useAuth();
+    const { logout } = useAuth()
 
     const handleLogout = () => {
-        logout();
-        navigate('/');
-        window.location.reload();
+        logout()
+        navigate('/')
+        window.location.reload()
     }
 
     return (
@@ -21,6 +21,7 @@ function Navigation () {
             <ul className='app-menu'>
                 <Logo />
             </ul>
+            <Link to='/search'><button className='button white-button search-button'>search for links</button></Link>
             {auth.isAuthenticated ? (
                 <ul className='app-authorization'>
                     <li>

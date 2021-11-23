@@ -41,9 +41,9 @@ function ShortenerForm () {
                     Authorization: `Bearer ${auth.token}`
                 })
                 console.log(data)
-                setNotify('Your link has been shortened successfully! Check profile')
+                setNotify(data.message)
             } catch (e) {
-                
+                setNotify('Error:', e.message)
             }
         }
         setInput('')

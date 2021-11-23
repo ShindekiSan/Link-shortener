@@ -106,11 +106,33 @@ main {
     margin-top: -8px;
 }
 
-.menu-button {
-    width: 32px;
+.app-search {
+    width: 150px;
+    height: 45px;
+    background: none;
+
+    font-family: Montserrat-Regular;
+    font-size: 14px;
+    color: #5D8383;
+
+    border: none;
+    border-bottom: 1px solid #5D8383;
+
+    margin-right: 600px;
+}
+
+.app-search:focus {
+    outline: none;
+}
+
+.search-button {
+    width: 150px;
     height: 30px;
 
-    margin-top: -5px;
+    font-size: 14px;
+    
+    margin-right: 600px;
+    margin-top: 12px;
 }
 
 .app-authorization {
@@ -359,6 +381,10 @@ main {
     text-decoration: none;
 }
 
+.green-user-name {
+    color: #5D8383;
+}
+
 .profile-header {
     margin-left: 195px;
 }
@@ -596,4 +622,35 @@ main {
     color: #5D8383;
 }
 
+.search-header {
+    margin-left: 195px;
+}
 
+.search-navigation {
+    margin-top: 0;
+}
+
+.search-header__title {
+    font-family: Montserrat-Regular;
+    font-size: 48px;
+    color: #5D8383;
+
+    display: inline-block;
+    width: 670px;
+
+    margin: 0;
+    margin-top: 100px;
+}
+
+.search-header__description {
+    font-family: Montserrat-Regular;
+    font-size: 18px;
+    color: #5D8383;
+    
+    margin: 0;
+    margin-bottom: 42px;
+}
+
+.searched-links-list {
+    margin-left: 195px;
+}

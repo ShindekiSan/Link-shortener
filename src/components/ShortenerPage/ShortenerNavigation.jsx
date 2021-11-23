@@ -20,12 +20,14 @@ function ShortenerNavigation () {
     return (
         <nav className='app-navigation shortener-navigation'>
             <ul className='app-menu'>
-                <Logo logoStyles={'green-logo'} />
+                <li>
+                    <Logo logoStyles={'green-logo'} />
+                </li>
             </ul>
             <ul className='app-authorization'>
                 <li>
                     <Link to='/profile' className='username-link'>
-                        <p className='authorized-user-name'>{auth.userName}</p>
+                        <p className='authorized-user-name green-user-name'>{auth.userName}</p>
                     </Link>
                 </li>
                 <li>
