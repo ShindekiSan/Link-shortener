@@ -1,5 +1,5 @@
 import React from 'react';
-import Loader from '../ProfilePage/Loader';
+import Loader from '../UI/Loader';
 import SearchedLinkCard from './SearchedLinkCard';
 import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';

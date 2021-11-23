@@ -1,7 +1,7 @@
 import React from 'react';
 import SearchLinksPageHeader from './SearchLinksPageHeader';
 import SearchedLinksBlock from './SearchedLinksBlock';
-import Loader from '../ProfilePage/Loader';
+import Loader from '../UI/Loader';
 import { useState } from 'react';
 import { useHttp } from '../../hooks/http.hook';
 

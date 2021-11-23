@@ -1,5 +1,5 @@
 import React from 'react';
-import Logo from '../MainPage/Logo';
+import Logo from '../UI/Logo';
 import { Link, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
@@ -13,9 +13,9 @@ function SearchLinksPageNavigation ({ searchHandler }) {
     const [tag, setTag] = useState('')
 
     const handleLogout = () => {
-        logout();
-        navigate('/');
-        window.location.reload();
+        logout()
+        navigate('/')
+        window.location.reload()
     }
 
     const searchLinks = evt => {

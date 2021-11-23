@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import MyBytton from '../MainPage/MyButton';
-import Logo from '../MainPage/Logo';
+import MyBytton from '../UI/MyButton';
+import Logo from '../UI/Logo';
 import { useHttp } from '../../hooks/http.hook';
 import { useState, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';

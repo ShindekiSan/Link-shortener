@@ -3,7 +3,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { useHttp } from '../../hooks/http.hook';
 import LinksBlock from './LinksBlock';
 import ProfileHeader from './ProfileHeader';
-import Loader from './Loader';
+import Loader from '../UI/Loader';
 
 function Profile () {
     const auth = useContext(AuthContext)

@@ -1,5 +1,5 @@
 import React from 'react';
-import Logo from '../MainPage/Logo';
+import Logo from '../UI/Logo';
 import { Link } from 'react-router-dom';
 import { useHttp } from '../../hooks/http.hook';
 import { useState, useContext } from 'react';
@@ -23,6 +23,7 @@ function SignUp () {
             auth.login(data.token, data.userId, data.userName)
             navigate('/')
         } catch (e) {
+            console.log('Error', e.message)
         }
     }
 

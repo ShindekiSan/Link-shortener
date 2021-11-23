@@ -2,8 +2,8 @@ import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import { useAuth } from '../../hooks/auth.hook';
-import MyButton from './MyButton';
-import Logo from './Logo';
+import MyButton from '../UI/MyButton';
+import Logo from '../UI/Logo';
 
 function Navigation () {
     const auth = useContext(AuthContext)
@@ -19,9 +19,13 @@ function Navigation () {
     return (
         <nav className='app-navigation'>
             <ul className='app-menu'>
-                <Logo />
+                <li>
+                    <Logo />
+                </li>
+                <li>
+                    <Link to='/search'><button className='button white-button search-button'>search for links</button></Link>
+                </li> 
             </ul>
-            <Link to='/search'><button className='button white-button search-button'>search for links</button></Link>
             {auth.isAuthenticated ? (
                 <ul className='app-authorization'>
                     <li>

@@ -1,5 +1,5 @@
 import React from 'react';
-import Loader from './Loader';
+import Loader from '../UI/Loader';
 import LinkCard from './LinkCard';
 import { useContext, useState, useEffect, useCallback } from 'react';
 import { AuthContext } from '../../context/AuthContext';

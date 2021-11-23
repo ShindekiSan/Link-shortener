@@ -29,7 +29,7 @@ router.post('/generate', auth, async(req, resp) => {
         return resp.status(201).json({ link, message: 'Your link has been shortened successfully! Check profile' })
     } catch (e) {
         return resp.status(500).json({ message: 'Something went wrong, try again' });
-    };
+    }
 });
 
 router.post('/edit', auth, async(req, resp) => {
@@ -43,7 +43,7 @@ router.post('/edit', auth, async(req, resp) => {
         resp.json(link);
     } catch (e) {
         return resp.status(500).json({ message: 'Something went wrong, try again' });
-    };
+    }
 });
 
 
@@ -53,7 +53,7 @@ router.get('/', auth, async(req, resp) => {
         resp.json(links);
     } catch (e) {
         return resp.status(500).json({ message: 'Something went wrong, try again' });
-    };
+    }
 });
 
 router.get('/:id', auth, async(req, resp) => {
@@ -62,7 +62,7 @@ router.get('/:id', auth, async(req, resp) => {
         resp.json(link);
     } catch (e) {
         return resp.status(500).json({ message: 'Something went wrong, try again' });
-    };
+    }
 });
 
 router.get('/search/:tagName', async(req, resp) => {
@@ -72,7 +72,7 @@ router.get('/search/:tagName', async(req, resp) => {
         resp.json(links);
     } catch (e) {
         return resp.status(500).json({ message: 'Something went wrong, try again' });
-    };
+    }
 });
 
 router.get('/link-info/:id', async(req, resp) => {

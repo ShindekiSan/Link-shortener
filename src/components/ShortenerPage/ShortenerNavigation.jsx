@@ -1,6 +1,5 @@
 import React from 'react';
-import Logo from '../MainPage/Logo';
-import MyButton from '../MainPage/MyButton';
+import Logo from '../UI/Logo';
 import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { useAuth } from '../../hooks/auth.hook';
@@ -12,9 +11,9 @@ function ShortenerNavigation () {
     const navigate = useNavigate()
 
     const handleLogout = () => {
-        logout();
-        navigate('/');
-        window.location.reload();
+        logout()
+        navigate('/')
+        window.location.reload()
     }
 
     return (
@@ -23,6 +22,7 @@ function ShortenerNavigation () {
                 <li>
                     <Logo logoStyles={'green-logo'} />
                 </li>
+                <Link to='/search'><button className='button green-button search-button'>search for links</button></Link>
             </ul>
             <ul className='app-authorization'>
                 <li>

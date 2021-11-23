@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import MyButton from './MyButton';
+import MyButton from '../UI/MyButton';
 import { Link } from 'react-router-dom';
 import Navigation from './Navigation';
 import { AuthContext } from '../../context/AuthContext';
@@ -32,6 +32,6 @@ function Header () {
             </div>
         </header>
     )
-};
+}
 
 export default Header 
