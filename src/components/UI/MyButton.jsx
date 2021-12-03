@@ -1,9 +1,9 @@
 import React from 'react';
 
-function MyAuthButton ({ text, buttonType, clickFunc }) {
-    return (
-        <button className={buttonType} onClick={clickFunc} >{text}</button>
-    )
-}
+const MyAuthButton = function ({ text, buttonType, clickFunc }) {
+	return (
+		<button className={buttonType} onClick={clickFunc} type="button">{text}</button>
+	);
+};
 
-export default MyAuthButton
+export default MyAuthButton;

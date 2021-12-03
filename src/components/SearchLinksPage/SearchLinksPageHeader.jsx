@@ -1,14 +1,14 @@
-import React from 'react'
-import SearchLinksPageNavigation from './SearchLinksPageNavigation'
+import React from 'react';
+import SearchLinksPageNavigation from './SearchLinksPageNavigation';
 
-function SearchLinksPageHeader ({ searchHandler }) {
-    return (
-        <div className='search-header'>
-            <SearchLinksPageNavigation searchHandler={searchHandler} />
-            <h2 className='search-header__title'>This is search page</h2>
-            <p className='search-header__description'>Here you can find links by tag</p>
-        </div>
-    )
-}
+const SearchLinksPageHeader = function ({ searchHandler }) {
+	return (
+		<div className="search-header">
+			<SearchLinksPageNavigation searchHandler={searchHandler} />
+			<h2 className="search-header__title">This is search page</h2>
+			<p className="search-header__description">Here you can find links by tag</p>
+		</div>
+	);
+};
 
-export default SearchLinksPageHeader
+export default SearchLinksPageHeader;

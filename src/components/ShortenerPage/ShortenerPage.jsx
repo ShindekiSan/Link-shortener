@@ -2,13 +2,13 @@ import React from 'react';
 import ShortenerForm from './ShortenerForm';
 import ShortenerNavigation from './ShortenerNavigation';
 
-function ShortenerPage () {
-    return (
-        <div>
-            <ShortenerNavigation />
-            <ShortenerForm />
-        </div>
-    )
-}
+const ShortenerPage = function () {
+	return (
+		<div>
+			<ShortenerNavigation />
+			<ShortenerForm />
+		</div>
+	);
+};
 
-export default ShortenerPage
+export default ShortenerPage;
