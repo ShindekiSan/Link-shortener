@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const config = require('config');
 
-module.exports = (req, resp, next) => {
+module.exports = (req, resp, next) => { // eslint-disable-line
 	if (req.method === 'OPTIONS') {
 		return next();
 	}

@@ -9,11 +9,11 @@ const SearchLinksPage = function () {
 	const [searchedLinks, setSearchedLinks] = useState([]);
 	const { request, loading } = useHttp();
 
-	const searchLinks = async (tag) => {
+	const searchLinks = async (tag: string) => {
 		try {
 			const searched = await request(`http://localhost:5000/api/link/search/${tag}`, 'GET', null);
 			setSearchedLinks(searched);
-		} catch (e) {
+		} catch (e: any) {
 			console.log(e.message);
 		}
 	};

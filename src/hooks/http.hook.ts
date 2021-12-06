@@ -16,14 +16,13 @@ export function useHttp() {
 			const data = await response.json();
 
 			if (!response.ok) {
-				throw new Error(data.message, 'Something went wrong...');
+				throw new Error(data.message);
 			}
 
 			setLoading(false);
 
 			return data;
 		} catch (e) {
-			setError(e.message);
 			setLoading(false);
 			throw e;
 		}

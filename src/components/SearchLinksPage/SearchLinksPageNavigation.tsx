@@ -1,11 +1,15 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, FC } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../UI/Logo';
 
 import { AuthContext } from '../../context/AuthContext';
 import { useAuth } from '../../hooks/auth.hook';
 
-const SearchLinksPageNavigation = function ({ searchHandler }) {
+interface FuncProps {
+	searchHandler: (tag: string) => Promise<void> // eslint-disable-line
+}
+
+const SearchLinksPageNavigation:FC<FuncProps> = function ({ searchHandler }) {
 	const auth = useContext(AuthContext);
 	const navigate = useNavigate();
 	const { logout } = useAuth();
@@ -17,14 +21,14 @@ const SearchLinksPageNavigation = function ({ searchHandler }) {
 		window.location.reload();
 	};
 
-	const searchLinks = (evt) => {
+	const searchLinks = (evt: React.KeyboardEvent) => {
 		if (evt.key === 'Enter') {
 			searchHandler(tag);
 			setTag('');
 		}
 	};
 
-	const changeTagHandler = (evt) => {
+	const changeTagHandler = (evt: React.ChangeEvent<HTMLInputElement>) => {
 		setTag(evt.target.value);
 	};
 

@@ -24,12 +24,12 @@ const LogIn = function LogIn() {
 			const data = await request('http://localhost:5000/api/auth/login', 'POST', { ...form });
 			auth.login(data.token, data.userId, data.userName);
 			navigate('/');
-		} catch (e) {
+		} catch (e: any) {
 			console.log('Error', e.message);
 		}
 	};
 
-	const changeHandler = (evt) => {
+	const changeHandler = (evt: React.ChangeEvent<HTMLInputElement>) => {
 		setForm({ ...form, [evt.target.name]: evt.target.value });
 	};
 

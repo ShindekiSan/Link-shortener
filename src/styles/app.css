@@ -9,7 +9,7 @@
 }
 
 main {
-    background-image: url('../images/header-background.png');
+    background-image: url('../assets/header-background.png');
     background-repeat: no-repeat;
     background-size: 100%;
     
@@ -66,7 +66,7 @@ main {
     position: absolute;
     width: 493px;
     height: 436px;
-    background-image: url('../images/illustration.png');
+    background-image: url('../assets/illustration.png');
     background-repeat: no-repeat;
     top: 77px;
     right: 67px;

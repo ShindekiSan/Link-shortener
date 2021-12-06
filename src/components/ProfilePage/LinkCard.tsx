@@ -1,11 +1,25 @@
 import React, {
-	useEffect, useState, useContext, useCallback,
+	useEffect, useState, useContext, useCallback, FC,
 } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import { useHttp } from '../../hooks/http.hook';
 
-const LinkCard = function ({ link }) {
+interface LinkProps {
+	link: {
+		code: string,
+		to: string,
+		from: string,
+		clicks: number,
+		tags: {
+			tagName: string,
+		}[],
+		description: string,
+		date: Date
+	}
+}
+
+const LinkCard:FC<LinkProps> = function ({ link }) {
 	const auth = useContext(AuthContext);
 	const { request, loading } = useHttp();
 	const linkId = useParams().id;
@@ -15,7 +29,7 @@ const LinkCard = function ({ link }) {
 	const [editState, setEditState] = useState(false);
 	const [description, setDescription] = useState(linkInfo.description);
 	const [tags, setTags] = useState('');
-	const [tagsArray, setTagsArray] = useState([]);
+	const [tagsArray, setTagsArray] = useState(linkInfo.tags);
 
 	const formatDate = () => {
 		const date = new Date(linkInfo.date);
@@ -26,12 +40,11 @@ const LinkCard = function ({ link }) {
 		formatDate();
 	}, [formatDate]);
 
-	const changeTagsHandler = (evt) => {
+	const changeTagsHandler = (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
 		setTags(evt.target.value);
-		console.log(tags);
 	};
 
-	const changeDescriptionHandler = (evt) => {
+	const changeDescriptionHandler = (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
 		setDescription(evt.target.value);
 	};
 
@@ -42,7 +55,7 @@ const LinkCard = function ({ link }) {
 	const editClickHandler = () => {
 		setEditState(!editState);
 		if (!tags) {
-			link.tags.forEach((tag) => {
+			linkInfo.tags.forEach((tag) => {
 				setTags((currentTags) => `${currentTags + tag.tagName} `);
 			});
 		}
@@ -55,7 +68,7 @@ const LinkCard = function ({ link }) {
 			});
 
 			setLinkInfo(fetched);
-		} catch (e) {
+		} catch (e: any) {
 			console.log(e.message);
 		}
 	}, [auth.token, linkId, request]);
@@ -71,7 +84,7 @@ const LinkCard = function ({ link }) {
 
 			console.log(data);
 			setEditState(false);
-		} catch (e) {
+		} catch (e: any) {
 			console.log('Error', e.message);
 		}
 		setUpload('confirm');

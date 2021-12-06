@@ -2,26 +2,30 @@ import React, { useState, useContext, useEffect } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { useHttp } from '../../hooks/http.hook';
 
+interface TagsList {
+	tagName: string
+}
+
 const ShortenerForm = function () {
 	const [notify, setNotify] = useState('');
 	const [input, setInput] = useState('');
 	const [link, setLink] = useState('');
 	const [tags, setTags] = useState('');
 	const [description, setDescription] = useState('');
-	const [tagsArray, setTagsArray] = useState([]);
+	const [tagsArray, setTagsArray] = useState<Array<TagsList>>([]);
 	const auth = useContext(AuthContext);
 	const { request } = useHttp();
 
-	const changeHandler = (evt) => {
+	const changeHandler = (evt: React.ChangeEvent<HTMLInputElement>) => {
 		setLink(evt.target.value);
 		setInput(evt.target.value);
 	};
 
-	const changeTagsHandler = (evt) => {
+	const changeTagsHandler = (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
 		setTags(evt.target.value);
 	};
 
-	const changeDescription = (evt) => {
+	const changeDescription = (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
 		setDescription(evt.target.value);
 	};
 
@@ -38,8 +42,8 @@ const ShortenerForm = function () {
 					Authorization: `Bearer ${auth.token}`,
 				});
 				setNotify(data.message);
-			} catch (e) {
-				setNotify('Error:', e.message);
+			} catch (e: any) {
+				setNotify(`Error:', ${e.message}`);
 			}
 		}
 		setInput('');

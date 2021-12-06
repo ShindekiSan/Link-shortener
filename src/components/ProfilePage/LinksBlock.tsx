@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { FC } from 'react';
 import LinkInfo from './LinkInfo';
 import ClicksAmount from './ClicksAmount';
 
-const LinksBlock = function ({ linksArray }) {
+interface Props {
+	linksArray: {
+		from: string,
+		_id: string,
+		clicks: number,
+	}[]
+}
+
+const LinksBlock:FC<Props> = function ({ linksArray }) {
 	return (
 		<div className="profile-links-list">
 			<ClicksAmount links={linksArray} />

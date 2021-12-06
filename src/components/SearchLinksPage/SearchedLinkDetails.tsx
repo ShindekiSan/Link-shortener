@@ -15,7 +15,7 @@ const SearchedLinkDetails = function () {
 			const fetched = await request(`http://localhost:5000/api/link/link-info/${id}`, 'GET', null);
 
 			setLink(fetched);
-		} catch (e) {
+		} catch (e: any) {
 			console.log(e.message);
 		}
 	}, [id, request]);

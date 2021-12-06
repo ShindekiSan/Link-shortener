@@ -12,17 +12,13 @@ const Profile = function () {
 	const { request, loading } = useHttp();
 	const [links, setLinks] = useState([]);
 
-	const addLinks = async (data) => {
-		setLinks(data);
-	};
-
 	const getLinks = useCallback(async () => {
 		try {
 			const fetched = await request('http://localhost:5000/api/link', 'GET', null, {
 				Authorization: `Bearer ${auth.token}`,
 			});
-			await addLinks(fetched);
-		} catch (e) {
+			setLinks(fetched)
+		} catch (e: any) {
 			console.log(e.message);
 		}
 	}, [request, auth.token]);

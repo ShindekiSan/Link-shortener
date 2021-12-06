@@ -21,7 +21,7 @@ const LinkDetails = function () {
 			});
 
 			setLink(fetched);
-		} catch (e) {
+		} catch (e: any) {
 			console.log(e.message);
 		}
 	}, [auth.token, id, request]);

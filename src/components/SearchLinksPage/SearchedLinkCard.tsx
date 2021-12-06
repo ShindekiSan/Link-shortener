@@ -1,7 +1,18 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 
-const SearchedLinkCard = function ({ link }) {
+interface LinkProps {
+	link: {
+		to: string,
+		from: string,
+		tags: {
+			tagName: string
+		}[],
+		description: string
+	}
+}
+
+const SearchedLinkCard:FC<LinkProps> = function ({ link }) {
 	return (
 		<div className="link-card">
 			<Link to="/search"><button className="button green-button back-button" type="button">Back</button></Link>

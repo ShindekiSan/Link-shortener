@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { FC } from 'react';
 import SearchLinksPageNavigation from './SearchLinksPageNavigation';
 
-const SearchLinksPageHeader = function ({ searchHandler }) {
+interface FuncProps {
+	searchHandler: (tag: string) => Promise<void> // eslint-disable-line
+}
+
+const SearchLinksPageHeader:FC<FuncProps> = function ({ searchHandler }) {
 	return (
 		<div className="search-header">
 			<SearchLinksPageNavigation searchHandler={searchHandler} />

@@ -1,10 +1,18 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, {
+	useEffect, useState, useCallback, FC,
+} from 'react';
 
-const ClicksAmount = function ({ links }) {
+interface Props {
+	links: {
+		clicks: number,
+	}[]
+}
+
+const ClicksAmount:FC<Props> = function ({ links }) {
 	const [clicks, setClicks] = useState(0);
 
 	const getClicksNumber = useCallback(() => {
-		setClicks(links.slice(0).reduce((total, link) => total + link.clicks, 0));
+		setClicks(links.slice(0).reduce((total:number, link) => total + link.clicks, 0));
 	}, [links]);
 
 	useEffect(() => {

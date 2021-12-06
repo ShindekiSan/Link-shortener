@@ -1,7 +1,15 @@
-import React from 'react';
+import React, { FC } from 'react';
 import SearchedLinkInfo from './SearchedLinkInfo';
 
-const SearchedLinksBlock = function ({ links }) {
+interface Props {
+	links: {
+		from: string,
+		_id: string,
+		clicks: number,
+	}[]
+}
+
+const SearchedLinksBlock:FC<Props> = function ({ links }) {
 	return (
 		<div className="searched-links-list">
 			{links.slice(0).map(

@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 
-const SearchedLinkInfo = function ({ from, id }) {
+interface linkInfoProps {
+	from: string,
+	id: string,
+}
+
+const LinkInfo:FC<linkInfoProps> = function ({ from, id }) {
 	return (
-		<Link to={`/link-info/${id}`} className="profile-link-block">
+		<Link to={`/link-detail/${id}`} className="profile-link-block">
 			<div className="profile-link-info">
 				<h3 className="profile-link-title">Link</h3>
 				<p className="profile-link-your-link">
-					Link address:
+					Your link:
 					<span>{from}</span>
 				</p>
 				<p className="profile-link-more">Click to see more info</p>
@@ -16,4 +21,4 @@ const SearchedLinkInfo = function ({ from, id }) {
 	);
 };
 
-export default SearchedLinkInfo;
+export default LinkInfo;

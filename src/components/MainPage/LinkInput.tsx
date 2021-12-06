@@ -9,7 +9,7 @@ const LinkInput = function () {
 	const [notify, setNotify] = useState('');
 	const auth = useContext(AuthContext);
 
-	const changeHandler = (evt) => {
+	const changeHandler = (evt: React.ChangeEvent<HTMLInputElement>) => {
 		setLink(evt.target.value);
 		setInput(evt.target.value);
 	};
@@ -24,14 +24,14 @@ const LinkInput = function () {
 				});
 				console.log(data);
 				setNotify(data.message);
-			} catch (e) {
-				setNotify('Error:', e.message);
+			} catch (e: any) {
+				setNotify(`Error: ${e.message}`);
 			}
 		}
 		setInput('');
 	};
 
-	const pressHandler = async (evt) => {
+	const pressHandler = async (evt: React.KeyboardEvent) => {
 		if (evt.key === 'Enter') {
 			clickHandler();
 		}
