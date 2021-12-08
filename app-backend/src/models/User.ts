@@ -1,4 +1,4 @@
-const { Schema, model, Types } = require('mongoose');
+import { Schema, model, Types } from 'mongoose'; //eslint-disable-line
 
 const userSchema = new Schema({
 	userName: {
@@ -20,4 +20,6 @@ const userSchema = new Schema({
 	}],
 });
 
-module.exports = User = model('User', userSchema);
+const User = model('User', userSchema);
+
+export default User; //eslint-disable-line

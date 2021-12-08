@@ -1,14 +1,14 @@
-const { Router } = require('express');
-const Link = require('../models/Link');
+import { Router, Request, Response } from 'express';
+import Link from '../models/Link';
 
 const router = Router();
 
-router.get('/:code', async (req, resp) => {
+router.get('/:code', async (req: Request, resp: Response) => {
 	try {
 		const link = await Link.findOne({ code: req.params.code });
 
 		if (link) {
-			link.clicks++;
+			link.clicks += 1;
 			await link.save();
 			return resp.redirect(link.from);
 		}

@@ -1,12 +1,14 @@
-const jwt = require('jsonwebtoken');
-const config = require('config');
+import jwt from 'jsonwebtoken';
+import config from 'config';
+import { NextFunction, Request, Response } from 'express';
 
-module.exports = (req, resp, next) => { // eslint-disable-line
+export default (req: Request, resp: Response, next: NextFunction) => {
 	if (req.method === 'OPTIONS') {
 		return next();
 	}
 
 	try {
+		// @ts-ignore
 		const token = req.headers.authorization.split(' ')[1];
 
 		if (!token) {
@@ -15,6 +17,7 @@ module.exports = (req, resp, next) => { // eslint-disable-line
 
 		const decoded = jwt.verify(token, config.get('jwtSecret'));
 
+		// @ts-ignore
 		req.user = decoded;
 
 		next();

@@ -1,17 +1,18 @@
-const { Router } = require('express');
-const shortId = require('shortid');
-const config = require('config');
-const Link = require('../models/Link');
-const auth = require('../middleware/auth.middleware');
+import { Router, Request, Response } from 'express';
+import shortId from 'shortid';
+import config from 'config';
+import Link from '../models/Link';
+import auth from '../middleware/auth.middleware';
 
 const router = Router();
 
-router.post('/generate', auth, async (req, resp) => {
+router.post('/generate', auth, async (req: Request, resp: Response) => {
 	try {
 		const baseUrl = config.get('baseUrl');
 		const { from, tags, description } = req.body;
 		const code = shortId.generate();
 
+		// @ts-ignore
 		const existing = await Link.findOne({ from, owner: req.user.userId });
 
 		if (existing) {
@@ -21,6 +22,7 @@ router.post('/generate', auth, async (req, resp) => {
 		const to = `${baseUrl}/t/${code}`;
 
 		const link = new Link({
+			// @ts-ignore
 			code, to, from, tags, description, owner: req.user.userId,
 		});
 
@@ -32,7 +34,7 @@ router.post('/generate', auth, async (req, resp) => {
 	}
 });
 
-router.post('/edit', auth, async (req, resp) => {
+router.post('/edit', auth, async (req: Request, resp: Response) => {
 	try {
 		const filter = { code: req.body.code };
 		const update = {
@@ -46,8 +48,9 @@ router.post('/edit', auth, async (req, resp) => {
 	}
 });
 
-router.get('/', auth, async (req, resp) => {
+router.get('/', auth, async (req: Request, resp: Response) => {
 	try {
+		// @ts-ignore
 		const links = await Link.find({ owner: req.user.userId });
 		resp.json(links);
 	} catch (e) {
@@ -55,7 +58,7 @@ router.get('/', auth, async (req, resp) => {
 	}
 });
 
-router.get('/:id', auth, async (req, resp) => {
+router.get('/:id', auth, async (req: Request, resp: Response) => {
 	try {
 		const link = await Link.findById(req.params.id);
 		resp.json(link);
@@ -64,7 +67,7 @@ router.get('/:id', auth, async (req, resp) => {
 	}
 });
 
-router.get('/search/:tagName', async (req, resp) => {
+router.get('/search/:tagName', async (req: Request, resp: Response) => {
 	try {
 		const filter = req.params.tagName;
 		const links = await Link.find({ tags: { $elemMatch: { tagName: filter } } });
@@ -74,7 +77,7 @@ router.get('/search/:tagName', async (req, resp) => {
 	}
 });
 
-router.get('/link-info/:id', async (req, resp) => {
+router.get('/link-info/:id', async (req: Request, resp: Response) => {
 	try {
 		const link = await Link.findById(req.params.id);
 		resp.json({

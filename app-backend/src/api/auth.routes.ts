@@ -1,10 +1,10 @@
-const { Router } = require('express');
-const config = require('config');
-const jwt = require('jsonwebtoken');
-const { check, validationResult } = require('express-validator');
+import { Router, Response, Request } from 'express';
+import config from 'config';
+import jwt from 'jsonwebtoken';
+import { check, validationResult } from 'express-validator';
+import User from '../models/User';
 
 const router = Router();
-const User = require('../models/User');
 
 // api/auth/register
 router.post(
@@ -13,7 +13,7 @@ router.post(
 		check('email', 'Invalid email').isEmail(),
 		check('password', 'Minimum password length is 6 symbols').isLength({ min: 6 }),
 	],
-	async (req, resp) => {
+	async (req: Request, resp: Response) => {
 		try {
 			const errors = validationResult(req);
 
@@ -28,8 +28,8 @@ router.post(
 				if (user) {
 					return resp.status(400).json({ message: 'A user has already registered with this email' });
 				}
-				User.findOne({ userName: req.body.username }).then((user) => {
-					if (user) {
+				User.findOne({ userName: req.body.username }).then((existingUser) => {
+					if (existingUser) {
 						return resp.status(400).json({ message: 'A user has already registered with this username' });
 					}
 					const newUser = new User({
@@ -61,7 +61,7 @@ router.post(
 		check('email', 'Enter valid email').normalizeEmail().isEmail(),
 		check('password', 'Enter a correct password').exists().isLength({ min: 6 }),
 	],
-	async (req, resp) => {
+	async (req: Request, resp: Response) => {
 		try {
 			const errors = validationResult(req);
 

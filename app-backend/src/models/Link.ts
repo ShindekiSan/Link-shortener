@@ -1,4 +1,4 @@
-const { Schema, model, Types } = require('mongoose');
+import { Schema, model, Types } from 'mongoose'; //eslint-disable-line
 
 const linkSchema = new Schema({
 	from: {
@@ -35,4 +35,6 @@ const linkSchema = new Schema({
 	},
 });
 
-module.exports = Link = model('Link', linkSchema);
+const Link = model('Link', linkSchema);
+
+export default Link //eslint-disable-line
