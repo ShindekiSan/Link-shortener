@@ -3,10 +3,10 @@ import React, {
 } from 'react';
 import { useParams } from 'react-router-dom';
 import Loader from '../UI/Loader';
-import LinkCard from './LinkCard';
 
 import { AuthContext } from '../../context/AuthContext';
 import { useHttp } from '../../hooks/http.hook';
+import LinkCard from '../../containers/ProfilePage/LinkCardContainer';
 
 const LinkDetails = function () {
 	const { request, loading } = useHttp();

@@ -1,7 +1,7 @@
 import React from 'react';
 import Footer from './Footer';
 import Header from './Header';
-import LinkInput from './LinkInput';
+import LinkInput from '../../containers/MainPage/LinkInputContainer';
 
 const MainPage = function () {
 	return (

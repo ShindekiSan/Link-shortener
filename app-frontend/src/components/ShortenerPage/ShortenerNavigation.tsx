@@ -1,21 +1,13 @@
-import React, { useContext } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import React, { FC } from 'react';
+import { Link } from 'react-router-dom';
 import Logo from '../UI/Logo';
 
-import { AuthContext } from '../../context/AuthContext';
-import { useAuth } from '../../hooks/auth.hook';
+interface navProps {
+	logoutHandler: () => void,
+	userName: null
+}
 
-const ShortenerNavigation = function () {
-	const auth = useContext(AuthContext);
-	const { logout } = useAuth();
-	const navigate = useNavigate();
-
-	const handleLogout = () => {
-		logout();
-		navigate('/');
-		window.location.reload();
-	};
-
+const ShortenerNavigation:FC<navProps> = function ({ logoutHandler, userName }) {
 	return (
 		<nav className="app-navigation shortener-navigation">
 			<ul className="app-menu">
@@ -27,12 +19,12 @@ const ShortenerNavigation = function () {
 			<ul className="app-authorization">
 				<li>
 					<Link to="/profile" className="username-link">
-						<p className="authorized-user-name green-user-name">{auth.userName}</p>
+						<p className="authorized-user-name green-user-name">{userName}</p>
 					</Link>
 				</li>
 				<li>
 					<Link to="/">
-						<button className="button auth-button green-button" onClick={handleLogout} type="button">log out</button>
+						<button className="button auth-button green-button" onClick={logoutHandler} type="button">log out</button>
 					</Link>
 				</li>
 			</ul>

@@ -1,38 +1,15 @@
-import React, { useState, useContext } from 'react';
+import React, { ChangeEventHandler, FC } from 'react';
 import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router';
 import Logo from '../UI/Logo';
-import { useHttp } from '../../hooks/http.hook';
 
-import { AuthContext } from '../../context/AuthContext';
+interface signUpProps {
+	changeHandler: ChangeEventHandler,
+	registerHandler: () => Promise<void>,
+	loading: boolean,
+	error: string
+}
 
-const SignUp = function () {
-	const navigate = useNavigate();
-	const auth = useContext(AuthContext);
-	const {
-		loading, request, error, clearError,
-	} = useHttp();
-	const [form, setForm] = useState({
-		username: '', email: '', password: '',
-	});
-
-	const registerHandler = async () => {
-		try {
-			if (error) {
-				clearError();
-			}
-			const data = await request('http://localhost:5000/api/auth/register', 'POST', { ...form });
-			auth.login(data.token, data.userId, data.userName);
-			navigate('/');
-		} catch (e: any) {
-			console.log('Error', e.message);
-		}
-	};
-
-	const changeHandler = (evt: React.ChangeEvent<HTMLInputElement>) => {
-		setForm({ ...form, [evt.target.name]: evt.target.value });
-	};
-
+const SignUp:FC<signUpProps> = function ({ changeHandler, registerHandler, loading, error }) {
 	return (
 		<>
 			<nav className="auth-logo">

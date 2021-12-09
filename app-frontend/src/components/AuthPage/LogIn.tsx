@@ -1,38 +1,16 @@
-import React, { useState, useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { ChangeEventHandler, FC } from 'react';
+import { Link } from 'react-router-dom';
 import MyBytton from '../UI/MyButton';
 import Logo from '../UI/Logo';
-import { useHttp } from '../../hooks/http.hook';
 
-import { AuthContext } from '../../context/AuthContext';
+interface logInProps {
+	changeHandler: ChangeEventHandler,
+	authorizationHandler: () => Promise<void>,
+	loading: boolean,
+	error: string,
+}
 
-const LogIn = function LogIn() {
-	const navigate = useNavigate();
-	const auth = useContext(AuthContext);
-	const {
-		loading, request, error, clearError,
-	} = useHttp();
-	const [form, setForm] = useState({
-		email: '', password: '',
-	});
-
-	const authorizationHandler = async () => {
-		try {
-			if (error) {
-				clearError();
-			}
-			const data = await request('http://localhost:5000/api/auth/login', 'POST', { ...form });
-			auth.login(data.token, data.userId, data.userName);
-			navigate('/');
-		} catch (e: any) {
-			console.log('Error', e.message);
-		}
-	};
-
-	const changeHandler = (evt: React.ChangeEvent<HTMLInputElement>) => {
-		setForm({ ...form, [evt.target.name]: evt.target.value });
-	};
-
+const LogIn:FC<logInProps> = function ({ changeHandler, authorizationHandler, loading, error }) {
 	return (
 		<>
 			<nav className="auth-logo">

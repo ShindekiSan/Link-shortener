@@ -6,7 +6,7 @@ interface contextValue {
 	userId: null,
 	login: Function,
 	logout: Function,
-	isAuthenticated: Boolean
+	isAuthenticated: boolean
 }
 
 function noop() {}

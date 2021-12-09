@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
-import ProfileNavigation from './ProfileNavigation';
-
 import { AuthContext } from '../../context/AuthContext';
+import ProfileNavigation from '../../containers/ProfilePage/ProfileNavigationContainer';
 
 const ProfileHeader = function () {
 	const auth = useContext(AuthContext);

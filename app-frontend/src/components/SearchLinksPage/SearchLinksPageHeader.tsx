@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import SearchLinksPageNavigation from './SearchLinksPageNavigation';
+import SearchLinksPageNavigation from '../../containers/SearchLinksPage/SearchLinksPageNavigationContainer';
 
 interface FuncProps {
 	searchHandler: (tag: string) => Promise<void> // eslint-disable-line

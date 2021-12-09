@@ -1,37 +1,17 @@
-import React, { useContext, useState, FC } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { ChangeEventHandler, FC, KeyboardEventHandler } from 'react';
+import { Link } from 'react-router-dom';
 import Logo from '../UI/Logo';
 
-import { AuthContext } from '../../context/AuthContext';
-import { useAuth } from '../../hooks/auth.hook';
-
 interface FuncProps {
-	searchHandler: (tag: string) => Promise<void> // eslint-disable-line
+	searchHandler: KeyboardEventHandler, // eslint-disable-line
+	changeTagHandler: ChangeEventHandler,
+	isAuthenticated: boolean,
+	tag: string,
+	logoutHandler: () => void,
+	userName: null
 }
 
-const SearchLinksPageNavigation:FC<FuncProps> = function ({ searchHandler }) {
-	const auth = useContext(AuthContext);
-	const navigate = useNavigate();
-	const { logout } = useAuth();
-	const [tag, setTag] = useState('');
-
-	const handleLogout = () => {
-		logout();
-		navigate('/');
-		window.location.reload();
-	};
-
-	const searchLinks = (evt: React.KeyboardEvent) => {
-		if (evt.key === 'Enter') {
-			searchHandler(tag);
-			setTag('');
-		}
-	};
-
-	const changeTagHandler = (evt: React.ChangeEvent<HTMLInputElement>) => {
-		setTag(evt.target.value);
-	};
-
+const SearchLinksPageNavigation:FC<FuncProps> = function ({ searchHandler, changeTagHandler, isAuthenticated, tag, logoutHandler, userName }) {
 	return (
 		<nav className="app-navigation search-navigation">
 			<ul className="app-menu">
@@ -43,18 +23,18 @@ const SearchLinksPageNavigation:FC<FuncProps> = function ({ searchHandler }) {
 				placeholder="write tag to search"
 				value={tag}
 				onChange={changeTagHandler}
-				onKeyDown={searchLinks}
+				onKeyDown={searchHandler}
 			/>
-			{auth.isAuthenticated ? (
+			{isAuthenticated ? (
 				<ul className="app-authorization">
 					<li>
 						<Link to="/profile" className="username-link ">
-							<p className="authorized-user-name green-user-name">{auth.userName}</p>
+							<p className="authorized-user-name green-user-name">{userName}</p>
 						</Link>
 					</li>
 					<li>
 						<Link to="/">
-							<button className="button auth-button green-button" onClick={handleLogout} type="button">log out</button>
+							<button className="button auth-button green-button" onClick={logoutHandler} type="button">log out</button>
 						</Link>
 					</li>
 				</ul>

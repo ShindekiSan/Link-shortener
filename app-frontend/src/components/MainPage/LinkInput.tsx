@@ -1,63 +1,36 @@
-import React, { useContext, useState } from 'react';
-import { AuthContext } from '../../context/AuthContext';
-import { useHttp } from '../../hooks/http.hook';
+import React, { ChangeEventHandler, FC, KeyboardEventHandler, MouseEventHandler } from 'react';
 
-const LinkInput = function () {
-	const { request } = useHttp();
-	const [link, setLink] = useState('');
-	const [input, setInput] = useState('');
-	const [notify, setNotify] = useState('');
-	const auth = useContext(AuthContext);
+interface linkInputProps {
+	isAuthenticated: boolean,
+	linkValue: string,
+	changeHandler: ChangeEventHandler,
+	pressHandler: KeyboardEventHandler,
+	clickHandler: MouseEventHandler,
+	notify: string,
+}
 
-	const changeHandler = (evt: React.ChangeEvent<HTMLInputElement>) => {
-		setLink(evt.target.value);
-		setInput(evt.target.value);
-	};
-
-	const clickHandler = async () => {
-		if (!link) {
-			setNotify('Enter a link for shortening');
-		} else {
-			try {
-				const data = await request('http://localhost:5000/api/link/generate', 'POST', { from: link, tags: [], description: '' }, {
-					Authorization: `Bearer ${auth.token}`,
-				});
-				console.log(data);
-				setNotify(data.message);
-			} catch (e: any) {
-				setNotify(`Error: ${e.message}`);
-			}
-		}
-		setInput('');
-	};
-
-	const pressHandler = async (evt: React.KeyboardEvent) => {
-		if (evt.key === 'Enter') {
-			clickHandler();
-		}
-	};
-
+const LinkInput:FC<linkInputProps> = function ({ isAuthenticated, linkValue, changeHandler, pressHandler, clickHandler, notify }) {
 	return (
 		<div>
 			<div className="url-input-form">
 				<input
-					className={auth.isAuthenticated ? 'url-input url-input--authorized-user' : 'url-input'}
+					className={isAuthenticated ? 'url-input url-input--authorized-user' : 'url-input'}
 					type="text"
-					value={input}
-					disabled={!auth.isAuthenticated}
+					value={linkValue}
+					disabled={!isAuthenticated}
 					onChange={changeHandler}
 					onKeyPress={pressHandler}
 				/>
 				<button
 					className="button green-button shorten-button shorten-button"
-					disabled={!auth.isAuthenticated}
+					disabled={!isAuthenticated}
 					onClick={clickHandler}
 					type="button"
 				>
 					shorten
 				</button>
 			</div>
-			<p className="url-input__notification">{auth.isAuthenticated ? `${notify}` : 'Can only be used by authorized user' }</p>
+			<p className="url-input__notification">{isAuthenticated ? `${notify}` : 'Can only be used by authorized user' }</p>
 		</div>
 
 	);

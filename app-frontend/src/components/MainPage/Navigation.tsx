@@ -1,21 +1,15 @@
-import React, { useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../context/AuthContext';
-import { useAuth } from '../../hooks/auth.hook';
+import React, { FC } from 'react';
+import { Link } from 'react-router-dom';
 import MyButton from '../UI/MyButton';
 import Logo from '../UI/Logo';
 
-const Navigation = function () {
-	const auth = useContext(AuthContext);
-	const navigate = useNavigate();
-	const { logout } = useAuth();
+interface navProps {
+	logoutHandler: () => void,
+	isAuthenticated: boolean,
+	userName: null
+}
 
-	const handleLogout = () => {
-		logout();
-		navigate('/');
-		window.location.reload();
-	};
-
+const Navigation:FC<navProps> = function ({ logoutHandler, isAuthenticated, userName }) {
 	return (
 		<nav className="app-navigation">
 			<ul className="app-menu">
@@ -26,16 +20,16 @@ const Navigation = function () {
 					<Link to="/search"><button className="button white-button search-button" type="button">search for links</button></Link>
 				</li>
 			</ul>
-			{auth.isAuthenticated ? (
+			{isAuthenticated ? (
 				<ul className="app-authorization">
 					<li>
 						<Link to="/profile" className="username-link">
-							<p className="authorized-user-name">{auth.userName}</p>
+							<p className="authorized-user-name">{userName}</p>
 						</Link>
 					</li>
 					<li>
 						<Link to="/">
-							<MyButton buttonType="button auth-button light-blue-button" text="log out" clickFunc={handleLogout} />
+							<MyButton buttonType="button auth-button light-blue-button" text="log out" clickFunc={logoutHandler} />
 						</Link>
 					</li>
 				</ul>
