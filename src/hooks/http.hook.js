@@ -1,36 +1,37 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback } from 'react';
 
-export function useHttp () {
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+export function useHttp() {
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState(null);
 
-    const request = useCallback(async (url, method = 'GET', body = null, headers = {}) => {
-        setLoading(true)
-        try {
-            if (body) {
-                body = JSON.stringify(body)
-                headers['Content-Type'] = 'application/json'
-            }
+	const request = useCallback(async (url, method = 'GET', body = null, headers = {}) => {
+		setLoading(true);
+		try {
+			if (body) {
+				body = JSON.stringify(body);
+				headers['Content-Type'] = 'application/json';
+			}
 
-            const response = await fetch(url, {method, body, headers});
-            const data = await response.json()
+			const response = await fetch(url, { method, body, headers });
+			const data = await response.json();
 
-            if (!response.ok) {
-                throw new Error(data.message, 'Something went wrong...')
-            }
+			if (!response.ok) {
+				throw new Error(data.message, 'Something went wrong...');
+			}
 
-            setLoading(false)
+			setLoading(false);
 
-            return data
+			return data;
+		} catch (e) {
+			setError(e.message);
+			setLoading(false);
+			throw e;
+		}
+	}, []);
 
-        } catch (e) {
-            setError(e.message)
-            setLoading(false)
-            throw e
-        }
-    }, [])
+	const clearError = useCallback(() => { setError(null); }, []);
 
-    const clearError = useCallback(() => {setError(null)}, [])
-
-    return {loading, error, request, clearError}
+	return {
+		loading, error, request, clearError,
+	};
 }
