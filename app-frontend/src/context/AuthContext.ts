@@ -1,21 +1,23 @@
-import { createContext } from "react";
+import { createContext } from 'react';
 
-interface contextValue {
-	token: null,
-	userName: null,
-	userId: null,
-	login: Function,
-	logout: Function,
-	isAuthenticated: boolean
+interface ContextValue {
+  token: null,
+  userName: null,
+  userId: null,
+  login: Function,
+  logout: Function,
+  isAuthenticated: boolean
 }
 
 function noop() {}
 
-export const AuthContext = createContext<contextValue>({
-	token: null,
-	userName: null,
-	userId: null,
-	login: noop,
-	logout: noop,
-	isAuthenticated: false,
+const AuthContext = createContext<ContextValue>({
+  token: null,
+  userName: null,
+  userId: null,
+  login: noop,
+  logout: noop,
+  isAuthenticated: false,
 });
+
+export default AuthContext;

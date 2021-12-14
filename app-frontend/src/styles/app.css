@@ -651,6 +651,14 @@ main {
     margin-bottom: 42px;
 }
 
+.searched-links-error {
+    font-family: Montserrat-Regular;
+    font-size: 24px;
+    color: #5D8383;
+
+    margin-left: 200px;
+}
+
 .searched-links-list {
     margin-left: 195px;
 }
