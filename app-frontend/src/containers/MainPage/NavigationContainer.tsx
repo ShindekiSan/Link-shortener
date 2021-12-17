@@ -9,7 +9,7 @@ const NavigationContainer = function () {
   const navigate = useNavigate();
   const { logout } = useAuth();
 
-  const handleLogout = () => {
+  const handleLogout = (): void => {
     logout();
     navigate('/');
     window.location.reload();

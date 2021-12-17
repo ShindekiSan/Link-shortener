@@ -1,21 +1,43 @@
-import { Router, Response, Request } from 'express';
+import { Router } from 'express';
 import config from 'config';
 import jwt from 'jsonwebtoken';
-import { check, validationResult } from 'express-validator';
+import * as expressValidator from 'express-validator';
+import { TypedRequest, TypedResponse } from '../types/api';
 import User from '../models/User';
 
 const router = Router();
+
+interface TypedRegisterRequest {
+  password: string,
+  username: string,
+  email: string,
+}
+
+interface TypedAuthorizeResponse {
+  token?: string,
+  userId?: string,
+  userName?: string,
+  message?: string,
+  errors?: expressValidator.ValidationError[],
+}
+
+interface TypedLoginRequest {
+  email: string,
+  password: string,
+}
 
 // api/auth/register
 router.post(
   '/register',
   [
-    check('email', 'Invalid email').isEmail(),
-    check('password', 'Minimum password length is 6 symbols').isLength({ min: 6 }),
+    expressValidator.check('email', 'Invalid email').isEmail(),
+    expressValidator.check('password', 'Minimum password length is 6 symbols').isLength({ min: 6 }),
   ],
-  async (req: Request, resp: Response) => {
+  async (req: TypedRequest<TypedRegisterRequest>, resp: TypedResponse<TypedAuthorizeResponse>)
+  : Promise<void | TypedResponse<TypedAuthorizeResponse>> => {
     try {
-      const errors = validationResult(req);
+      const errors:expressValidator.
+        Result<expressValidator.ValidationError> = expressValidator.validationResult(req);
 
       if (!errors.isEmpty()) {
         return resp.status(400).json({
@@ -62,12 +84,13 @@ router.post(
 router.post(
   '/login',
   [
-    check('email', 'Enter valid email').normalizeEmail().isEmail(),
-    check('password', 'Enter a correct password').exists().isLength({ min: 6 }),
+    expressValidator.check('email', 'Enter valid email').normalizeEmail().isEmail(),
+    expressValidator.check('password', 'Enter a correct password').exists().isLength({ min: 6 }),
   ],
-  async (req: Request, resp: Response) => {
+  async (req: TypedRequest<TypedLoginRequest>, resp: TypedResponse<TypedAuthorizeResponse>)
+  : Promise<void | TypedResponse<TypedAuthorizeResponse>> => {
     try {
-      const errors = validationResult(req);
+      const errors = expressValidator.validationResult(req);
 
       if (!errors.isEmpty()) {
         return resp.status(400).json({
@@ -80,7 +103,7 @@ router.post(
         if (!user) {
           return resp.status(400).json({ message: 'There is no user with this email' });
         }
-        const passwordMatch = req.body.password === user.password;
+        const passwordMatch:boolean = req.body.password === user.password;
 
         if (!passwordMatch) {
           return resp.status(400).json({ message: 'Invalid email or password, try again' });

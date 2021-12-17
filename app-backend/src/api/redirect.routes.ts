@@ -3,7 +3,7 @@ import Link from '../models/Link';
 
 const router = Router();
 
-router.get('/:code', async (req: Request, resp: Response) => {
+router.get('/:code', async (req: Request, resp: Response): Promise<void | Response> => {
   try {
     const link = await Link.findOne({ code: req.params.code });
 

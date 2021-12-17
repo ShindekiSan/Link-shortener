@@ -8,25 +8,25 @@ interface TagsList {
 }
 
 const ShortenerFormContainer = function () {
-  const [notify, setNotify] = useState('');
-  const [input, setInput] = useState('');
-  const [link, setLink] = useState('');
-  const [tags, setTags] = useState('');
-  const [description, setDescription] = useState('');
+  const [notify, setNotify] = useState<string>('');
+  const [input, setInput] = useState<string>('');
+  const [link, setLink] = useState<string>('');
+  const [tags, setTags] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
   const [tagsArray, setTagsArray] = useState<Array<TagsList>>([]);
   const auth = useContext(AuthContext);
   const { request } = useHttp();
 
-  const changeHandler = (evt: React.ChangeEvent<HTMLInputElement>) => {
+  const changeHandler = (evt: React.ChangeEvent<HTMLInputElement>): void => {
     setLink(evt.target.value);
     setInput(evt.target.value);
   };
 
-  const changeTagsHandler = (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const changeTagsHandler = (evt: React.ChangeEvent<HTMLTextAreaElement>): void => {
     setTags(evt.target.value);
   };
 
-  const changeDescription = (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const changeDescription = (evt: React.ChangeEvent<HTMLTextAreaElement>): void => {
     setDescription(evt.target.value);
   };
 
@@ -34,7 +34,7 @@ const ShortenerFormContainer = function () {
     setTagsArray(tags.split(' ').map((tag) => ({ tagName: tag })));
   }, [tags]);
 
-  const clickHandler = async () => {
+  const clickHandler = async (): Promise<void> => {
     if (!link) {
       setNotify('Enter a link for shortening');
     } else {

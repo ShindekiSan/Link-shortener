@@ -21,7 +21,6 @@
         "react/prop-types": 0,
         "react/require-default-props": "off",
         "func-names": ["error", "as-needed"],
-        "react/jsx-filename-extension": [1, { "extensions": [".ts", ".tsx"] }],
         "no-underscore-dangle": ["error", { "allow": ["_id"] }],
         "import/no-extraneous-dependencies": ["error", {"devDependencies": true}] ,
         "import/extensions": [

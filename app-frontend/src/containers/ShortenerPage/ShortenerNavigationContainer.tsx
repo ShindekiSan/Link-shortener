@@ -10,7 +10,7 @@ const ShortenerNavigationContainer = function () {
   const { logout } = useAuth();
   const navigate = useNavigate();
 
-  const handleLogout = () => {
+  const handleLogout = (): void => {
     logout();
     navigate('/');
     window.location.reload();

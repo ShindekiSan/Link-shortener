@@ -5,37 +5,32 @@ import { useParams } from 'react-router-dom';
 import AuthContext from '../../context/AuthContext';
 import useHttp from '../../hooks/http.hook';
 import LinkCard from '../../components/ProfilePage/LinkCard';
+import { Link } from '../../types/link';
 
 interface LinkProps {
-  link: {
-    code: string,
-    to: string,
-    from: string,
-    clicks: number,
-    tags: {
-      tagName: string,
-    }[],
-    description: string,
-    date: Date
-  },
+  link: Link,
   error: string,
 }
+
+type TagState = {
+  tagName: string
+};
 
 const LinkCardContainer:FC<LinkProps> = function ({ link, error }) {
   const auth = useContext(AuthContext);
   const { request, loading } = useHttp();
   const linkId = useParams().id;
-  const [linkInfo, setLinkInfo] = useState(link);
-  const [upload, setUpload] = useState('confirm');
-  const [errorMessage, setErrorMessage] = useState('');
-  const [linkDate, setLinkDate] = useState('');
-  const [editState, setEditState] = useState(false);
-  const [editMessage, setEditMessage] = useState('');
-  const [description, setDescription] = useState(linkInfo.description);
-  const [tags, setTags] = useState('');
-  const [tagsArray, setTagsArray] = useState(linkInfo.tags);
+  const [linkInfo, setLinkInfo] = useState<Link>(link);
+  const [upload, setUpload] = useState<string>('confirm');
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [linkDate, setLinkDate] = useState<string>('');
+  const [editState, setEditState] = useState<boolean>(false);
+  const [editMessage, setEditMessage] = useState<string>('');
+  const [description, setDescription] = useState<string>(linkInfo.description);
+  const [tags, setTags] = useState<string>('');
+  const [tagsArray, setTagsArray] = useState<TagState[]>(linkInfo.tags);
 
-  const formatDate = () => {
+  const formatDate = (): void => {
     const date = new Date(linkInfo.date);
     setLinkDate(date.toLocaleDateString());
   };
@@ -44,11 +39,11 @@ const LinkCardContainer:FC<LinkProps> = function ({ link, error }) {
     formatDate();
   }, [formatDate]);
 
-  const changeTagsHandler = (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const changeTagsHandler = (evt: React.ChangeEvent<HTMLTextAreaElement>): void => {
     setTags(evt.target.value);
   };
 
-  const changeDescriptionHandler = (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const changeDescriptionHandler = (evt: React.ChangeEvent<HTMLTextAreaElement>): void => {
     setDescription(evt.target.value);
   };
 
@@ -56,7 +51,7 @@ const LinkCardContainer:FC<LinkProps> = function ({ link, error }) {
     setTagsArray(tags.split(' ').map((tag) => ({ tagName: tag })));
   }, [tags]);
 
-  const editClickHandler = () => {
+  const editClickHandler = (): void => {
     setEditState(!editState);
     if (!tags) {
       linkInfo.tags.forEach((tag) => {
@@ -65,19 +60,19 @@ const LinkCardContainer:FC<LinkProps> = function ({ link, error }) {
     }
   };
 
-  const getChangedLink = useCallback(async () => {
+  const getChangedLink = useCallback(async (): Promise<void> => {
     try {
       const fetched = await request(`http://localhost:5000/api/link/${linkId}`, 'GET', null, {
         Authorization: `Bearer ${auth.token}`,
       });
 
-      setLinkInfo(fetched);
+      setLinkInfo(fetched.link);
     } catch (e: any) {
       setErrorMessage(e.message);
     }
   }, [auth.token, linkId, request]);
 
-  const confirmChanges = async () => {
+  const confirmChanges = async (): Promise<void> => {
     try {
       setUpload('loading...');
       const data = await request('http://localhost:5000/api/link/edit', 'POST', { code: link.code, tags: tagsArray, description }, {

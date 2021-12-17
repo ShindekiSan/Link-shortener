@@ -4,7 +4,7 @@ import Logo from '../UI/Logo';
 
 interface NavProps {
   logoutHandler: () => void,
-  userName: null
+  userName: string | null
 }
 
 const ShortenerNavigation:FC<NavProps> = function ({ logoutHandler, userName }) {

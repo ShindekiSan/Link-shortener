@@ -5,18 +5,23 @@ import LogIn from '../../components/AuthPage/LogIn';
 
 import AuthContext from '../../context/AuthContext';
 
+type LoginForm = {
+  email: string,
+  password: string,
+};
+
 const LogInContainer = function LogInContainer() {
   const navigate = useNavigate();
   const auth = useContext(AuthContext);
-  const [error, setError] = useState('');
+  const [error, setError] = useState<string>('');
   const {
     loading, request,
   } = useHttp();
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<LoginForm>({
     email: '', password: '',
   });
 
-  const authorizationHandler = async () => {
+  const authorizationHandler = async (): Promise<void> => {
     try {
       const data = await request('http://localhost:5000/api/auth/login', 'POST', { ...form });
       auth.login(data.token, data.userId, data.userName);
@@ -26,7 +31,7 @@ const LogInContainer = function LogInContainer() {
     }
   };
 
-  const changeHandler = (evt: React.ChangeEvent<HTMLInputElement>) => {
+  const changeHandler = (evt: React.ChangeEvent<HTMLInputElement>): void => {
     setForm({ ...form, [evt.target.name]: evt.target.value });
   };
 

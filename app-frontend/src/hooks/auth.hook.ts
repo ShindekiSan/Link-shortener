@@ -2,12 +2,20 @@ import { useState, useCallback, useEffect } from 'react';
 
 const storageName = 'userData';
 
-function useAuth() {
-  const [token, setToken] = useState(null);
-  const [userId, setUserId] = useState(null);
-  const [userName, setUserName] = useState(null);
+interface AuthHook {
+  login: (jwtToken: string, id: string, name: string) => void,
+  logout: () => void,
+  token: string | null,
+  userId: string | null,
+  userName: string | null,
+}
 
-  const login = useCallback((jwtToken, id, name) => {
+function useAuth():AuthHook {
+  const [token, setToken] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [userName, setUserName] = useState<string | null>(null);
+
+  const login = useCallback((jwtToken: string, id: string, name: string) => {
     setToken(jwtToken);
     setUserId(id);
     setUserName(name);

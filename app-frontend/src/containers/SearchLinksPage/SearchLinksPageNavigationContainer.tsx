@@ -6,29 +6,29 @@ import useAuth from '../../hooks/auth.hook';
 import SearchLinksPageNavigation from '../../components/SearchLinksPage/SearchLinksPageNavigation';
 
 interface FuncProps {
-	searchHandler: (tag: string) => Promise<void> // eslint-disable-line
+  searchHandler: (tag: string) => Promise<void>
 }
 
 const SearchLinksPageNavigationContainer:FC<FuncProps> = function ({ searchHandler }) {
   const auth = useContext(AuthContext);
   const navigate = useNavigate();
   const { logout } = useAuth();
-  const [tag, setTag] = useState('');
+  const [tag, setTag] = useState<string>('');
 
-  const handleLogout = () => {
+  const handleLogout = (): void => {
     logout();
     navigate('/');
     window.location.reload();
   };
 
-  const searchLinks = (evt: React.KeyboardEvent) => {
+  const searchLinks = (evt: React.KeyboardEvent): void => {
     if (evt.key === 'Enter') {
       searchHandler(tag);
       setTag('');
     }
   };
 
-  const changeTagHandler = (evt: React.ChangeEvent<HTMLInputElement>) => {
+  const changeTagHandler = (evt: React.ChangeEvent<HTMLInputElement>): void => {
     setTag(evt.target.value);
   };
 

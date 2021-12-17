@@ -1,9 +1,9 @@
 import { createContext } from 'react';
 
 interface ContextValue {
-  token: null,
-  userName: null,
-  userId: null,
+  token: string | null,
+  userName: string | null,
+  userId: string | null,
   login: Function,
   logout: Function,
   isAuthenticated: boolean

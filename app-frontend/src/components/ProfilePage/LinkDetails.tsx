@@ -7,11 +7,12 @@ import Loader from '../UI/Loader';
 import AuthContext from '../../context/AuthContext';
 import useHttp from '../../hooks/http.hook';
 import LinkCard from '../../containers/ProfilePage/LinkCardContainer';
+import { Link } from '../../types/link';
 
 const LinkDetails = function () {
   const { request, loading } = useHttp();
   const auth = useContext(AuthContext);
-  const [link, setLink] = useState(null);
+  const [link, setLink] = useState<Link | null>(null);
   const [error, setError] = useState('');
   const { id } = useParams();
 
@@ -21,7 +22,7 @@ const LinkDetails = function () {
         Authorization: `Bearer ${auth.token}`,
       });
 
-      setLink(fetched);
+      setLink(fetched.link);
     } catch (e: any) {
       setError(e.message);
     }

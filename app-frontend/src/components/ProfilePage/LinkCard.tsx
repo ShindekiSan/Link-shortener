@@ -11,6 +11,8 @@ interface LinkProps {
       tagName: string,
     }[],
     description: string,
+    _id: string,
+    date: Date,
   },
   editState: boolean,
   loading: boolean,

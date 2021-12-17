@@ -2,12 +2,13 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import Loader from '../UI/Loader';
 import SearchedLinkCard from './SearchedLinkCard';
+import { Link } from '../../types/link';
 
 import useHttp from '../../hooks/http.hook';
 
 const SearchedLinkDetails = function () {
   const { request, loading } = useHttp();
-  const [link, setLink] = useState(null);
+  const [link, setLink] = useState<Link | null>(null);
   const [error, setError] = useState('');
   const { id } = useParams();
 
@@ -15,7 +16,7 @@ const SearchedLinkDetails = function () {
     try {
       const fetched = await request(`http://localhost:5000/api/link/link-info/${id}`, 'GET', null);
 
-      setLink(fetched);
+      setLink(fetched.link);
     } catch (e: any) {
       setError(e.message);
     }

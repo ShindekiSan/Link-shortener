@@ -5,7 +5,6 @@ interface Props {
   links: {
     from: string,
     _id: string,
-    clicks: number,
   }[],
   error: string,
 }

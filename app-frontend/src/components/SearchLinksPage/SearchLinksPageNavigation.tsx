@@ -8,7 +8,7 @@ interface FuncProps {
   isAuthenticated: boolean,
   tag: string,
   logoutHandler: () => void,
-  userName: null
+  userName: string | null
 }
 
 const SearchLinksPageNavigation:FC<FuncProps> = function ({

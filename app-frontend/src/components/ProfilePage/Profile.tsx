@@ -6,11 +6,12 @@ import useHttp from '../../hooks/http.hook';
 import LinksBlock from './LinksBlock';
 import ProfileHeader from './ProfileHeader';
 import Loader from '../UI/Loader';
+import { Link } from '../../types/link';
 
 const Profile = function () {
   const auth = useContext(AuthContext);
   const { request, loading } = useHttp();
-  const [links, setLinks] = useState([]);
+  const [links, setLinks] = useState<Link[] | []>([]);
   const [error, setError] = useState('');
 
   const getLinks = useCallback(async () => {
@@ -18,7 +19,7 @@ const Profile = function () {
       const fetched = await request('http://localhost:5000/api/link', 'GET', null, {
         Authorization: `Bearer ${auth.token}`,
       });
-      setLinks(fetched);
+      setLinks(fetched.links);
     } catch (e: any) {
       setError(e.message);
     }

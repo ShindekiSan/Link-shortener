@@ -26,7 +26,7 @@ app.use('/t', redirectRoute);
 
 const PORT = config.get('port') || 5000;
 
-async function start() {
+async function start(): Promise<void> {
   try {
     await mongoose.connect(config.get('mongoUri'));
     app.listen(PORT, () => console.log(`App has been startet on port ${PORT}...`)); // eslint-disable-line

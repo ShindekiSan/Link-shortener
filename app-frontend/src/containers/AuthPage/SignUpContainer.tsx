@@ -5,6 +5,12 @@ import SignUp from '../../components/AuthPage/SignUp';
 
 import AuthContext from '../../context/AuthContext';
 
+type SignupForm = {
+  email: string,
+  password: string,
+  username: string,
+};
+
 const SignUpContainer = function () {
   const navigate = useNavigate();
   const auth = useContext(AuthContext);
@@ -12,11 +18,11 @@ const SignUpContainer = function () {
   const {
     loading, request,
   } = useHttp();
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<SignupForm>({
     username: '', email: '', password: '',
   });
 
-  const registerHandler = async () => {
+  const registerHandler = async (): Promise<void> => {
     try {
       const data = await request('http://localhost:5000/api/auth/register', 'POST', { ...form });
       auth.login(data.token, data.userId, data.userName);
@@ -26,7 +32,7 @@ const SignUpContainer = function () {
     }
   };
 
-  const changeHandler = (evt: React.ChangeEvent<HTMLInputElement>) => {
+  const changeHandler = (evt: React.ChangeEvent<HTMLInputElement>): void => {
     setForm({ ...form, [evt.target.name]: evt.target.value });
   };
 

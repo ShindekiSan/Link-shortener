@@ -5,17 +5,17 @@ import useHttp from '../../hooks/http.hook';
 
 const LinkInputContainer = function () {
   const { request } = useHttp();
-  const [link, setLink] = useState('');
-  const [input, setInput] = useState('');
-  const [notify, setNotify] = useState('');
+  const [link, setLink] = useState<string>('');
+  const [input, setInput] = useState<string>('');
+  const [notify, setNotify] = useState<string>('');
   const auth = useContext(AuthContext);
 
-  const changeHandler = (evt: React.ChangeEvent<HTMLInputElement>) => {
+  const changeHandler = (evt: React.ChangeEvent<HTMLInputElement>): void => {
     setLink(evt.target.value);
     setInput(evt.target.value);
   };
 
-  const clickHandler = async () => {
+  const clickHandler = async (): Promise<void> => {
     if (!link) {
       setNotify('Enter a link for shortening');
     } else {
@@ -32,7 +32,7 @@ const LinkInputContainer = function () {
     setInput('');
   };
 
-  const pressHandler = async (evt: React.KeyboardEvent) => {
+  const pressHandler = async (evt: React.KeyboardEvent): Promise<void> => {
     if (evt.key === 'Enter') {
       clickHandler();
     }
