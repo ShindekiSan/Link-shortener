@@ -1,11 +1,13 @@
 import { Router, Request, Response } from 'express';
+import { HydratedDocument } from 'mongoose';
 import Link from '../models/Link';
+import { LinkInterface } from '../types/link';
 
 const router = Router();
 
 router.get('/:code', async (req: Request, resp: Response): Promise<void | Response> => {
   try {
-    const link = await Link.findOne({ code: req.params.code });
+    const link: HydratedDocument<LinkInterface> = await Link.findOne({ code: req.params.code });
 
     if (link) {
       link.clicks += 1;

@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import ShortenerForm from '../../components/ShortenerPage/ShortenerForm';
 import AuthContext from '../../context/AuthContext';
-import useHttp from '../../hooks/http.hook';
+import useHttp, { RequestPromise } from '../../hooks/http.hook';
 
 interface TagsList {
   tagName: string
@@ -39,7 +39,7 @@ const ShortenerFormContainer = function () {
       setNotify('Enter a link for shortening');
     } else {
       try {
-        const data = await request('http://localhost:5000/api/link/generate', 'POST', { from: link, tags: tagsArray, description }, {
+        const data: RequestPromise = await request('http://localhost:5000/api/link/generate', 'POST', { from: link, tags: tagsArray, description }, {
           Authorization: `Bearer ${auth.token}`,
         });
         setNotify(data.message);

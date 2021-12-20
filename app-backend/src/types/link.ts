@@ -6,7 +6,7 @@ export interface LinkInterface {
     tagName: string,
   }[],
   description?: string,
-  clicks?: number,
+  clicks: number,
   owner: string,
 }
 

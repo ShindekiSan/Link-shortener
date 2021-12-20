@@ -9,7 +9,7 @@ interface Props {
 }
 
 const ClicksAmount:FC<Props> = function ({ links }) {
-  const [clicks, setClicks] = useState(0);
+  const [clicks, setClicks] = useState<number>(0);
 
   const getClicksNumber = useCallback(() => {
     setClicks(links.slice(0).reduce((total:number, link) => total + link.clicks, 0));

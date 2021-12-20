@@ -1,9 +1,9 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
+import { useDispatch } from 'react-redux';
 import useHttp from '../../hooks/http.hook';
 import SignUp from '../../components/AuthPage/SignUp';
-
-import AuthContext from '../../context/AuthContext';
+import signupUser from '../../store/actions/authorizeUser/signup';
 
 type SignupForm = {
   email: string,
@@ -12,11 +12,11 @@ type SignupForm = {
 };
 
 const SignUpContainer = function () {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const auth = useContext(AuthContext);
   const [error, setError] = useState('');
   const {
-    loading, request,
+    loading,
   } = useHttp();
   const [form, setForm] = useState<SignupForm>({
     username: '', email: '', password: '',
@@ -24,8 +24,7 @@ const SignUpContainer = function () {
 
   const registerHandler = async (): Promise<void> => {
     try {
-      const data = await request('http://localhost:5000/api/auth/register', 'POST', { ...form });
-      auth.login(data.token, data.userId, data.userName);
+      dispatch(signupUser({ ...form }));
       navigate('/');
     } catch (e: any) {
       setError(e.message);

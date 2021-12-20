@@ -1,13 +1,15 @@
 import { useState, useCallback } from 'react';
 import { Link } from '../types/link';
+import { UserInterface } from '../types/user';
 
-interface RequestPromise {
+export interface RequestPromise {
   link: Link,
   links: Link[],
   message: string,
   token: string,
   userId: string,
   userName: string,
+  user: UserInterface,
 }
 
 interface Headers {
@@ -35,7 +37,7 @@ function useHttp():HttpHook {
         body: body ? JSON.stringify(body) : null,
         headers: { ...headers, 'Content-Type': 'application/json' },
       });
-      const data:RequestPromise = await response.json();
+      const data: RequestPromise = await response.json();
 
       if (!response.ok) {
         throw new Error(data.message);

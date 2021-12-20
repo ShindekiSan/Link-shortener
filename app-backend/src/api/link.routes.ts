@@ -1,6 +1,7 @@
 import { Router, Request } from 'express';
 import shortId from 'shortid';
 import config from 'config';
+import { HydratedDocument } from 'mongoose';
 import Link from '../models/Link';
 import auth from '../middleware/auth.middleware';
 import { TypedRequest, TypedResponse } from '../types/api';
@@ -67,6 +68,17 @@ interface GetSearchedLinkResponse {
   message: string,
 }
 
+interface CodeFilter {
+  code: string
+}
+
+interface LinkUpdate {
+  description: string,
+  tags: {
+    tagName: string,
+  }[],
+}
+
 router.post('/generate', auth, async (
   req: TypedRequest<GenerateRequest>,
   resp: TypedResponse<GenerateResponse>,
@@ -84,7 +96,7 @@ router.post('/generate', auth, async (
 
     const to:string = `${baseUrl}/t/${code}`;
 
-    const link = new Link({
+    const link: HydratedDocument<LinkInterface> = new Link({
       code, to, from, tags, description, owner: req.body.user.userId,
     });
 
@@ -101,8 +113,8 @@ router.post('/edit', auth, async (
   resp: TypedResponse<EditResponse>,
 ): Promise<void | TypedResponse<EditResponse>> => {
   try {
-    const filter = { code: req.body.code };
-    const update = {
+    const filter: CodeFilter = { code: req.body.code };
+    const update: LinkUpdate = {
       description: req.body.description,
       tags: req.body.tags,
     };

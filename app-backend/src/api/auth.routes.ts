@@ -2,7 +2,9 @@ import { Router } from 'express';
 import config from 'config';
 import jwt from 'jsonwebtoken';
 import * as expressValidator from 'express-validator';
+import { HydratedDocument } from 'mongoose';
 import { TypedRequest, TypedResponse } from '../types/api';
+import { UserModel } from '../types/models';
 import User from '../models/User';
 
 const router = Router();
@@ -54,14 +56,14 @@ router.post(
           if (existingUser) {
             return resp.status(400).json({ message: 'A user has already registered with this username' });
           }
-          const newUser = new User({
+          const newUser: HydratedDocument<UserModel> = new User({
             userName: req.body.username,
             email: req.body.email,
             password: req.body.password,
           });
           newUser.save();
 
-          const token = jwt.sign(
+          const token:string = jwt.sign(
             { userId: newUser._id },
             config.get('jwtSecret'),
             { expiresIn: 36000 },
@@ -90,7 +92,8 @@ router.post(
   async (req: TypedRequest<TypedLoginRequest>, resp: TypedResponse<TypedAuthorizeResponse>)
   : Promise<void | TypedResponse<TypedAuthorizeResponse>> => {
     try {
-      const errors = expressValidator.validationResult(req);
+      const errors:expressValidator.
+        Result<expressValidator.ValidationError> = expressValidator.validationResult(req);
 
       if (!errors.isEmpty()) {
         return resp.status(400).json({
@@ -109,7 +112,7 @@ router.post(
           return resp.status(400).json({ message: 'Invalid email or password, try again' });
         }
 
-        const token = jwt.sign(
+        const token:string = jwt.sign(
           { userId: user.id },
           config.get('jwtSecret'),
           { expiresIn: 36000 },

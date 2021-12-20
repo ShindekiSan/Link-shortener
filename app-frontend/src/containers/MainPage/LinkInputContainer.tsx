@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import LinkInput from '../../components/MainPage/LinkInput';
 import AuthContext from '../../context/AuthContext';
-import useHttp from '../../hooks/http.hook';
+import useHttp, { RequestPromise } from '../../hooks/http.hook';
 
 const LinkInputContainer = function () {
   const { request } = useHttp();
@@ -20,7 +20,7 @@ const LinkInputContainer = function () {
       setNotify('Enter a link for shortening');
     } else {
       try {
-        const data = await request('http://localhost:5000/api/link/generate', 'POST', { from: link, tags: [], description: '' }, {
+        const data: RequestPromise = await request('http://localhost:5000/api/link/generate', 'POST', { from: link, tags: [], description: '' }, {
           Authorization: `Bearer ${auth.token}`,
         });
 

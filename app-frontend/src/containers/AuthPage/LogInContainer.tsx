@@ -1,9 +1,9 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import useHttp from '../../hooks/http.hook';
 import LogIn from '../../components/AuthPage/LogIn';
-
-import AuthContext from '../../context/AuthContext';
+import loginUser from '../../store/actions/authorizeUser/login';
 
 type LoginForm = {
   email: string,
@@ -11,11 +11,11 @@ type LoginForm = {
 };
 
 const LogInContainer = function LogInContainer() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const auth = useContext(AuthContext);
   const [error, setError] = useState<string>('');
   const {
-    loading, request,
+    loading,
   } = useHttp();
   const [form, setForm] = useState<LoginForm>({
     email: '', password: '',
@@ -23,8 +23,7 @@ const LogInContainer = function LogInContainer() {
 
   const authorizationHandler = async (): Promise<void> => {
     try {
-      const data = await request('http://localhost:5000/api/auth/login', 'POST', { ...form });
-      auth.login(data.token, data.userId, data.userName);
+      dispatch(loginUser({ ...form }));
       navigate('/');
     } catch (e: any) {
       setError(e.message);

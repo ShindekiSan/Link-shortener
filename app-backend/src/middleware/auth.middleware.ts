@@ -15,7 +15,7 @@ export default (req: Request, resp: Response, next: NextFunction): void | Respon
       return resp.status(401).json({ message: 'no authorization' });
     }
 
-    const decoded = jwt.verify(token, config.get('jwtSecret'));
+    const decoded: string | jwt.JwtPayload = jwt.verify(token, config.get('jwtSecret'));
 
     req.body.user = decoded;
 

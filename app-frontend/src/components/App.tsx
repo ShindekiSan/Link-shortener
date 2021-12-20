@@ -19,7 +19,7 @@ const App = function () {
   const {
     token, login, logout, userName, userId,
   } = useAuth();
-  const isAuthenticated = !!token;
+  const isAuthenticated:boolean = !!token;
 
   const authValue = useMemo(() => (
     {

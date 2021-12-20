@@ -1,6 +1,6 @@
 import { createContext } from 'react';
 
-interface ContextValue {
+export interface ContextValue {
   token: string | null,
   userName: string | null,
   userId: string | null,

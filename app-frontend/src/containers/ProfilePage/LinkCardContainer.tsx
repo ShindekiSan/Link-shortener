@@ -3,7 +3,7 @@ import React, {
 } from 'react';
 import { useParams } from 'react-router-dom';
 import AuthContext from '../../context/AuthContext';
-import useHttp from '../../hooks/http.hook';
+import useHttp, { RequestPromise } from '../../hooks/http.hook';
 import LinkCard from '../../components/ProfilePage/LinkCard';
 import { Link } from '../../types/link';
 
@@ -62,7 +62,7 @@ const LinkCardContainer:FC<LinkProps> = function ({ link, error }) {
 
   const getChangedLink = useCallback(async (): Promise<void> => {
     try {
-      const fetched = await request(`http://localhost:5000/api/link/${linkId}`, 'GET', null, {
+      const fetched: RequestPromise = await request(`http://localhost:5000/api/link/${linkId}`, 'GET', null, {
         Authorization: `Bearer ${auth.token}`,
       });
 
@@ -75,7 +75,7 @@ const LinkCardContainer:FC<LinkProps> = function ({ link, error }) {
   const confirmChanges = async (): Promise<void> => {
     try {
       setUpload('loading...');
-      const data = await request('http://localhost:5000/api/link/edit', 'POST', { code: link.code, tags: tagsArray, description }, {
+      const data: RequestPromise = await request('http://localhost:5000/api/link/edit', 'POST', { code: link.code, tags: tagsArray, description }, {
         Authorization: `Bearer ${auth.token}`,
       });
 
