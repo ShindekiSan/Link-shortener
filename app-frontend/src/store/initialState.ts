@@ -11,7 +11,7 @@ const initialState: InitialState = {
   link: {
     data: {} as Link,
     loading: false,
-    error: null,
+    status: '',
   },
   searchedLinks: {
     data: [] as SearchedLink[],

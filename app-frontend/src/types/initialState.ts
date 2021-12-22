@@ -10,7 +10,7 @@ export interface InitialState {
   link: {
     data: Link,
     loading: boolean,
-    error: null | string,
+    status: string | null,
   },
   searchedLinks: {
     data: SearchedLink[],
@@ -18,7 +18,7 @@ export interface InitialState {
     error: null | string,
   },
   searchedLink: {
-    data: SearchedLink | {},
+    data: SearchedLink,
     loading: boolean,
     error: null | string,
   },

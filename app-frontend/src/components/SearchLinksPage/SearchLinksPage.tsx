@@ -1,20 +1,19 @@
 import React, { FC, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import SearchLinksPageHeader from './SearchLinksPageHeader';
 import SearchedLinksBlock from './SearchedLinksBlock';
 import Loader from '../UI/Loader';
-import { SearchedLinks } from '../../types/link';
-
-import useHttp, { RequestPromise } from '../../hooks/http.hook';
+import useTypedSelector from '../../hooks/typedSelector.hook';
+import loadSearchedLinksData from '../../store/actions/loadSearchedLinksData/loadSearchedLinksData';
 
 const SearchLinksPage:FC = function () {
-  const [searchedLinks, setSearchedLinks] = useState<SearchedLinks[] | []>([]);
-  const { request, loading } = useHttp();
+  const { data, loading } = useTypedSelector((state) => state.searchedLinks);
   const [error, setError] = useState<string>('');
+  const dispatch = useDispatch();
 
   const searchLinks = async (tag: string) => {
     try {
-      const searched: RequestPromise = await request(`http://localhost:5000/api/link/search/${tag}`, 'GET', null);
-      setSearchedLinks(searched.links);
+      dispatch(loadSearchedLinksData(tag));
     } catch (e: unknown) {
       if (e instanceof Error) {
         setError(e.message);
@@ -25,8 +24,8 @@ const SearchLinksPage:FC = function () {
   return (
     <div>
       <SearchLinksPageHeader searchHandler={searchLinks} />
-      {!loading && searchedLinks
-        ? <SearchedLinksBlock links={searchedLinks} error={error} /> : <Loader />}
+      {!loading && data
+        ? <SearchedLinksBlock links={data} error={error} /> : <Loader />}
     </div>
   );
 };

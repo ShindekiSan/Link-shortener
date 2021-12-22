@@ -1,14 +1,14 @@
-import React, { FC, useContext, useState } from 'react';
+import React, { FC, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import LinkInput from '../../components/MainPage/LinkInput';
-import AuthContext from '../../context/AuthContext';
-import useHttp, { RequestPromise } from '../../hooks/http.hook';
+import useTypedSelector from '../../hooks/typedSelector.hook';
+import addLink from '../../store/actions/addLink/addLink';
 
 const LinkInputContainer:FC = function () {
-  const { request } = useHttp();
   const [link, setLink] = useState<string>('');
   const [input, setInput] = useState<string>('');
-  const [notify, setNotify] = useState<string>('');
-  const auth = useContext(AuthContext);
+  const { data } = useTypedSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   const changeHandler = (evt: React.ChangeEvent<HTMLInputElement>): void => {
     setLink(evt.target.value);
@@ -16,21 +16,9 @@ const LinkInputContainer:FC = function () {
   };
 
   const clickHandler = async (): Promise<void> => {
-    if (!link) {
-      setNotify('Enter a link for shortening');
-    } else {
-      try {
-        const data: RequestPromise = await request('http://localhost:5000/api/link/generate', 'POST', { from: link, tags: [], description: '' }, {
-          Authorization: `Bearer ${auth.token}`,
-        });
-
-        setNotify(data.message);
-      } catch (e: unknown) {
-        if (e instanceof Error) {
-          setNotify(`Error: ${e.message}`);
-        }
-      }
-    }
+    dispatch(addLink({
+      from: link, tags: [], description: '', token: data.token,
+    }));
     setInput('');
   };
 
@@ -42,12 +30,11 @@ const LinkInputContainer:FC = function () {
 
   return (
     <LinkInput
-      isAuthenticated={auth.isAuthenticated}
+      isAuthenticated={!!data.userName}
       linkValue={input}
       changeHandler={changeHandler}
       clickHandler={clickHandler}
       pressHandler={pressHandler}
-      notify={notify}
     />
   );
 };

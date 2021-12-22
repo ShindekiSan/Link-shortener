@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, Request } from 'express';
 import config from 'config';
 import jwt from 'jsonwebtoken';
 import * as expressValidator from 'express-validator';
@@ -8,6 +8,15 @@ import { UserInterface, UserModel } from '../types/models';
 import User from '../models/User';
 
 const router = Router();
+
+interface GetCurrentUserResponse {
+  message: string,
+  user?: {
+    token: string,
+    userId: string,
+    userName: string,
+  }
+}
 
 interface TypedRegisterRequest {
   password: string,
@@ -125,5 +134,28 @@ router.post(
     }
   },
 );
+
+router.get('/get-user/:id', async (req: Request, resp: TypedResponse<GetCurrentUserResponse>) => {
+  try {
+    const userId = req.params.id;
+    const currentUser = await User.findOne({ _id: userId });
+
+    const token:string = jwt.sign(
+      { userId: currentUser.id },
+      config.get('jwtSecret'),
+      { expiresIn: 36000 },
+    );
+
+    const user = {
+      token,
+      userId: currentUser.id,
+      userName: currentUser.userName,
+    };
+
+    resp.json({ user, message: 'user has been found successfully!' });
+  } catch (e) {
+    return resp.status(500).json({ message: 'Something went wrong, try again' });
+  }
+});
 
 export default router;

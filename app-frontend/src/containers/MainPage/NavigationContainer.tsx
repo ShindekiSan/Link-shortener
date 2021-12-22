@@ -1,18 +1,16 @@
 import React, { FC } from 'react';
+import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import useTypedSelector from '../../hooks/typedSelector.hook';
-// import AuthContext from '../../context/AuthContext';
-import useAuth from '../../hooks/auth.hook';
 import Navigation from '../../components/MainPage/Navigation';
 
 const NavigationContainer:FC = function () {
-  // const auth = useContext(AuthContext);
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const [cookies, setCookie, removeCookie] = useCookies(['user']); // eslint-disable-line
   const { data } = useTypedSelector((state) => state.user);
 
   const handleLogout = (): void => {
-    logout();
+    removeCookie('user');
     navigate('/');
     window.location.reload();
   };

@@ -1,11 +1,11 @@
 import React, { ChangeEventHandler, FC } from 'react';
+import useTypedSelector from '../../hooks/typedSelector.hook';
 
 interface FormProps {
   changeHandler: ChangeEventHandler,
   clickHandler: () => Promise<void>,
   changeDescription: ChangeEventHandler,
   changeTagsHandler: ChangeEventHandler,
-  notify: string,
   input: string,
   description: string,
   tags: string
@@ -16,11 +16,11 @@ const ShortenerForm:FC<FormProps> = function ({
   clickHandler,
   changeDescription,
   changeTagsHandler,
-  notify,
   input,
   description,
   tags,
 }) {
+  const { status } = useTypedSelector((state) => state.link);
   return (
     <div className="shortener-block">
       <h2 className="shortener-title">Shorten your link</h2>
@@ -45,7 +45,7 @@ const ShortenerForm:FC<FormProps> = function ({
         />
         <button className="button green-button" onClick={clickHandler} type="button">shorten</button>
       </div>
-      <p className="shortening-block__notification">{notify}</p>
+      <p className="shortening-block__notification">{status}</p>
     </div>
 
   );

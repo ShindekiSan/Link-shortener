@@ -88,6 +88,10 @@ router.post('/generate', auth, async (
     const { from, tags, description } = req.body;
     const code:string = shortId.generate();
 
+    if (!from) {
+      return resp.json({ message: 'Enter a link for shortening' });
+    }
+
     const existing:LinkInterface = await Link.findOne({ from, owner: req.body.user.userId });
 
     if (existing) {
@@ -118,7 +122,7 @@ router.post('/edit', auth, async (
       description: req.body.description,
       tags: req.body.tags,
     };
-    const link:LinkInterface = await Link.findOneAndUpdate(filter, update);
+    const link:LinkInterface = await Link.findOneAndUpdate(filter, update, { new: true });
     resp.json({ message: 'Link has been updated successfully!', link });
   } catch (e) {
     return resp.status(500).json({ message: 'Something went wrong, try again' });

@@ -1,18 +1,19 @@
 import { LOAD_SEARCHED_LINKS_SUCCESS, LOAD_SEARCHED_LINKS_FAILED, LOAD_SEARCHED_LINKS_DATA } from '../../contants';
 import { SearchedLinksData } from '../../../types/link';
 
-const loadLinksData = () => ({
+const loadSearchedLinksData = (tag: string) => ({
   type: LOAD_SEARCHED_LINKS_DATA,
+  payload: tag,
 });
 
-export const loadLinksDataFailed = (error: string) => ({
+export const loadSearchedLinksDataFailed = (error: string) => ({
   type: LOAD_SEARCHED_LINKS_FAILED,
   payload: error,
 });
 
-export const loadLinksDataSuccess = (data: SearchedLinksData) => ({
+export const loadSearchedLinksDataSuccess = (data: SearchedLinksData) => ({
   type: LOAD_SEARCHED_LINKS_SUCCESS,
   payload: data,
 });
 
-export default loadLinksData;
+export default loadSearchedLinksData;

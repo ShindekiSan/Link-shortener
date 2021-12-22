@@ -2,29 +2,27 @@ import React, {
   useState, useEffect, useCallback, FC,
 } from 'react';
 import { useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import Loader from '../UI/Loader';
 import SearchedLinkCard from './SearchedLinkCard';
-import { Link } from '../../types/link';
-
-import useHttp, { RequestPromise } from '../../hooks/http.hook';
+import useTypedSelector from '../../hooks/typedSelector.hook';
+import loadSearchedLinkData from '../../store/actions/loadSearchedLinkData/loadSearchedLinkData';
 
 const SearchedLinkDetails:FC = function () {
-  const { request, loading } = useHttp();
-  const [link, setLink] = useState<Link | null>(null);
   const [error, setError] = useState<string>('');
+  const { data, loading } = useTypedSelector((state) => state.searchedLink);
+  const dispatch = useDispatch();
   const { id } = useParams();
 
   const getLink = useCallback(async () => {
     try {
-      const fetched: RequestPromise = await request(`http://localhost:5000/api/link/link-info/${id}`, 'GET', null);
-
-      setLink(fetched.link);
+      dispatch(loadSearchedLinkData(id));
     } catch (e: unknown) {
       if (e instanceof Error) {
         setError(e.message);
       }
     }
-  }, [id, request]);
+  }, [id]);
 
   useEffect(() => {
     getLink();
@@ -32,7 +30,7 @@ const SearchedLinkDetails:FC = function () {
 
   return (
     <div>
-      {!loading && link ? <SearchedLinkCard link={link} error={error} /> : <Loader />}
+      {!loading && data ? <SearchedLinkCard link={data} error={error} /> : <Loader />}
     </div>
   );
 };

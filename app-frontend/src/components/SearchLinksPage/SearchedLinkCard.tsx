@@ -35,7 +35,7 @@ const SearchedLinkCard:FC<LinkProps> = function ({ link, error }) {
             </p>
             <p>
               tags:
-              {link.tags.slice(0).map(((tag:Tag) => `${tag.tagName} `))}
+              {link.tags ? link.tags.slice(0).map(((tag:Tag) => `${tag.tagName} `)) : 'Loading....'}
             </p>
             <p>
               description:

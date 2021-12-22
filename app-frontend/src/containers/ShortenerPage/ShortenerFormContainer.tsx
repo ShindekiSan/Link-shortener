@@ -1,23 +1,23 @@
 import React, {
-  useState, useContext, useEffect, FC,
+  useState, useEffect, FC,
 } from 'react';
+import { useDispatch } from 'react-redux';
 import ShortenerForm from '../../components/ShortenerPage/ShortenerForm';
-import AuthContext from '../../context/AuthContext';
-import useHttp, { RequestPromise } from '../../hooks/http.hook';
+import useTypedSelector from '../../hooks/typedSelector.hook';
+import addLink from '../../store/actions/addLink/addLink';
 
 interface TagsList {
   tagName: string
 }
 
 const ShortenerFormContainer:FC = function () {
-  const [notify, setNotify] = useState<string>('');
   const [input, setInput] = useState<string>('');
   const [link, setLink] = useState<string>('');
+  const dispatch = useDispatch();
   const [tags, setTags] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [tagsArray, setTagsArray] = useState<Array<TagsList>>([]);
-  const auth = useContext(AuthContext);
-  const { request } = useHttp();
+  const { data } = useTypedSelector((state) => state.user);
 
   const changeHandler = (evt: React.ChangeEvent<HTMLInputElement>): void => {
     setLink(evt.target.value);
@@ -37,20 +37,9 @@ const ShortenerFormContainer:FC = function () {
   }, [tags]);
 
   const clickHandler = async (): Promise<void> => {
-    if (!link) {
-      setNotify('Enter a link for shortening');
-    } else {
-      try {
-        const data: RequestPromise = await request('http://localhost:5000/api/link/generate', 'POST', { from: link, tags: tagsArray, description }, {
-          Authorization: `Bearer ${auth.token}`,
-        });
-        setNotify(data.message);
-      } catch (e: unknown) {
-        if (e instanceof Error) {
-          setNotify(`Error:', ${e.message}`);
-        }
-      }
-    }
+    dispatch(addLink({
+      from: link, tags: tagsArray, description, token: data.token,
+    }));
     setInput('');
     setTags('');
     setDescription('');
@@ -62,7 +51,6 @@ const ShortenerFormContainer:FC = function () {
       clickHandler={clickHandler}
       changeDescription={changeDescription}
       changeTagsHandler={changeTagsHandler}
-      notify={notify}
       input={input}
       description={description}
       tags={tags}

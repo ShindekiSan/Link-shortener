@@ -1,18 +1,18 @@
-import React, { FC, useContext } from 'react';
+import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 import MyButton from '../UI/MyButton';
 import Navigation from '../../containers/MainPage/NavigationContainer';
-import AuthContext, { ContextValue } from '../../context/AuthContext';
+import useTypedSelector from '../../hooks/typedSelector.hook';
 
 const Header:FC = function () {
-  const auth: ContextValue = useContext(AuthContext);
+  const { data } = useTypedSelector((state) => state.user);
   return (
     <header className="app-header">
       <Navigation />
       <div className="app-title">
         <p className="app-description">URL Shortener</p>
         <h1 className="main-title">Make your link as small as calibri.</h1>
-        {auth.isAuthenticated
+        {data.userName
           ? (
             <ul className="app-title__button-links">
               <li>

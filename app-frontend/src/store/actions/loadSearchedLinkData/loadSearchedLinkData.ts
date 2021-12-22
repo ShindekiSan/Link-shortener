@@ -1,9 +1,9 @@
 import { LOAD_SEARCHED_LINK_SUCCESS, LOAD_SEARCHED_LINK_FAILED, LOAD_SEARCHED_LINK_DATA } from '../../contants';
-import { SearchedLinksData } from '../../../types/link';
+import { SearchedLinkData } from '../../../types/link';
 
-const loadSearchedLinkData = (id: string) => ({
+const loadSearchedLinkData = (id: string | undefined) => ({
   type: LOAD_SEARCHED_LINK_DATA,
-  id,
+  payload: id,
 });
 
 export const loadSearchedLinkDataFailed = (error: string) => ({
@@ -11,7 +11,7 @@ export const loadSearchedLinkDataFailed = (error: string) => ({
   payload: error,
 });
 
-export const loadSearchedLinkDataSuccess = (data: SearchedLinksData) => ({
+export const loadSearchedLinkDataSuccess = (data: SearchedLinkData) => ({
   type: LOAD_SEARCHED_LINK_SUCCESS,
   payload: data,
 });

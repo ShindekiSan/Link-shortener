@@ -1,14 +1,14 @@
 import React, { FC } from 'react';
+import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router';
-import useAuth from '../../hooks/auth.hook';
 import ProfileNavigation from '../../components/ProfilePage/ProfileNavigation';
 
 const ProfileNavigationContainer:FC = function () {
-  const { logout } = useAuth();
   const navigate = useNavigate();
+  const [cookies, setCookie, removeCookie] = useCookies(['user']); // eslint-disable-line
 
   const handleLogout = (): void => {
-    logout();
+    removeCookie('user');
     navigate('/');
     window.location.reload();
   };

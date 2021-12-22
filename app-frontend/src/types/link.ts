@@ -16,7 +16,9 @@ export interface LinkEdit {
   description?: string,
   tags?: {
     tagName: string,
-  }[]
+  }[],
+  code: string,
+  token: string,
 }
 
 export interface LinkEditData {
@@ -49,6 +51,7 @@ export interface SearchedLink {
     tagName: string
   }[],
   description: string,
+  _id: string,
 }
 
 export interface SearchedLinkData {
@@ -65,11 +68,12 @@ export interface SearchedLinks {
 }
 
 export interface AddLink {
-  to: string,
+  from: string,
   tags?: {
     tagName: string,
   }[],
   description?: string,
+  token: string,
 }
 
 export interface AddLinkData {

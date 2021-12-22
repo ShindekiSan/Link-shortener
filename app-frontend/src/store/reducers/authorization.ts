@@ -8,19 +8,25 @@ enum ActionTypes {
   REGISTER_USER_SUCCESS = 'REGISTER_USER_SUCCESS',
   REGISTER_USER_DATA = 'REGISTER_USER_DATA',
   REGISTER_USER_FAILED = 'REGISTER_USER_FAILED',
+  GET_CURRENT_USER_DATA = 'GET_CURRENT_USER_DATA',
+  GET_CURRENT_USER_FAILED = 'GET_CURRENT_USER_FAILED',
+  GET_CURRENT_USER_SUCCESS = 'GET_CURRENT_USER_SUCCESS',
 }
 
 interface LoginUserAction {
-  type: ActionTypes.AUTHORIZE_USER_DATA | ActionTypes.REGISTER_USER_DATA,
+  type: ActionTypes.AUTHORIZE_USER_DATA
+  | ActionTypes.REGISTER_USER_DATA | ActionTypes.GET_CURRENT_USER_DATA,
 }
 
 interface LoginUserSuccessAction {
-  type: ActionTypes.AUTHORIZE_USER_SUCCESS | ActionTypes.REGISTER_USER_SUCCESS,
+  type: ActionTypes.AUTHORIZE_USER_SUCCESS
+  | ActionTypes.REGISTER_USER_SUCCESS | ActionTypes.GET_CURRENT_USER_SUCCESS,
   payload: UserInterface,
 }
 
 interface LoginUserFailedAction {
-  type: ActionTypes.AUTHORIZE_USER_FAILED | ActionTypes.REGISTER_USER_FAILED,
+  type: ActionTypes.AUTHORIZE_USER_FAILED
+  | ActionTypes.REGISTER_USER_FAILED | ActionTypes.GET_CURRENT_USER_FAILED,
   payload: string,
 }
 
@@ -36,6 +42,7 @@ const authorizeUser = (state = initialState.user, action: UserAction): UserState
   switch (action.type) {
     case ActionTypes.AUTHORIZE_USER_DATA:
     case ActionTypes.REGISTER_USER_DATA:
+    case ActionTypes.GET_CURRENT_USER_DATA:
       return {
         data: {} as UserInterface,
         loading: true,
@@ -43,6 +50,7 @@ const authorizeUser = (state = initialState.user, action: UserAction): UserState
       };
     case ActionTypes.AUTHORIZE_USER_FAILED:
     case ActionTypes.REGISTER_USER_FAILED:
+    case ActionTypes.GET_CURRENT_USER_FAILED:
       return {
         data: {} as UserInterface,
         loading: false,
@@ -50,6 +58,7 @@ const authorizeUser = (state = initialState.user, action: UserAction): UserState
       };
     case ActionTypes.AUTHORIZE_USER_SUCCESS:
     case ActionTypes.REGISTER_USER_SUCCESS:
+    case ActionTypes.GET_CURRENT_USER_SUCCESS:
       return {
         data: action.payload,
         loading: false,

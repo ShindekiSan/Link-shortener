@@ -3,7 +3,10 @@ import axios from 'axios';
 import { API_URL } from '../contants';
 import { loadLinksDataSuccess, loadLinksDataFailed } from '../actions/loadLinksData/loadLinksData';
 import { loadLinkDataSuccess, loadLinkDataFailed } from '../actions/loadLinkData/loadLinkData';
-import { LinkData, LinkId, LinksData } from '../../types/link';
+import { editLinkDataSuccess, editLinkDataFailed } from '../actions/editLinkData/editLinkData';
+import {
+  LinkData, LinkEdit, LinkId, LinksData,
+} from '../../types/link';
 
 const fetchLinks = async (token: string):Promise<LinksData> => {
   const data = await axios({
@@ -25,6 +28,22 @@ const fetchLink = async (linkParams: LinkId):Promise<LinkData> => {
     },
     params: {
       id: linkParams.id,
+    },
+  });
+  return data.data.link;
+};
+
+const fetchLinkEdit = async (linkParams: LinkEdit):Promise<LinkData> => {
+  const data = await axios({
+    url: `${API_URL}/api/link/edit`,
+    method: 'POST',
+    data: {
+      description: linkParams.description,
+      tags: linkParams.tags,
+      code: linkParams.code,
+    },
+    headers: {
+      Authorization: `Bearer ${linkParams.token}`,
     },
   });
   return data.data.link;
@@ -61,6 +80,21 @@ export function* getUserLink(action: { type: string, payload: LinkId }) {
     if (e instanceof Error) {
       yield put(
         loadLinkDataFailed(e.message),
+      );
+    }
+  }
+}
+
+export function* getEditLink(action: { type: string, payload: LinkEdit }) {
+  try {
+    const data:LinkData = yield call(fetchLinkEdit, action.payload);
+    yield put(
+      editLinkDataSuccess(data),
+    );
+  } catch (e) {
+    if (e instanceof Error) {
+      yield put(
+        editLinkDataFailed(e.message),
       );
     }
   }

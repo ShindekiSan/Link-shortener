@@ -1,6 +1,7 @@
 import React, {
   ChangeEventHandler, FC, KeyboardEventHandler, MouseEventHandler,
 } from 'react';
+import useTypedSelector from '../../hooks/typedSelector.hook';
 
 interface LinkInputProps {
   isAuthenticated: boolean,
@@ -8,12 +9,12 @@ interface LinkInputProps {
   changeHandler: ChangeEventHandler,
   pressHandler: KeyboardEventHandler,
   clickHandler: MouseEventHandler,
-  notify: string,
 }
 
 const LinkInput:FC<LinkInputProps> = function ({
-  isAuthenticated, linkValue, changeHandler, pressHandler, clickHandler, notify,
+  isAuthenticated, linkValue, changeHandler, pressHandler, clickHandler,
 }) {
+  const { status } = useTypedSelector((state) => state.link);
   return (
     <div>
       <div className="url-input-form">
@@ -34,7 +35,7 @@ const LinkInput:FC<LinkInputProps> = function ({
           shorten
         </button>
       </div>
-      <p className="url-input__notification">{isAuthenticated ? `${notify}` : 'Can only be used by authorized user' }</p>
+      <p className="url-input__notification">{isAuthenticated ? `${status}` : 'Can only be used by authorized user' }</p>
     </div>
 
   );

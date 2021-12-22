@@ -1,7 +1,11 @@
 import React, {
-  Suspense, lazy, useMemo, FC,
+  Suspense, lazy, useMemo, FC, useEffect,
 } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
+import { useDispatch } from 'react-redux';
+import getCurrentUser from '../store/actions/authorizeUser/getCurrentUser';
+import useTypedSelector from '../hooks/typedSelector.hook';
 import useAuth from '../hooks/auth.hook';
 import AuthContext, { ContextValue } from '../context/AuthContext';
 import '../styles/app.css';
@@ -22,12 +26,23 @@ const App:FC = function () {
     token, login, logout, userName, userId,
   } = useAuth();
   const isAuthenticated:boolean = !!token;
+  const [cookies, setCookie] = useCookies(['user']);
+  const { data } = useTypedSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   const authValue: ContextValue = useMemo(() => (
     {
       userId, token, login, logout, userName, isAuthenticated,
     }
   ), [userId, token, login, logout, userName, isAuthenticated]);
+
+  useEffect(() => {
+    if (data.userId && cookies.user === undefined) {
+      setCookie('user', data.userId, { path: '/' });
+    } else if (!data.userId && cookies.user) {
+      dispatch(getCurrentUser(cookies.user));
+    }
+  }, [data.userId]);
 
   return (
     <AuthContext.Provider value={authValue}>

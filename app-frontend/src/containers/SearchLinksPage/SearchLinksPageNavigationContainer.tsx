@@ -1,22 +1,21 @@
-import React, { useContext, useState, FC } from 'react';
+import React, { useState, FC } from 'react';
+import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
-
-import AuthContext from '../../context/AuthContext';
-import useAuth from '../../hooks/auth.hook';
 import SearchLinksPageNavigation from '../../components/SearchLinksPage/SearchLinksPageNavigation';
+import useTypedSelector from '../../hooks/typedSelector.hook';
 
 interface FuncProps {
   searchHandler: (tag: string) => Promise<void>
 }
 
 const SearchLinksPageNavigationContainer:FC<FuncProps> = function ({ searchHandler }) {
-  const auth = useContext(AuthContext);
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const [cookies, setCookie, removeCookie] = useCookies(['user']); // eslint-disable-line
+  const { data } = useTypedSelector((state) => state.user);
   const [tag, setTag] = useState<string>('');
 
   const handleLogout = (): void => {
-    logout();
+    removeCookie('user');
     navigate('/');
     window.location.reload();
   };
@@ -36,8 +35,8 @@ const SearchLinksPageNavigationContainer:FC<FuncProps> = function ({ searchHandl
     <SearchLinksPageNavigation
       searchHandler={searchLinks}
       changeTagHandler={changeTagHandler}
-      isAuthenticated={auth.isAuthenticated}
-      userName={auth.userName}
+      isAuthenticated={!!data.userName}
+      userName={data.userName}
       logoutHandler={handleLogout}
       tag={tag}
     />

@@ -1,5 +1,5 @@
 import initialState from '../initialState';
-import { SearchedLinkData } from '../../types/link';
+import { SearchedLink } from '../../types/link';
 
 enum ActionTypes {
   LOAD_SEARCHED_LINK_SUCCESS = 'LOAD_SEARCHED_LINK_SUCCESS',
@@ -8,7 +8,7 @@ enum ActionTypes {
 }
 
 interface LinkState {
-  data: {} | SearchedLinkData,
+  data: SearchedLink,
   loading: boolean,
   error: null | string,
 }
@@ -19,7 +19,7 @@ interface FetchSearchedLinkAction {
 
 interface FetchSearchedLinkActionSuccess {
   type: ActionTypes.LOAD_SEARCHED_LINK_SUCCESS,
-  payload: SearchedLinkData,
+  payload: SearchedLink,
 }
 
 interface FetchSearchedLinkActionFailed {
@@ -37,13 +37,13 @@ const searchedLink = (state = initialState.searchedLink, action: LinkAction): Li
     case ActionTypes.LOAD_SEARCHED_LINK_DATA:
       return {
         loading: true,
-        data: {},
+        data: {} as SearchedLink,
         error: null,
       };
     case ActionTypes.LOAD_SEARCHED_LINK_FAILED:
       return {
         loading: false,
-        data: {},
+        data: {} as SearchedLink,
         error: action.payload,
       };
     case ActionTypes.LOAD_SEARCHED_LINK_SUCCESS:

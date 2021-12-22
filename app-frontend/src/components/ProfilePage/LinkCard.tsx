@@ -19,7 +19,7 @@ interface LinkProps {
   description: string,
   upload: string,
   tags: string,
-  error: string,
+  error: string | null,
   editMessage: string,
   loadingError: string,
   changeTagsHandler: ChangeEventHandler,
