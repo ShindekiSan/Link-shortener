@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import SearchLinksPageHeader from './SearchLinksPageHeader';
 import SearchedLinksBlock from './SearchedLinksBlock';
 import Loader from '../UI/Loader';
@@ -6,7 +6,7 @@ import { SearchedLinks } from '../../types/link';
 
 import useHttp, { RequestPromise } from '../../hooks/http.hook';
 
-const SearchLinksPage = function () {
+const SearchLinksPage:FC = function () {
   const [searchedLinks, setSearchedLinks] = useState<SearchedLinks[] | []>([]);
   const { request, loading } = useHttp();
   const [error, setError] = useState<string>('');
@@ -15,8 +15,10 @@ const SearchLinksPage = function () {
     try {
       const searched: RequestPromise = await request(`http://localhost:5000/api/link/search/${tag}`, 'GET', null);
       setSearchedLinks(searched.links);
-    } catch (e: any) {
-      setError(e.message);
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        setError(e.message);
+      }
     }
   };
 

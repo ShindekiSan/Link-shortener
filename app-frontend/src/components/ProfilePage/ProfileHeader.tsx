@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
+import React, { FC, useContext } from 'react';
 import AuthContext, { ContextValue } from '../../context/AuthContext';
 import ProfileNavigation from '../../containers/ProfilePage/ProfileNavigationContainer';
 
-const ProfileHeader = function () {
+const ProfileHeader:FC = function () {
   const auth: ContextValue = useContext(AuthContext);
 
   return (

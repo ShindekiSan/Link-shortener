@@ -1,29 +1,29 @@
 import React, {
-  useCallback, useContext, useEffect, useState,
+  FC,
+  useCallback, useEffect, useState,
 } from 'react';
-import AuthContext, { ContextValue } from '../../context/AuthContext';
-import useHttp, { RequestPromise } from '../../hooks/http.hook';
+import { useDispatch } from 'react-redux';
+import useTypedSelector from '../../hooks/typedSelector.hook';
 import LinksBlock from './LinksBlock';
 import ProfileHeader from './ProfileHeader';
 import Loader from '../UI/Loader';
-import { Link } from '../../types/link';
+import loadLinksData from '../../store/actions/loadLinksData/loadLinksData';
 
-const Profile = function () {
-  const auth: ContextValue = useContext(AuthContext);
-  const { request, loading } = useHttp();
-  const [links, setLinks] = useState<Link[] | []>([]);
+const Profile:FC = function () {
   const [error, setError] = useState<string>('');
+  const { data } = useTypedSelector((state) => state.user);
+  const linksState = useTypedSelector((state) => state.links);
+  const dispatch = useDispatch();
 
   const getLinks = useCallback(async () => {
     try {
-      const fetched: RequestPromise = await request('http://localhost:5000/api/link', 'GET', null, {
-        Authorization: `Bearer ${auth.token}`,
-      });
-      setLinks(fetched.links);
-    } catch (e: any) {
-      setError(e.message);
+      dispatch(loadLinksData(data.token));
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        setError(e.message);
+      }
     }
-  }, [request, auth.token]);
+  }, [data.token]);
 
   useEffect(() => {
     getLinks();
@@ -32,7 +32,8 @@ const Profile = function () {
   return (
     <div>
       <ProfileHeader />
-      { !loading && links ? <LinksBlock linksArray={links} error={error} /> : <Loader /> }
+      { !linksState.loading && linksState.data
+        ? <LinksBlock linksArray={linksState.data} error={error} /> : <Loader /> }
     </div>
   );
 };

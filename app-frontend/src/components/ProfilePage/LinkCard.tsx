@@ -82,7 +82,7 @@ const LinkCard:FC<LinkProps> = function ({
               ) : (
                 <p>
                   tags:
-                  {linkInfo.tags.map((tag) => `${tag.tagName} `)}
+                  {linkInfo.tags ? linkInfo.tags.map((tag) => `${tag.tagName} `) : 'Loading...'}
                 </p>
               )}
             {editState

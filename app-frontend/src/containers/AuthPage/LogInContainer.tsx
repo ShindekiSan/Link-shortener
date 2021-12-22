@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import useHttp from '../../hooks/http.hook';
@@ -10,7 +10,7 @@ type LoginForm = {
   password: string,
 };
 
-const LogInContainer = function LogInContainer() {
+const LogInContainer:FC = function LogInContainer() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [error, setError] = useState<string>('');
@@ -23,10 +23,12 @@ const LogInContainer = function LogInContainer() {
 
   const authorizationHandler = async (): Promise<void> => {
     try {
-      dispatch(loginUser({ ...form }));
+      dispatch(loginUser(form));
       navigate('/');
-    } catch (e: any) {
-      setError(e.message);
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        setError(e.message);
+      }
     }
   };
 

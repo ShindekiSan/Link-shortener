@@ -1,11 +1,11 @@
-import React, { useContext } from 'react';
+import React, { FC, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import AuthContext from '../../context/AuthContext';
 import useAuth from '../../hooks/auth.hook';
 import ShortenerNavigation from '../../components/ShortenerPage/ShortenerNavigation';
 
-const ShortenerNavigationContainer = function () {
+const ShortenerNavigationContainer:FC = function () {
   const auth = useContext(AuthContext);
   const { logout } = useAuth();
   const navigate = useNavigate();

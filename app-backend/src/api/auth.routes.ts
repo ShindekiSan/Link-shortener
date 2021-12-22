@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import * as expressValidator from 'express-validator';
 import { HydratedDocument } from 'mongoose';
 import { TypedRequest, TypedResponse } from '../types/api';
-import { UserModel } from '../types/models';
+import { UserInterface, UserModel } from '../types/models';
 import User from '../models/User';
 
 const router = Router();
@@ -48,7 +48,7 @@ router.post(
         });
       }
 
-      User.findOne({ email: req.body.email }).then((user) => {
+      User.findOne({ email: req.body.email }).then((user: UserModel) => {
         if (user) {
           return resp.status(400).json({ message: 'A user has already registered with this email' });
         }
@@ -102,7 +102,7 @@ router.post(
         });
       }
 
-      User.findOne({ email: req.body.email }).then((user) => {
+      User.findOne({ email: req.body.email }).then((user: UserInterface) => {
         if (!user) {
           return resp.status(400).json({ message: 'There is no user with this email' });
         }

@@ -1,7 +1,9 @@
-import React, { Suspense, lazy, useMemo } from 'react';
+import React, {
+  Suspense, lazy, useMemo, FC,
+} from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import useAuth from '../hooks/auth.hook';
-import AuthContext from '../context/AuthContext';
+import AuthContext, { ContextValue } from '../context/AuthContext';
 import '../styles/app.css';
 import '../styles/normalize.css';
 import Loader from './UI/Loader';
@@ -15,13 +17,13 @@ const ShortenerPage = lazy(() => import('./ShortenerPage/ShortenerPage'));
 const SearchLinksPage = lazy(() => import('./SearchLinksPage/SearchLinksPage'));
 const SearchedLinkDetails = lazy(() => import('./SearchLinksPage/SearchedLinkDetails'));
 
-const App = function () {
+const App:FC = function () {
   const {
     token, login, logout, userName, userId,
   } = useAuth();
   const isAuthenticated:boolean = !!token;
 
-  const authValue = useMemo(() => (
+  const authValue: ContextValue = useMemo(() => (
     {
       userId, token, login, logout, userName, isAuthenticated,
     }

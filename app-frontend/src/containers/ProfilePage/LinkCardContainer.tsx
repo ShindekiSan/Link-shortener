@@ -13,7 +13,7 @@ interface LinkProps {
 }
 
 type TagState = {
-  tagName: string
+  tagName: string,
 };
 
 const LinkCardContainer:FC<LinkProps> = function ({ link, error }) {
@@ -67,8 +67,10 @@ const LinkCardContainer:FC<LinkProps> = function ({ link, error }) {
       });
 
       setLinkInfo(fetched.link);
-    } catch (e: any) {
-      setErrorMessage(e.message);
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        setErrorMessage(e.message);
+      }
     }
   }, [auth.token, linkId, request]);
 
@@ -83,8 +85,10 @@ const LinkCardContainer:FC<LinkProps> = function ({ link, error }) {
 
       setEditMessage(data.message);
       setEditState(false);
-    } catch (e: any) {
-      setErrorMessage(e.message);
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        setErrorMessage(e.message);
+      }
     }
     setUpload('confirm');
   };

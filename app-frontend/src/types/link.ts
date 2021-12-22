@@ -5,6 +5,7 @@ export interface Link {
   clicks: number,
   tags: {
     tagName: string,
+    _id: string,
   }[],
   description: string,
   _id: string,
@@ -32,7 +33,13 @@ export interface LinkData {
 
 export interface LinkIdAction {
   type: string,
-  id: string
+  id: string,
+  token: string,
+}
+
+export interface LinkId {
+  id: string | undefined,
+  token: string,
 }
 
 export interface SearchedLink {

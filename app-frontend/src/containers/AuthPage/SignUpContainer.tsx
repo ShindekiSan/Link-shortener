@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
 import useHttp from '../../hooks/http.hook';
@@ -11,7 +11,7 @@ type SignupForm = {
   username: string,
 };
 
-const SignUpContainer = function () {
+const SignUpContainer:FC = function () {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [error, setError] = useState('');
@@ -24,10 +24,12 @@ const SignUpContainer = function () {
 
   const registerHandler = async (): Promise<void> => {
     try {
-      dispatch(signupUser({ ...form }));
+      dispatch(signupUser(form));
       navigate('/');
-    } catch (e: any) {
-      setError(e.message);
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        setError(e.message);
+      }
     }
   };
 

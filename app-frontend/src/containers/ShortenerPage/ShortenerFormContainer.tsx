@@ -1,4 +1,6 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, {
+  useState, useContext, useEffect, FC,
+} from 'react';
 import ShortenerForm from '../../components/ShortenerPage/ShortenerForm';
 import AuthContext from '../../context/AuthContext';
 import useHttp, { RequestPromise } from '../../hooks/http.hook';
@@ -7,7 +9,7 @@ interface TagsList {
   tagName: string
 }
 
-const ShortenerFormContainer = function () {
+const ShortenerFormContainer:FC = function () {
   const [notify, setNotify] = useState<string>('');
   const [input, setInput] = useState<string>('');
   const [link, setLink] = useState<string>('');
@@ -43,8 +45,10 @@ const ShortenerFormContainer = function () {
           Authorization: `Bearer ${auth.token}`,
         });
         setNotify(data.message);
-      } catch (e: any) {
-        setNotify(`Error:', ${e.message}`);
+      } catch (e: unknown) {
+        if (e instanceof Error) {
+          setNotify(`Error:', ${e.message}`);
+        }
       }
     }
     setInput('');

@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { FC, useContext, useState } from 'react';
 import LinkInput from '../../components/MainPage/LinkInput';
 import AuthContext from '../../context/AuthContext';
 import useHttp, { RequestPromise } from '../../hooks/http.hook';
 
-const LinkInputContainer = function () {
+const LinkInputContainer:FC = function () {
   const { request } = useHttp();
   const [link, setLink] = useState<string>('');
   const [input, setInput] = useState<string>('');
@@ -25,8 +25,10 @@ const LinkInputContainer = function () {
         });
 
         setNotify(data.message);
-      } catch (e: any) {
-        setNotify(`Error: ${e.message}`);
+      } catch (e: unknown) {
+        if (e instanceof Error) {
+          setNotify(`Error: ${e.message}`);
+        }
       }
     }
     setInput('');

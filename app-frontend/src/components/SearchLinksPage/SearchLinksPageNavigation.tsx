@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Logo from '../UI/Logo';
 
 interface FuncProps {
-	searchHandler: KeyboardEventHandler, // eslint-disable-line
+  searchHandler: KeyboardEventHandler,
   changeTagHandler: ChangeEventHandler,
   isAuthenticated: boolean,
   tag: string,

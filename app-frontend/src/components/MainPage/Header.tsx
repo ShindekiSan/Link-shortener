@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
+import React, { FC, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import MyButton from '../UI/MyButton';
 import Navigation from '../../containers/MainPage/NavigationContainer';
 import AuthContext, { ContextValue } from '../../context/AuthContext';
 
-const Header = function () {
+const Header:FC = function () {
   const auth: ContextValue = useContext(AuthContext);
   return (
     <header className="app-header">
