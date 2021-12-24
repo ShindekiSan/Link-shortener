@@ -1,18 +1,44 @@
-import { LOAD_SEARCHED_LINKS_SUCCESS, LOAD_SEARCHED_LINKS_FAILED, LOAD_SEARCHED_LINKS_DATA } from '../../contants';
-import { SearchedLinksData } from '../../../types/link';
+import { SearchedLink } from '../../../types/link';
 
-const loadSearchedLinksData = (tag: string) => ({
-  type: LOAD_SEARCHED_LINKS_DATA,
+export enum LoadSearchedLinksActionTypes {
+  LOAD_SEARCHED_LINKS_SUCCESS = 'LOAD_SEARCHED_LINKS_SUCCESS',
+  LOAD_SEARCHED_LINKS_FAILED = 'LOAD_SEARCHED_LINKS_FAILED',
+  LOAD_SEARCHED_LINKS_DATA = 'LOAD_SEARCHED_LINKS_DATA',
+}
+
+interface FetchSearchedLinksAction {
+  type: LoadSearchedLinksActionTypes.LOAD_SEARCHED_LINKS_DATA,
+  payload: string,
+}
+
+interface FetchSearchedLinksSuccessAction {
+  type: LoadSearchedLinksActionTypes.LOAD_SEARCHED_LINKS_SUCCESS,
+  payload: SearchedLink[],
+}
+
+interface FetchSearchedLinksFailedAction {
+  type: LoadSearchedLinksActionTypes.LOAD_SEARCHED_LINKS_FAILED,
+  payload: string,
+}
+
+export type LinksActionTypes =
+  | FetchSearchedLinksAction
+  | FetchSearchedLinksSuccessAction
+  | FetchSearchedLinksFailedAction;
+
+const loadSearchedLinksData = (tag: string): FetchSearchedLinksAction => ({
+  type: LoadSearchedLinksActionTypes.LOAD_SEARCHED_LINKS_DATA,
   payload: tag,
 });
 
-export const loadSearchedLinksDataFailed = (error: string) => ({
-  type: LOAD_SEARCHED_LINKS_FAILED,
+export const loadSearchedLinksDataFailed = (error: string): FetchSearchedLinksFailedAction => ({
+  type: LoadSearchedLinksActionTypes.LOAD_SEARCHED_LINKS_FAILED,
   payload: error,
 });
 
-export const loadSearchedLinksDataSuccess = (data: SearchedLinksData) => ({
-  type: LOAD_SEARCHED_LINKS_SUCCESS,
+export const loadSearchedLinksDataSuccess = (data: SearchedLink[])
+: FetchSearchedLinksSuccessAction => ({
+  type: LoadSearchedLinksActionTypes.LOAD_SEARCHED_LINKS_SUCCESS,
   payload: data,
 });
 

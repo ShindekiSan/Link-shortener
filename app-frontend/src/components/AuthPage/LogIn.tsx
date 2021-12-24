@@ -5,7 +5,7 @@ import Logo from '../UI/Logo';
 
 interface LogInProps {
   changeHandler: ChangeEventHandler,
-  authorizationHandler: () => Promise<void>,
+  authorizationHandler: () => void,
   loading: boolean,
   error: string,
 }

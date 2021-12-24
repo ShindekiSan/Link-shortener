@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import * as expressValidator from 'express-validator';
 import { HydratedDocument } from 'mongoose';
 import { TypedRequest, TypedResponse } from '../types/api';
-import { UserInterface, UserModel } from '../types/models';
+import { UserInterface, UserModel, UserStoreModel } from '../types/models';
 import User from '../models/User';
 
 const router = Router();
@@ -137,8 +137,8 @@ router.post(
 
 router.get('/get-user/:id', async (req: Request, resp: TypedResponse<GetCurrentUserResponse>) => {
   try {
-    const userId = req.params.id;
-    const currentUser = await User.findOne({ _id: userId });
+    const userId:string = req.params.id;
+    const currentUser:UserInterface = await User.findOne({ _id: userId });
 
     const token:string = jwt.sign(
       { userId: currentUser.id },
@@ -146,7 +146,7 @@ router.get('/get-user/:id', async (req: Request, resp: TypedResponse<GetCurrentU
       { expiresIn: 36000 },
     );
 
-    const user = {
+    const user:UserStoreModel = {
       token,
       userId: currentUser.id,
       userName: currentUser.userName,

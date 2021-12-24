@@ -1,52 +1,36 @@
-import initialState from '../initialState';
 import { Link } from '../../types/link';
-
-enum ActionTypes {
-  LOAD_LINKS_SUCCESS = 'LOAD_LINKS_SUCCESS',
-  LOAD_LINKS_FAILED = 'LOAD_LINKS_FAILED',
-  LOAD_LINKS_DATA = 'LOAD_LINKS_DATA',
-}
+import { LoadLinksActionTypes, LinksActionTypes } from '../actions/loadLinksData/loadLinksData';
 
 interface LinksState {
   data: [] | Link[],
-  error: null | string,
+  error: string,
   loading: boolean,
 }
 
-interface FetchLinksAction {
-  type: ActionTypes.LOAD_LINKS_DATA,
-}
+const initialState: LinksState = {
+  data: [],
+  error: '',
+  loading: false,
+};
 
-interface FetchLinksSuccessAction {
-  type: ActionTypes.LOAD_LINKS_SUCCESS,
-  payload: Link[],
-}
-
-interface FetchLinksFailedAction {
-  type: ActionTypes.LOAD_LINKS_FAILED,
-  payload: string,
-}
-
-type LinksAction = FetchLinksAction | FetchLinksSuccessAction | FetchLinksFailedAction;
-
-const links = (state = initialState.links, action: LinksAction): LinksState => { // eslint-disable-line
+const links = (state = initialState, action: LinksActionTypes): LinksState => {
   switch (action.type) {
-    case ActionTypes.LOAD_LINKS_DATA:
+    case LoadLinksActionTypes.LOAD_LINKS_DATA:
       return {
         loading: true,
-        error: null,
+        error: '',
         data: [],
       };
-    case ActionTypes.LOAD_LINKS_FAILED:
+    case LoadLinksActionTypes.LOAD_LINKS_FAILED:
       return {
         loading: false,
         data: [],
         error: action.payload,
       };
-    case ActionTypes.LOAD_LINKS_SUCCESS:
+    case LoadLinksActionTypes.LOAD_LINKS_SUCCESS:
       return {
         data: action.payload,
-        error: null,
+        error: '',
         loading: false,
       };
     default:

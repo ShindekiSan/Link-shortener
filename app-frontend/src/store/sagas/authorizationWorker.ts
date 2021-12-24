@@ -1,13 +1,21 @@
 import { put, call } from 'redux-saga/effects';
 import axios from 'axios';
-import { API_URL } from '../contants';
+import { API_URL } from '../constants';
 import { loginUserSuccess, loginUserFailed } from '../actions/authorizeUser/login';
 import { signupUserSuccess, signupUserFailed } from '../actions/authorizeUser/signup';
 import { getCurrentUserSuccess, getCurrentUserFailed } from '../actions/authorizeUser/getCurrentUser';
-import { LoginData, UserInterface, SignupData } from '../../types/user';
+import { LoginData, SignupData, UserData } from '../../types/user';
 
-const fecthAuthorization = async (user: LoginData):Promise<UserInterface> => {
-  const data = await axios({
+const setUserCookie = (name: string, value?: string): void => {
+  document.cookie = `${name}=${value}; path=/`;
+};
+
+const deleteUserCookie = (name: string): void => {
+  document.cookie = `${name}=; max-age=${-1}`;
+};
+
+const fecthAuthorization = async (user: LoginData):Promise<UserData> => {
+  const fetched = await axios({
     method: 'POST',
     url: `${API_URL}/api/auth/login`,
     data: {
@@ -15,11 +23,11 @@ const fecthAuthorization = async (user: LoginData):Promise<UserInterface> => {
       password: user.password,
     },
   });
-  return { ...data.data };
+  return { data: fetched.data };
 };
 
-const fetchRegistration = async (user: SignupData):Promise<UserInterface> => {
-  const data = await axios({
+const fetchRegistration = async (user: SignupData):Promise<UserData> => {
+  const fetched = await axios({
     method: 'POST',
     url: `${API_URL}/api/auth/register`,
     data: {
@@ -28,26 +36,27 @@ const fetchRegistration = async (user: SignupData):Promise<UserInterface> => {
       username: user.username,
     },
   });
-  return { ...data.data };
+  return { data: fetched.data };
 };
 
-const fetchCurrentUser = async (id: string):Promise<UserInterface> => {
-  const data = await axios({
+const fetchCurrentUser = async (id: string):Promise<UserData> => {
+  const fetched = await axios({
     method: 'GET',
     url: `${API_URL}/api/auth/get-user/${id}`,
     params: {
       id,
     },
   });
-  return data.data.user;
+  return { data: fetched.data.user };
 };
 
 export function* authorizeUser(action: { type: string, payload: LoginData }) {
   try {
-    const data:UserInterface = yield call(
+    const data:UserData = yield call(
       fecthAuthorization,
       action.payload,
     );
+    yield call(setUserCookie, 'user', data.data?.userId);
     yield put(
       loginUserSuccess(data),
     );
@@ -62,7 +71,8 @@ export function* authorizeUser(action: { type: string, payload: LoginData }) {
 
 export function* registerUser(action: { type: string, payload: SignupData }) {
   try {
-    const data:UserInterface = yield call(fetchRegistration, action.payload);
+    const data:UserData = yield call(fetchRegistration, action.payload);
+    yield call(setUserCookie, 'user', data.data?.userId);
     yield put(
       signupUserSuccess(data),
     );
@@ -71,13 +81,17 @@ export function* registerUser(action: { type: string, payload: SignupData }) {
       yield put(
         signupUserFailed(e.message),
       );
+    } else {
+      yield put(
+        signupUserFailed(String(e)),
+      );
     }
   }
 }
 
 export function* getUser(action: { type: string, payload: string }) {
   try {
-    const data:UserInterface = yield call(fetchCurrentUser, action.payload);
+    const data:UserData = yield call(fetchCurrentUser, action.payload);
     yield put(
       getCurrentUserSuccess(data),
     );
@@ -86,6 +100,14 @@ export function* getUser(action: { type: string, payload: string }) {
       yield put(
         getCurrentUserFailed(e.message),
       );
+    } else {
+      yield put(
+        getCurrentUserFailed(String(e)),
+      );
     }
   }
+}
+
+export function* logoutUser() {
+  yield call(deleteUserCookie, 'user');
 }

@@ -1,14 +1,15 @@
 import { put, call } from 'redux-saga/effects';
 import axios from 'axios';
-import { API_URL } from '../contants';
+import { API_URL } from '../constants';
 import { loadLinksDataSuccess, loadLinksDataFailed } from '../actions/loadLinksData/loadLinksData';
 import { loadLinkDataSuccess, loadLinkDataFailed } from '../actions/loadLinkData/loadLinkData';
 import { editLinkDataSuccess, editLinkDataFailed } from '../actions/editLinkData/editLinkData';
+import { addLinkSuccess, addLinkFailed } from '../actions/addLink/addLink';
 import {
-  LinkData, LinkEdit, LinkId, LinksData,
+  LinkEdit, LinkId, AddLink, LinkData, Link,
 } from '../../types/link';
 
-const fetchLinks = async (token: string):Promise<LinksData> => {
+const fetchLinks = async (token: string):Promise<Link[]> => {
   const data = await axios({
     url: `${API_URL}/api/link`,
     method: 'GET',
@@ -20,7 +21,7 @@ const fetchLinks = async (token: string):Promise<LinksData> => {
 };
 
 const fetchLink = async (linkParams: LinkId):Promise<LinkData> => {
-  const data = await axios({
+  const fetched = await axios({
     url: `${API_URL}/api/link/${linkParams.id}`,
     method: 'GET',
     headers: {
@@ -30,11 +31,11 @@ const fetchLink = async (linkParams: LinkId):Promise<LinkData> => {
       id: linkParams.id,
     },
   });
-  return data.data.link;
+  return { data: fetched.data.link };
 };
 
 const fetchLinkEdit = async (linkParams: LinkEdit):Promise<LinkData> => {
-  const data = await axios({
+  const fetched = await axios({
     url: `${API_URL}/api/link/edit`,
     method: 'POST',
     data: {
@@ -46,12 +47,28 @@ const fetchLinkEdit = async (linkParams: LinkEdit):Promise<LinkData> => {
       Authorization: `Bearer ${linkParams.token}`,
     },
   });
-  return data.data.link;
+  return { data: fetched.data.link };
 };
 
-export function* getUserLinks(action: { type: string, payload: string }) { // eslint-disable-line
+const fetchNewLink = async (linkParams: AddLink):Promise<LinkData> => {
+  const fetched = await axios({
+    url: `${API_URL}/api/link/generate`,
+    method: 'POST',
+    data: {
+      from: linkParams.from,
+      tags: linkParams.tags,
+      description: linkParams.description,
+    },
+    headers: {
+      Authorization: `Bearer ${linkParams.token}`,
+    },
+  });
+  return { data: fetched.data };
+};
+
+export function* getUserLinks(action: { type: string, payload: string }) {
   try {
-    const data:LinksData = yield call(
+    const data:Link[] = yield call(
       fetchLinks,
       action.payload,
     );
@@ -62,6 +79,10 @@ export function* getUserLinks(action: { type: string, payload: string }) { // es
     if (e instanceof Error) {
       yield put(
         loadLinksDataFailed(e.message),
+      );
+    } else {
+      yield put(
+        loadLinksDataFailed(String(e)),
       );
     }
   }
@@ -81,6 +102,10 @@ export function* getUserLink(action: { type: string, payload: LinkId }) {
       yield put(
         loadLinkDataFailed(e.message),
       );
+    } else {
+      yield put(
+        loadLinkDataFailed(String(e)),
+      );
     }
   }
 }
@@ -95,6 +120,32 @@ export function* getEditLink(action: { type: string, payload: LinkEdit }) {
     if (e instanceof Error) {
       yield put(
         editLinkDataFailed(e.message),
+      );
+    } else {
+      yield put(
+        editLinkDataFailed(String(e)),
+      );
+    }
+  }
+}
+
+export function* addLink(action: { type: string, payload: AddLink }) {
+  try {
+    const data:LinkData = yield call(
+      fetchNewLink,
+      action.payload,
+    );
+    yield put(
+      addLinkSuccess(data),
+    );
+  } catch (e: unknown) {
+    if (e instanceof Error) {
+      yield put(
+        addLinkFailed(e.message),
+      );
+    } else {
+      yield put(
+        addLinkFailed(String(e)),
       );
     }
   }

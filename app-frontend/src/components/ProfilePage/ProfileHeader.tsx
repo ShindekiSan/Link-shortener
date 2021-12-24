@@ -10,7 +10,7 @@ const ProfileHeader:FC = function () {
       <ProfileNavigation />
       <h2 className="profile-title">
         Welcome,
-        {data.userName}
+        {data.data?.userName}
         !
       </h2>
       <p className="profile-subtitle">Your list of shortened links</p>

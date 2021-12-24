@@ -12,7 +12,7 @@ const Header:FC = function () {
       <div className="app-title">
         <p className="app-description">URL Shortener</p>
         <h1 className="main-title">Make your link as small as calibri.</h1>
-        {data.userName
+        {data.data?.userName
           ? (
             <ul className="app-title__button-links">
               <li>

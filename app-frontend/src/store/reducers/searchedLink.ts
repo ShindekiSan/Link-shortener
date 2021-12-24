@@ -1,56 +1,37 @@
-import initialState from '../initialState';
-import { SearchedLink } from '../../types/link';
-
-enum ActionTypes {
-  LOAD_SEARCHED_LINK_SUCCESS = 'LOAD_SEARCHED_LINK_SUCCESS',
-  LOAD_SEARCHED_LINK_FAILED = 'LOAD_SEARCHED_LINK_FAILED',
-  LOAD_SEARCHED_LINK_DATA = 'LOAD_SEARCHED_LINK_DATA',
-}
+import { SearchedLinkData } from '../../types/link';
+import { LoadSearchedLinkActionTypes, LinkActionTypes } from '../actions/loadSearchedLinkData/loadSearchedLinkData';
 
 interface LinkState {
-  data: SearchedLink,
+  data: SearchedLinkData,
   loading: boolean,
-  error: null | string,
+  error: string,
 }
 
-interface FetchSearchedLinkAction {
-  type: ActionTypes.LOAD_SEARCHED_LINK_DATA,
-}
+const initialState: LinkState = {
+  data: {},
+  loading: false,
+  error: '',
+};
 
-interface FetchSearchedLinkActionSuccess {
-  type: ActionTypes.LOAD_SEARCHED_LINK_SUCCESS,
-  payload: SearchedLink,
-}
-
-interface FetchSearchedLinkActionFailed {
-  type: ActionTypes.LOAD_SEARCHED_LINK_FAILED,
-  payload: string,
-}
-
-type LinkAction =
-  | FetchSearchedLinkAction
-  | FetchSearchedLinkActionSuccess
-  | FetchSearchedLinkActionFailed;
-
-const searchedLink = (state = initialState.searchedLink, action: LinkAction): LinkState => { // eslint-disable-line
+const searchedLink = (state = initialState, action: LinkActionTypes): LinkState => {
   switch (action.type) {
-    case ActionTypes.LOAD_SEARCHED_LINK_DATA:
+    case LoadSearchedLinkActionTypes.LOAD_SEARCHED_LINK_DATA:
       return {
         loading: true,
-        data: {} as SearchedLink,
-        error: null,
+        data: {},
+        error: '',
       };
-    case ActionTypes.LOAD_SEARCHED_LINK_FAILED:
+    case LoadSearchedLinkActionTypes.LOAD_SEARCHED_LINK_FAILED:
       return {
         loading: false,
-        data: {} as SearchedLink,
+        data: {},
         error: action.payload,
       };
-    case ActionTypes.LOAD_SEARCHED_LINK_SUCCESS:
+    case LoadSearchedLinkActionTypes.LOAD_SEARCHED_LINK_SUCCESS:
       return {
         loading: false,
         data: action.payload,
-        error: null,
+        error: '',
       };
     default:
       return state;

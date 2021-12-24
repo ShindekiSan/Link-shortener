@@ -14,7 +14,7 @@ interface LinkInputProps {
 const LinkInput:FC<LinkInputProps> = function ({
   isAuthenticated, linkValue, changeHandler, pressHandler, clickHandler,
 }) {
-  const { status } = useTypedSelector((state) => state.link);
+  const { error, data } = useTypedSelector((state) => state.link);
   return (
     <div>
       <div className="url-input-form">
@@ -35,7 +35,20 @@ const LinkInput:FC<LinkInputProps> = function ({
           shorten
         </button>
       </div>
-      <p className="url-input__notification">{isAuthenticated ? `${status}` : 'Can only be used by authorized user' }</p>
+      <p className="url-input__notification">
+        {isAuthenticated
+          ? (
+            <span>
+              {data.data?.message ? (
+                `${data.data?.message}`
+              ) : (
+                `${error}`
+              )}
+            </span>
+          ) : (
+            'Can only be used by authorized user'
+          )}
+      </p>
     </div>
 
   );

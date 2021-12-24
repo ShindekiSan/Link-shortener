@@ -11,3 +11,9 @@ export interface UserInterface {
   token: string,
   password: string,
 }
+
+export interface UserStoreModel {
+  userId: string,
+  userName: string,
+  token: string
+}

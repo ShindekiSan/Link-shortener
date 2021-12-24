@@ -10,6 +10,12 @@ export interface Link {
   description: string,
   _id: string,
   date: Date,
+  message?: string,
+}
+
+export interface NewLink {
+  link: Link,
+  message: string,
 }
 
 export interface LinkEdit {
@@ -18,7 +24,7 @@ export interface LinkEdit {
     tagName: string,
   }[],
   code: string,
-  token: string,
+  token?: string,
 }
 
 export interface LinkEditData {
@@ -30,7 +36,7 @@ export interface LinksData {
 }
 
 export interface LinkData {
-  data: Link
+  data?: Link
 }
 
 export interface LinkIdAction {
@@ -40,8 +46,8 @@ export interface LinkIdAction {
 }
 
 export interface LinkId {
-  id: string | undefined,
-  token: string,
+  id?: string,
+  token?: string,
 }
 
 export interface SearchedLink {
@@ -55,7 +61,7 @@ export interface SearchedLink {
 }
 
 export interface SearchedLinkData {
-  data: SearchedLink
+  data?: SearchedLink
 }
 
 export interface SearchedLinksData {
@@ -73,7 +79,7 @@ export interface AddLink {
     tagName: string,
   }[],
   description?: string,
-  token: string,
+  token?: string,
 }
 
 export interface AddLinkData {

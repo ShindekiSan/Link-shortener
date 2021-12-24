@@ -36,9 +36,9 @@ const ShortenerFormContainer:FC = function () {
     setTagsArray(tags.split(' ').map((tag) => ({ tagName: tag })));
   }, [tags]);
 
-  const clickHandler = async (): Promise<void> => {
+  const clickHandler = (): void => {
     dispatch(addLink({
-      from: link, tags: tagsArray, description, token: data.token,
+      from: link, tags: tagsArray, description, token: data.data?.token,
     }));
     setInput('');
     setTags('');

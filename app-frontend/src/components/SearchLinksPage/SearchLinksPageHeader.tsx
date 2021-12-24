@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import SearchLinksPageNavigation from '../../containers/SearchLinksPage/SearchLinksPageNavigationContainer';
 
 interface FuncProps {
-  searchHandler: (tag: string) => Promise<void>
+  searchHandler: (tag: string) => void
 }
 
 const SearchLinksPageHeader:FC<FuncProps> = function ({ searchHandler }) {

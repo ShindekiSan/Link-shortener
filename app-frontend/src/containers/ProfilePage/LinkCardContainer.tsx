@@ -19,10 +19,8 @@ type TagState = {
 const LinkCardContainer:FC<LinkProps> = function ({ link, error }) {
   const [linkInfo, setLinkInfo] = useState<Link>(link); // eslint-disable-line
   const [upload, setUpload] = useState<string>('confirm');
-  const [errorMessage, setErrorMessage] = useState<string | null>('');
   const [linkDate, setLinkDate] = useState<string>('');
   const [editState, setEditState] = useState<boolean>(false);
-  const [editMessage, setEditMessage] = useState<string>('');
   const [description, setDescription] = useState<string>(linkInfo.description);
   const [tags, setTags] = useState<string>('');
   const [tagsArray, setTagsArray] = useState<TagState[]>(linkInfo.tags);
@@ -60,19 +58,12 @@ const LinkCardContainer:FC<LinkProps> = function ({ link, error }) {
     }
   };
 
-  const confirmChanges = async (): Promise<void> => {
-    try {
-      setUpload('loading...');
-      dispatch(editLinkData({
-        code: link.code, tags: tagsArray, description, token: data.token,
-      }));
-      setEditMessage('link has been updated successfully!');
-      setEditState(false);
-    } catch (e: unknown) {
-      if (e instanceof Error) {
-        setErrorMessage(linkState.status);
-      }
-    }
+  const confirmChanges = (): void => {
+    setUpload('loading...');
+    dispatch(editLinkData({
+      code: link.code, tags: tagsArray, description, token: data.data?.token,
+    }));
+    setEditState(false);
     setUpload('confirm');
   };
 
@@ -90,8 +81,6 @@ const LinkCardContainer:FC<LinkProps> = function ({ link, error }) {
       changeDescriptionHandler={changeDescriptionHandler}
       linkDate={linkDate}
       loadingError={error}
-      error={errorMessage}
-      editMessage={editMessage}
     />
   );
 };

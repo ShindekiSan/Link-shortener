@@ -1,18 +1,41 @@
-import { AUTHORIZE_USER_DATA, AUTHORIZE_USER_SUCCESS, AUTHORIZE_USER_FAILED } from '../../contants';
-import { LoginData, UserInterface } from '../../../types/user';
+import { LoginData, UserData } from '../../../types/user';
 
-const loginUser = (user:LoginData) => ({
-  type: AUTHORIZE_USER_DATA,
+export enum AuthorizeActionTypes {
+  AUTHORIZE_USER_SUCCESS = 'AUTHORIZE_USER_SUCCESS',
+  AUTHORIZE_USER_DATA = 'AUTHORIZE_USER_DATA',
+  AUTHORIZE_USER_FAILED = 'AUTHORIZE_USER_FAILED',
+}
+
+interface AuthrorizeUserAction {
+  type: AuthorizeActionTypes.AUTHORIZE_USER_DATA,
+  payload: LoginData,
+}
+
+interface AuthrorizeUserSuccessAction {
+  type: AuthorizeActionTypes.AUTHORIZE_USER_SUCCESS,
+  payload: UserData,
+}
+
+interface AuthrorizeUserFailedAction {
+  type: AuthorizeActionTypes.AUTHORIZE_USER_FAILED,
+  payload: string,
+}
+
+export type AuthrorizeUserActions =
+AuthrorizeUserAction | AuthrorizeUserSuccessAction | AuthrorizeUserFailedAction;
+
+const loginUser = (user:LoginData): AuthrorizeUserAction => ({
+  type: AuthorizeActionTypes.AUTHORIZE_USER_DATA,
   payload: user,
 });
 
-export const loginUserFailed = (error: string) => ({
-  type: AUTHORIZE_USER_FAILED,
+export const loginUserFailed = (error: string): AuthrorizeUserFailedAction => ({
+  type: AuthorizeActionTypes.AUTHORIZE_USER_FAILED,
   payload: error,
 });
 
-export const loginUserSuccess = (data: UserInterface) => ({
-  type: AUTHORIZE_USER_SUCCESS,
+export const loginUserSuccess = (data: UserData): AuthrorizeUserSuccessAction => ({
+  type: AuthorizeActionTypes.AUTHORIZE_USER_SUCCESS,
   payload: data,
 });
 

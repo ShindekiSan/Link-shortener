@@ -1,22 +1,22 @@
 import React, { FC } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
 import ShortenerNavigation from '../../components/ShortenerPage/ShortenerNavigation';
 import useTypedSelector from '../../hooks/typedSelector.hook';
+import logoutUser from '../../store/actions/authorizeUser/logout';
 
 const ShortenerNavigationContainer:FC = function () {
   const navigate = useNavigate();
-  const [cookies, setCookie, removeCookie] = useCookies(['user']); // eslint-disable-line
+  const dispatch = useDispatch();
   const { data } = useTypedSelector((state) => state.user);
 
   const handleLogout = (): void => {
-    removeCookie('user');
+    dispatch(logoutUser);
     navigate('/');
-    window.location.reload();
   };
 
   return (
-    <ShortenerNavigation logoutHandler={handleLogout} userName={data.userName} />
+    <ShortenerNavigation logoutHandler={handleLogout} userName={data.data?.userName} />
   );
 };
 

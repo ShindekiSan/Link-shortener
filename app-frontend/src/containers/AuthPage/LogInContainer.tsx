@@ -1,9 +1,9 @@
 import React, { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import useHttp from '../../hooks/http.hook';
 import LogIn from '../../components/AuthPage/LogIn';
 import loginUser from '../../store/actions/authorizeUser/login';
+import useTypedSelector from '../../hooks/typedSelector.hook';
 
 type LoginForm = {
   email: string,
@@ -13,23 +13,14 @@ type LoginForm = {
 const LogInContainer:FC = function LogInContainer() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [error, setError] = useState<string>('');
-  const {
-    loading,
-  } = useHttp();
+  const { error, loading } = useTypedSelector((state) => state.user);
   const [form, setForm] = useState<LoginForm>({
     email: '', password: '',
   });
 
-  const authorizationHandler = async (): Promise<void> => {
-    try {
-      dispatch(loginUser(form));
-      navigate('/');
-    } catch (e: unknown) {
-      if (e instanceof Error) {
-        setError(e.message);
-      }
-    }
+  const authorizationHandler = (): void => {
+    dispatch(loginUser(form));
+    navigate('/');
   };
 
   const changeHandler = (evt: React.ChangeEvent<HTMLInputElement>): void => {

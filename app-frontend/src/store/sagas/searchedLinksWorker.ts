@@ -1,11 +1,11 @@
 import { put, call } from 'redux-saga/effects';
 import axios from 'axios';
-import { API_URL } from '../contants';
+import { API_URL } from '../constants';
 import { loadSearchedLinksDataSuccess, loadSearchedLinksDataFailed } from '../actions/loadSearchedLinksData/loadSearchedLinksData';
 import { loadSearchedLinkDataSuccess, loadSearchedLinkDataFailed } from '../actions/loadSearchedLinkData/loadSearchedLinkData';
-import { SearchedLinkData, SearchedLinksData } from '../../types/link';
+import { SearchedLink, SearchedLinkData } from '../../types/link';
 
-const fetchLinks = async (tag: string):Promise<SearchedLinksData> => {
+const fetchLinks = async (tag: string):Promise<SearchedLink[]> => {
   const data = await axios({
     url: `${API_URL}/api/link/search/${tag}`,
     method: 'GET',
@@ -17,19 +17,19 @@ const fetchLinks = async (tag: string):Promise<SearchedLinksData> => {
 };
 
 const fetchLink = async (linkId: string | undefined):Promise<SearchedLinkData> => {
-  const data = await axios({
+  const fetched = await axios({
     url: `${API_URL}/api/link/link-info/${linkId}`,
     method: 'GET',
     params: {
       id: linkId,
     },
   });
-  return data.data.link;
+  return { data: fetched.data.link };
 };
 
-export function* getSearchedLinks(action: { type: string, payload: string }) { // eslint-disable-line
+export function* getSearchedLinks(action: { type: string, payload: string }) {
   try {
-    const data:SearchedLinksData = yield call(
+    const data:SearchedLink[] = yield call(
       fetchLinks,
       action.payload,
     );
@@ -40,6 +40,10 @@ export function* getSearchedLinks(action: { type: string, payload: string }) { /
     if (e instanceof Error) {
       yield put(
         loadSearchedLinksDataFailed(e.message),
+      );
+    } else {
+      yield put(
+        loadSearchedLinksDataFailed(String(e)),
       );
     }
   }
@@ -58,6 +62,10 @@ export function* getSearchedLink(action: { type: string, payload: string | undef
     if (e instanceof Error) {
       yield put(
         loadSearchedLinkDataFailed(e.message),
+      );
+    } else {
+      yield put(
+        loadSearchedLinkDataFailed(String(e)),
       );
     }
   }

@@ -1,100 +1,77 @@
-import initialState from '../initialState';
-import { Link } from '../../types/link';
+import { LinkData } from '../../types/link';
+import { AddLinkActionTypes, AddLinkActions } from '../actions/addLink/addLink';
+import { EditLinkActionTypes, EditLinkActions } from '../actions/editLinkData/editLinkData';
+import { LoadLinkActionTypes, LoadLinkActions } from '../actions/loadLinkData/loadLinkData';
 
-enum ActionTypes {
-  LOAD_LINK_DATA = 'LOAD_LINK_DATA',
-  LOAD_LINK_FAILED = 'LOAD_LINK_FAILED',
-  LOAD_LINK_SUCCESS = 'LOAD_LINK_SUCCESS',
-  EDIT_LINK_DATA = 'EDIT_LINK_DATA',
-  EDIT_LINK_FAILED = 'EDIT_LINK_FAILED',
-  EDIT_LINK_SUCCESS = 'EDIT_LINK_SUCCESS',
-  ADD_LINK_DATA = 'ADD_LINK_DATA',
-  ADD_LINK_SUCCESS = 'ADD_LINK_SUCCESS',
-  ADD_LINK_FAILED = 'ADD_LINK_FAILED',
-}
+const initialState: LinkState = {
+  data: {},
+  error: '',
+  loading: false,
+};
 
 interface LinkState {
-  data: Link,
+  data: LinkData,
   loading: boolean,
-  status: null | string,
+  error: string,
 }
 
-interface FetchLinkAction {
-  type: ActionTypes.LOAD_LINK_DATA | ActionTypes.EDIT_LINK_DATA | ActionTypes.ADD_LINK_DATA,
-}
+type LinkActionTypes = AddLinkActions | LoadLinkActions | EditLinkActions;
 
-interface AddLinkSuccess {
-  type: ActionTypes.ADD_LINK_SUCCESS,
-  payload: string,
-}
-
-interface FetchLinkActionSuccess {
-  type: ActionTypes.LOAD_LINK_SUCCESS | ActionTypes.EDIT_LINK_SUCCESS,
-  payload: Link
-}
-
-interface FetchLinkActionFailed {
-  type: ActionTypes.LOAD_LINK_FAILED | ActionTypes.EDIT_LINK_FAILED | ActionTypes.ADD_LINK_FAILED,
-  payload: string,
-}
-
-type LinkAction = FetchLinkAction | FetchLinkActionFailed | FetchLinkActionSuccess | AddLinkSuccess;
-
-const link = (state = initialState.link, action: LinkAction): LinkState => { // eslint-disable-line
+const link = (state = initialState, action: LinkActionTypes): LinkState => {
   switch (action.type) {
-    case ActionTypes.LOAD_LINK_DATA:
+    case LoadLinkActionTypes.LOAD_LINK_DATA:
       return {
         loading: true,
-        data: {} as Link,
-        status: '',
+        data: {},
+        error: '',
       };
-    case ActionTypes.LOAD_LINK_FAILED:
+    case LoadLinkActionTypes.LOAD_LINK_FAILED:
       return {
         loading: false,
-        data: {} as Link,
-        status: action.payload,
+        data: {},
+        error: action.payload,
       };
-    case ActionTypes.LOAD_LINK_SUCCESS:
+    case LoadLinkActionTypes.LOAD_LINK_SUCCESS:
       return {
         data: action.payload,
-        status: '',
+        error: '',
         loading: false,
       };
-    case ActionTypes.EDIT_LINK_DATA:
+    case EditLinkActionTypes.EDIT_LINK_DATA:
       return {
         loading: true,
         data: state.data,
-        status: '',
+        error: '',
       };
-    case ActionTypes.EDIT_LINK_FAILED:
+    case EditLinkActionTypes.EDIT_LINK_FAILED:
       return {
         loading: false,
         data: state.data,
-        status: action.payload,
+        error: action.payload,
       };
-    case ActionTypes.EDIT_LINK_SUCCESS:
+    case EditLinkActionTypes.EDIT_LINK_SUCCESS:
       return {
         loading: false,
         data: action.payload,
-        status: '',
+        error: '',
       };
-    case ActionTypes.ADD_LINK_DATA:
+    case AddLinkActionTypes.ADD_LINK_DATA:
       return {
         loading: true,
-        data: {} as Link,
-        status: '',
+        data: {},
+        error: '',
       };
-    case ActionTypes.ADD_LINK_SUCCESS:
+    case AddLinkActionTypes.ADD_LINK_SUCCESS:
       return {
         loading: false,
-        data: {} as Link,
-        status: action.payload,
+        data: action.payload,
+        error: '',
       };
-    case ActionTypes.ADD_LINK_FAILED:
+    case AddLinkActionTypes.ADD_LINK_FAILED:
       return {
         loading: false,
-        data: {} as Link,
-        status: action.payload,
+        data: {},
+        error: action.payload,
       };
     default:
       return state;

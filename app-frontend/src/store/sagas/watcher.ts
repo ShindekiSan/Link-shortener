@@ -8,11 +8,15 @@ import {
   LOAD_LINK_DATA,
   LOAD_SEARCHED_LINKS_DATA,
   LOAD_SEARCHED_LINK_DATA,
+  LOGOUT_USER,
   REGISTER_USER_DATA,
-} from '../contants';
-import { addLink } from './addLinkWorker';
-import { authorizeUser, registerUser, getUser } from './authorizationWorker';
-import { getEditLink, getUserLink, getUserLinks } from './linksWorker';
+} from '../constants';
+import {
+  authorizeUser, registerUser, getUser, logoutUser,
+} from './authorizationWorker';
+import {
+  getEditLink, getUserLink, getUserLinks, addLink,
+} from './linksWorker';
 import { getSearchedLink, getSearchedLinks } from './searchedLinksWorker';
 
 export default function* sagaWatcher() {
@@ -25,4 +29,5 @@ export default function* sagaWatcher() {
   yield takeEvery(LOAD_SEARCHED_LINK_DATA, getSearchedLink);
   yield takeEvery(ADD_LINK_DATA, addLink);
   yield takeEvery(EDIT_LINK_DATA, getEditLink);
+  yield takeEvery(LOGOUT_USER, logoutUser);
 }

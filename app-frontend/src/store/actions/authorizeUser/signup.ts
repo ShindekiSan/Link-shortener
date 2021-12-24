@@ -1,18 +1,41 @@
-import { REGISTER_USER_DATA, REGISTER_USER_SUCCESS, REGISTER_USER_FAILED } from '../../contants';
-import { UserInterface, SignupData } from '../../../types/user';
+import { SignupData, UserData } from '../../../types/user';
 
-const signupUser = (user:SignupData) => ({
-  type: REGISTER_USER_DATA,
+export enum RegisterActionTypes {
+  REGISTER_USER_SUCCESS = 'REGISTER_USER_SUCCESS',
+  REGISTER_USER_DATA = 'REGISTER_USER_DATA',
+  REGISTER_USER_FAILED = 'REGISTER_USER_FAILED',
+}
+
+interface RegisterUserAction {
+  type: RegisterActionTypes.REGISTER_USER_DATA,
+  payload: SignupData,
+}
+
+interface RegisterUserSuccessAction {
+  type: RegisterActionTypes.REGISTER_USER_SUCCESS,
+  payload: UserData,
+}
+
+interface RegisterUserFailedAction {
+  type: RegisterActionTypes.REGISTER_USER_FAILED,
+  payload: string,
+}
+
+export type RegisterUserActions =
+RegisterUserAction | RegisterUserSuccessAction | RegisterUserFailedAction;
+
+const signupUser = (user:SignupData): RegisterUserAction => ({
+  type: RegisterActionTypes.REGISTER_USER_DATA,
   payload: user,
 });
 
-export const signupUserFailed = (error: string) => ({
-  type: REGISTER_USER_FAILED,
+export const signupUserFailed = (error: string): RegisterUserFailedAction => ({
+  type: RegisterActionTypes.REGISTER_USER_FAILED,
   payload: error,
 });
 
-export const signupUserSuccess = (data: UserInterface) => ({
-  type: REGISTER_USER_SUCCESS,
+export const signupUserSuccess = (data: UserData): RegisterUserSuccessAction => ({
+  type: RegisterActionTypes.REGISTER_USER_SUCCESS,
   payload: data,
 });
 

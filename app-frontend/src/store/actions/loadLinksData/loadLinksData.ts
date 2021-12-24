@@ -1,18 +1,40 @@
-import { LOAD_LINKS_SUCCESS, LOAD_LINKS_FAILED, LOAD_LINKS_DATA } from '../../contants';
-import { LinksData } from '../../../types/link';
+import { Link } from '../../../types/link';
 
-const loadLinksData = (token: string) => ({
-  type: LOAD_LINKS_DATA,
+export enum LoadLinksActionTypes {
+  LOAD_LINKS_SUCCESS = 'LOAD_LINKS_SUCCESS',
+  LOAD_LINKS_FAILED = 'LOAD_LINKS_FAILED',
+  LOAD_LINKS_DATA = 'LOAD_LINKS_DATA',
+}
+
+interface FetchLinksAction {
+  type: LoadLinksActionTypes.LOAD_LINKS_DATA,
+  payload?: string,
+}
+
+interface FetchLinksSuccessAction {
+  type: LoadLinksActionTypes.LOAD_LINKS_SUCCESS,
+  payload: Link[],
+}
+
+interface FetchLinksFailedAction {
+  type: LoadLinksActionTypes.LOAD_LINKS_FAILED,
+  payload: string,
+}
+
+export type LinksActionTypes = FetchLinksAction | FetchLinksSuccessAction | FetchLinksFailedAction;
+
+const loadLinksData = (token?: string): FetchLinksAction => ({
+  type: LoadLinksActionTypes.LOAD_LINKS_DATA,
   payload: token,
 });
 
-export const loadLinksDataFailed = (error: string) => ({
-  type: LOAD_LINKS_FAILED,
+export const loadLinksDataFailed = (error: string): FetchLinksFailedAction => ({
+  type: LoadLinksActionTypes.LOAD_LINKS_FAILED,
   payload: error,
 });
 
-export const loadLinksDataSuccess = (data: LinksData) => ({
-  type: LOAD_LINKS_SUCCESS,
+export const loadLinksDataSuccess = (data: Link[]): FetchLinksSuccessAction => ({
+  type: LoadLinksActionTypes.LOAD_LINKS_SUCCESS,
   payload: data,
 });
 

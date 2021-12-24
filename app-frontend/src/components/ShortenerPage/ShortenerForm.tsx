@@ -3,7 +3,7 @@ import useTypedSelector from '../../hooks/typedSelector.hook';
 
 interface FormProps {
   changeHandler: ChangeEventHandler,
-  clickHandler: () => Promise<void>,
+  clickHandler: () => void,
   changeDescription: ChangeEventHandler,
   changeTagsHandler: ChangeEventHandler,
   input: string,
@@ -20,7 +20,7 @@ const ShortenerForm:FC<FormProps> = function ({
   description,
   tags,
 }) {
-  const { status } = useTypedSelector((state) => state.link);
+  const { error } = useTypedSelector((state) => state.link);
   return (
     <div className="shortener-block">
       <h2 className="shortener-title">Shorten your link</h2>
@@ -45,7 +45,7 @@ const ShortenerForm:FC<FormProps> = function ({
         />
         <button className="button green-button" onClick={clickHandler} type="button">shorten</button>
       </div>
-      <p className="shortening-block__notification">{status}</p>
+      <p className="shortening-block__notification">{error}</p>
     </div>
 
   );

@@ -1,9 +1,9 @@
 import React, { FC, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
-import useHttp from '../../hooks/http.hook';
 import SignUp from '../../components/AuthPage/SignUp';
 import signupUser from '../../store/actions/authorizeUser/signup';
+import useTypedSelector from '../../hooks/typedSelector.hook';
 
 type SignupForm = {
   email: string,
@@ -14,23 +14,14 @@ type SignupForm = {
 const SignUpContainer:FC = function () {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [error, setError] = useState('');
-  const {
-    loading,
-  } = useHttp();
+  const { error, loading } = useTypedSelector((state) => state.user);
   const [form, setForm] = useState<SignupForm>({
     username: '', email: '', password: '',
   });
 
-  const registerHandler = async (): Promise<void> => {
-    try {
-      dispatch(signupUser(form));
-      navigate('/');
-    } catch (e: unknown) {
-      if (e instanceof Error) {
-        setError(e.message);
-      }
-    }
+  const registerHandler = (): void => {
+    dispatch(signupUser(form));
+    navigate('/');
   };
 
   const changeHandler = (evt: React.ChangeEvent<HTMLInputElement>): void => {

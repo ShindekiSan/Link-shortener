@@ -4,7 +4,7 @@ import Logo from '../UI/Logo';
 
 interface SignUpProps {
   changeHandler: ChangeEventHandler,
-  registerHandler: () => Promise<void>,
+  registerHandler: () => void,
   loading: boolean,
   error: string
 }

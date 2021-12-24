@@ -15,14 +15,14 @@ const LinkInputContainer:FC = function () {
     setInput(evt.target.value);
   };
 
-  const clickHandler = async (): Promise<void> => {
+  const clickHandler = (): void => {
     dispatch(addLink({
-      from: link, tags: [], description: '', token: data.token,
+      from: link, tags: [], description: '', token: data.data?.token,
     }));
     setInput('');
   };
 
-  const pressHandler = async (evt: React.KeyboardEvent): Promise<void> => {
+  const pressHandler = (evt: React.KeyboardEvent): void => {
     if (evt.key === 'Enter') {
       clickHandler();
     }
@@ -30,7 +30,7 @@ const LinkInputContainer:FC = function () {
 
   return (
     <LinkInput
-      isAuthenticated={!!data.userName}
+      isAuthenticated={!!data.data?.userName}
       linkValue={input}
       changeHandler={changeHandler}
       clickHandler={clickHandler}

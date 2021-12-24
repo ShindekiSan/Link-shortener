@@ -6,7 +6,7 @@ import Logo from '../UI/Logo';
 interface NavProps {
   logoutHandler: () => void,
   isAuthenticated: boolean,
-  userName: string | null
+  userName?: string
 }
 
 const Navigation:FC<NavProps> = function ({ logoutHandler, isAuthenticated, userName }) {
