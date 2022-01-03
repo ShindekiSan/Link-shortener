@@ -1,9 +1,9 @@
 import React, {
   ChangeEventHandler, FC, KeyboardEventHandler, MouseEventHandler,
 } from 'react';
-import useTypedSelector from '../../hooks/typedSelector.hook';
+import useTypedSelector from '../../../hooks/typedSelector.hook';
 
-interface LinkInputProps {
+export interface LinkInputProps {
   isAuthenticated: boolean,
   linkValue: string,
   changeHandler: ChangeEventHandler,

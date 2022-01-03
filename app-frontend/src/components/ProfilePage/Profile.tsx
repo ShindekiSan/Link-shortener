@@ -4,7 +4,7 @@ import React, {
 } from 'react';
 import { useDispatch } from 'react-redux';
 import useTypedSelector from '../../hooks/typedSelector.hook';
-import LinksBlock from './LinksBlock';
+import LinksBlock from './LinksBlock/LinksBlock';
 import ProfileHeader from './ProfileHeader';
 import Loader from '../UI/Loader';
 import loadLinksData from '../../store/actions/loadLinksData/loadLinksData';

@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
-import LinkInfo from './LinkInfo';
-import ClicksAmount from './ClicksAmount';
+import LinkInfo from '../LinkInfo';
+import ClicksAmount from '../ClicksAmount/ClicksAmount';
 
 interface LinkElement {
   from: string,
@@ -8,7 +8,7 @@ interface LinkElement {
   clicks: number,
 }
 
-interface Props {
+export interface Props {
   linksArray: LinkElement[],
   error: string,
 }

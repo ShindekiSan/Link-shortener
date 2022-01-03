@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import LinkInput from '../../components/MainPage/LinkInput';
+import LinkInput from '../../components/MainPage/LinkInput/LinkInput';
 import useTypedSelector from '../../hooks/typedSelector.hook';
 import addLink from '../../store/actions/addLink/addLink';
 

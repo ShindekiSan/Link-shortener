@@ -2,11 +2,11 @@ import React, { ChangeEventHandler, FC } from 'react';
 import { Link } from 'react-router-dom';
 import Loader from '../UI/Loader';
 
-interface Tag {
+export interface Tag {
   tagName: string,
 }
 
-interface LinkProps {
+export interface LinkProps {
   linkInfo: {
     code: string,
     to: string,

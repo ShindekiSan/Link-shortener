@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import LogIn from '../../components/AuthPage/LogIn';
+import LogIn from '../../components/AuthPage/LogIn/LogIn';
 import loginUser from '../../store/actions/authorizeUser/login';
 import useTypedSelector from '../../hooks/typedSelector.hook';
 

@@ -12,7 +12,7 @@ import Loader from './UI/Loader';
 
 const LogIn = lazy(() => import('../containers/AuthPage/LogInContainer'));
 const SignUp = lazy(() => import('../containers/AuthPage/SignUpContainer'));
-const MainPage = lazy(() => import('./MainPage/MainPage'));
+const MainPage = lazy(() => import('./MainPage/MainPage/MainPage'));
 const Profile = lazy(() => import('./ProfilePage/Profile'));
 const LinkDetails = lazy(() => import('./ProfilePage/LinkDetails'));
 const ShortenerPage = lazy(() => import('./ShortenerPage/ShortenerPage'));

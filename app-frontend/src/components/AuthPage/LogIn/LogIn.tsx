@@ -1,9 +1,9 @@
 import React, { ChangeEventHandler, FC } from 'react';
 import { Link } from 'react-router-dom';
-import MyBytton from '../UI/MyButton';
-import Logo from '../UI/Logo';
+import MyBytton from '../../UI/MyButton';
+import Logo from '../../UI/Logo';
 
-interface LogInProps {
+export interface LogInProps {
   changeHandler: ChangeEventHandler,
   authorizationHandler: () => void,
   loading: boolean,

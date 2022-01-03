@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import useTypedSelector from '../../hooks/typedSelector.hook';
-import Navigation from '../../components/MainPage/Navigation';
+import Navigation from '../../components/MainPage/Navigation/Navigation';
 import logoutUser from '../../store/actions/authorizeUser/logout';
 
 const NavigationContainer:FC = function () {

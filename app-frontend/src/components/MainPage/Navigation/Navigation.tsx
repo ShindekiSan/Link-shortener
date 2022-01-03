@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
-import MyButton from '../UI/MyButton';
-import Logo from '../UI/Logo';
+import MyButton from '../../UI/MyButton';
+import Logo from '../../UI/Logo';
 
-interface NavProps {
+export interface NavProps {
   logoutHandler: () => void,
   isAuthenticated: boolean,
   userName?: string

@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
-import Footer from './Footer';
-import Header from './Header';
-import LinkInput from '../../containers/MainPage/LinkInputContainer';
-import useTypedSelector from '../../hooks/typedSelector.hook';
+import Footer from '../Footer';
+import Header from '../Header/Header';
+import LinkInput from '../../../containers/MainPage/LinkInputContainer';
+import useTypedSelector from '../../../hooks/typedSelector.hook';
 
 const MainPage:FC = function () {
   const { loading, error } = useTypedSelector((state) => state.user);

@@ -1,8 +1,8 @@
 import React, { ChangeEventHandler, FC } from 'react';
 import { Link } from 'react-router-dom';
-import Logo from '../UI/Logo';
+import Logo from '../../UI/Logo';
 
-interface SignUpProps {
+export interface SignUpProps {
   changeHandler: ChangeEventHandler,
   registerHandler: () => void,
   loading: boolean,

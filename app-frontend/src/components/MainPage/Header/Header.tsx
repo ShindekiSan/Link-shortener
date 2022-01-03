@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
-import MyButton from '../UI/MyButton';
-import Navigation from '../../containers/MainPage/NavigationContainer';
-import useTypedSelector from '../../hooks/typedSelector.hook';
+import MyButton from '../../UI/MyButton';
+import Navigation from '../../../containers/MainPage/NavigationContainer';
+import useTypedSelector from '../../../hooks/typedSelector.hook';
 
 const Header:FC = function () {
   const { data } = useTypedSelector((state) => state.user);
