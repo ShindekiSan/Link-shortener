@@ -1,12 +1,7 @@
 import { SearchedLink } from '../../../types/link';
+import { LoadSearchedLinksActionTypes } from '../../actionTypes';
 
-export enum LoadSearchedLinksActionTypes {
-  LOAD_SEARCHED_LINKS_SUCCESS = 'LOAD_SEARCHED_LINKS_SUCCESS',
-  LOAD_SEARCHED_LINKS_FAILED = 'LOAD_SEARCHED_LINKS_FAILED',
-  LOAD_SEARCHED_LINKS_DATA = 'LOAD_SEARCHED_LINKS_DATA',
-}
-
-interface FetchSearchedLinksAction {
+export interface FetchSearchedLinksAction {
   type: LoadSearchedLinksActionTypes.LOAD_SEARCHED_LINKS_DATA,
   payload: string,
 }

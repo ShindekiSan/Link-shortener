@@ -1,9 +1,9 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { createStore, combineReducers } from 'redux';
-import link from '../../../store/reducers/link';
+import { createStore } from 'redux';
 import LinkInput, { LinkInputProps } from './LinkInput';
+import root from '../../../store/reducers/root';
 
 function noop() {}
 
@@ -20,19 +20,10 @@ const authorizedProps: LinkInputProps = {
   isAuthenticated: true,
 };
 
-function createTestStore() {
-  const store = createStore(
-    combineReducers({
-      link,
-    }),
-  );
-  return store;
-}
-
 describe('<LinkInput />', () => {
   describe('Rendered for unauthorized user', () => {
     it('Should have disabled input field and submit button', () => {
-      const store = createTestStore();
+      const store = createStore(root);
       render(
         <Provider store={store}>
           {/* eslint-disable-next-line */}
@@ -52,7 +43,7 @@ describe('<LinkInput />', () => {
 
   describe('Rendered for authorized user', () => {
     beforeEach(() => {
-      const store = createTestStore();
+      const store = createStore(root);
       render( // eslint-disable-line
         <Provider store={store}>
           {/* eslint-disable-next-line */}

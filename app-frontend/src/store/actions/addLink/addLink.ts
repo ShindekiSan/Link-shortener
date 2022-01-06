@@ -1,12 +1,7 @@
 import { AddLink, LinkData } from '../../../types/link';
+import { AddLinkActionTypes } from '../../actionTypes';
 
-export enum AddLinkActionTypes {
-  ADD_LINK_DATA = 'ADD_LINK_DATA',
-  ADD_LINK_SUCCESS = 'ADD_LINK_SUCCESS',
-  ADD_LINK_FAILED = 'ADD_LINK_FAILED',
-}
-
-interface AddLinkAction {
+export interface AddLinkAction {
   type: AddLinkActionTypes.ADD_LINK_DATA,
   payload: AddLink,
 }

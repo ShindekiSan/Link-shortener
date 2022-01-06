@@ -1,5 +1,6 @@
 import React, { ChangeEventHandler, FC } from 'react';
-import useTypedSelector from '../../hooks/typedSelector.hook';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/reducers/root';
 
 interface FormProps {
   changeHandler: ChangeEventHandler,
@@ -20,7 +21,7 @@ const ShortenerForm:FC<FormProps> = function ({
   description,
   tags,
 }) {
-  const { error } = useTypedSelector((state) => state.link);
+  const { data, error } = useSelector((state: RootState) => state.link);
   return (
     <div className="shortener-block">
       <h2 className="shortener-title">Shorten your link</h2>
@@ -45,7 +46,15 @@ const ShortenerForm:FC<FormProps> = function ({
         />
         <button className="button green-button" onClick={clickHandler} type="button">shorten</button>
       </div>
-      <p className="shortening-block__notification">{error}</p>
+      <p className="shortening-block__notification">
+        <span>
+          {data?.data?.message ? (
+            `${data.data?.message}`
+          ) : (
+            `${error}`
+          )}
+        </span>
+      </p>
     </div>
 
   );

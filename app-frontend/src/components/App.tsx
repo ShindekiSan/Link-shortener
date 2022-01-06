@@ -3,15 +3,15 @@ import React, {
 } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import getCurrentUser from '../store/actions/authorizeUser/getCurrentUser';
-import useTypedSelector from '../hooks/typedSelector.hook';
 import '../styles/app.css';
 import '../styles/normalize.css';
 import Loader from './UI/Loader';
+import { RootState } from '../store/reducers/root';
 
-const LogIn = lazy(() => import('../containers/AuthPage/LogInContainer'));
-const SignUp = lazy(() => import('../containers/AuthPage/SignUpContainer'));
+const LogIn = lazy(() => import('../containers/AuthPage/LogInContainer/LogInContainer'));
+const SignUp = lazy(() => import('../containers/AuthPage/SignUpContainer/SignUpContainer'));
 const MainPage = lazy(() => import('./MainPage/MainPage/MainPage'));
 const Profile = lazy(() => import('./ProfilePage/Profile'));
 const LinkDetails = lazy(() => import('./ProfilePage/LinkDetails'));
@@ -21,14 +21,14 @@ const SearchedLinkDetails = lazy(() => import('./SearchLinksPage/SearchedLinkDet
 
 const App:FC = function () {
   const [cookies] = useCookies(['user']);
-  const { data } = useTypedSelector((state) => state.user);
+  const { data } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!data.data?.userId && cookies.user) {
+    if (!data?.data?.userId && cookies.user) {
       dispatch(getCurrentUser(cookies.user));
     }
-  }, [data.data?.userId]);
+  }, [data?.data?.userId]);
 
   return (
     <Suspense fallback={<Loader />}>

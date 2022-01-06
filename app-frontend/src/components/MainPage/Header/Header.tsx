@@ -1,18 +1,19 @@
 import React, { FC } from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import MyButton from '../../UI/MyButton';
-import Navigation from '../../../containers/MainPage/NavigationContainer';
-import useTypedSelector from '../../../hooks/typedSelector.hook';
+import Navigation from '../../../containers/MainPage/NavigationContainer/NavigationContainer';
+import { RootState } from '../../../store/reducers/root';
 
 const Header:FC = function () {
-  const { data } = useTypedSelector((state) => state.user);
+  const { data } = useSelector((state: RootState) => state.user);
   return (
     <header className="app-header">
       <Navigation />
       <div className="app-title">
         <p className="app-description">URL Shortener</p>
         <h1 className="main-title">Make your link as small as calibri.</h1>
-        {data.data?.userName
+        {data?.data?.userName
           ? (
             <ul className="app-title__button-links">
               <li>

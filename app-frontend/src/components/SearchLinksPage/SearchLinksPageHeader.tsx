@@ -1,14 +1,10 @@
 import React, { FC } from 'react';
-import SearchLinksPageNavigation from '../../containers/SearchLinksPage/SearchLinksPageNavigationContainer';
+import SearchLinksPageNavigation from '../../containers/SearchLinksPage/SearchLinksPageContainer/SearchLinksPageNavigationContainer';
 
-interface FuncProps {
-  searchHandler: (tag: string) => void
-}
-
-const SearchLinksPageHeader:FC<FuncProps> = function ({ searchHandler }) {
+const SearchLinksPageHeader:FC = function () {
   return (
     <div className="search-header">
-      <SearchLinksPageNavigation searchHandler={searchHandler} />
+      <SearchLinksPageNavigation />
       <h2 className="search-header__title">This is search page</h2>
       <p className="search-header__description">Here you can find links by tag</p>
     </div>

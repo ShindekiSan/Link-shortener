@@ -1,38 +1,38 @@
 import { SearchedLink } from '../../types/link';
-import { LoadSearchedLinksActionTypes, LinksActionTypes } from '../actions/loadSearchedLinksData/loadSearchedLinksData';
+import { LinksActionTypes } from '../actions/loadSearchedLinksData/loadSearchedLinksData';
+import { LoadSearchedLinksActionTypes } from '../actionTypes';
 
-interface LinksState {
-  data: SearchedLink[] | [],
+export interface SearchedLinksState {
+  data: SearchedLink[] | null,
   error: string,
   loading: boolean,
 }
 
-const initialState: LinksState = {
-  data: [],
+const initialState: SearchedLinksState = {
+  data: null,
   error: '',
   loading: false,
 };
 
 const searchedLinks = (state = initialState, action: LinksActionTypes)
-: LinksState => {
+: SearchedLinksState => {
   switch (action.type) {
     case LoadSearchedLinksActionTypes.LOAD_SEARCHED_LINKS_DATA:
       return {
+        ...state,
         loading: true,
-        data: [],
-        error: '',
       };
     case LoadSearchedLinksActionTypes.LOAD_SEARCHED_LINKS_FAILED:
       return {
+        ...state,
         loading: false,
-        data: [],
         error: action.payload,
       };
     case LoadSearchedLinksActionTypes.LOAD_SEARCHED_LINKS_SUCCESS:
       return {
+        ...state,
         loading: false,
         data: action.payload,
-        error: '',
       };
     default:
       return state;

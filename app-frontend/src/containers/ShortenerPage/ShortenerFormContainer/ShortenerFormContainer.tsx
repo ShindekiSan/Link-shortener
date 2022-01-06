@@ -1,10 +1,10 @@
 import React, {
   useState, useEffect, FC,
 } from 'react';
-import { useDispatch } from 'react-redux';
-import ShortenerForm from '../../components/ShortenerPage/ShortenerForm';
-import useTypedSelector from '../../hooks/typedSelector.hook';
-import addLink from '../../store/actions/addLink/addLink';
+import { useDispatch, useSelector } from 'react-redux';
+import ShortenerForm from '../../../components/ShortenerPage/ShortenerForm';
+import addLink from '../../../store/actions/addLink/addLink';
+import { RootState } from '../../../store/reducers/root';
 
 interface TagsList {
   tagName: string
@@ -17,7 +17,7 @@ const ShortenerFormContainer:FC = function () {
   const [tags, setTags] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [tagsArray, setTagsArray] = useState<Array<TagsList>>([]);
-  const { data } = useTypedSelector((state) => state.user);
+  const { data } = useSelector((state: RootState) => state.user);
 
   const changeHandler = (evt: React.ChangeEvent<HTMLInputElement>): void => {
     setLink(evt.target.value);
@@ -38,7 +38,7 @@ const ShortenerFormContainer:FC = function () {
 
   const clickHandler = (): void => {
     dispatch(addLink({
-      from: link, tags: tagsArray, description, token: data.data?.token,
+      from: link, tags: tagsArray, description, token: data?.data?.token,
     }));
     setInput('');
     setTags('');

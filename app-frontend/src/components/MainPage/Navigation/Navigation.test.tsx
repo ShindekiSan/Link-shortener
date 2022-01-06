@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import user from '@testing-library/user-event';
+import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router';
 import Navigation, { NavProps } from './Navigation';
 
@@ -58,7 +58,7 @@ describe('<Navigation />', () => {
     it('Should show authentication buttons after logout', async () => {
       const logoutButton = screen.getByText('log out');
 
-      user.click(logoutButton);
+      userEvent.click(logoutButton);
       expect(authProps.logoutHandler).toHaveBeenCalledTimes(1);
     });
   });

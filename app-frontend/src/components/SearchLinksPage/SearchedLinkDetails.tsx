@@ -2,14 +2,14 @@ import React, {
   useEffect, useCallback, FC,
 } from 'react';
 import { useParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../UI/Loader';
 import SearchedLinkCard from './SearchedLinkCard';
-import useTypedSelector from '../../hooks/typedSelector.hook';
 import loadSearchedLinkData from '../../store/actions/loadSearchedLinkData/loadSearchedLinkData';
+import { RootState } from '../../store/reducers/root';
 
 const SearchedLinkDetails:FC = function () {
-  const { data, loading, error } = useTypedSelector((state) => state.searchedLink);
+  const { data, loading, error } = useSelector((state: RootState) => state.searchedLink);
   const dispatch = useDispatch();
   const { id } = useParams();
 
@@ -23,7 +23,7 @@ const SearchedLinkDetails:FC = function () {
 
   return (
     <div>
-      {!loading && data.data ? <SearchedLinkCard link={data.data} error={error} /> : <Loader />}
+      {!loading && data?.data ? <SearchedLinkCard link={data.data} error={error} /> : <Loader />}
     </div>
   );
 };

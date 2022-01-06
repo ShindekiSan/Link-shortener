@@ -1,8 +1,6 @@
-export enum LogoutActionType {
-  LOGOUT_USER = 'LOGOUT_USER',
-}
+import { LogoutActionType } from '../../actionTypes';
 
-interface LogoutAction {
+export interface LogoutAction {
   type: LogoutActionType.LOGOUT_USER,
 }
 

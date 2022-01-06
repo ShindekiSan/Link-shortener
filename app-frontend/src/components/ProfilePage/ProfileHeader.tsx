@@ -1,16 +1,17 @@
 import React, { FC } from 'react';
-import ProfileNavigation from '../../containers/ProfilePage/ProfileNavigationContainer';
-import useTypedSelector from '../../hooks/typedSelector.hook';
+import { useSelector } from 'react-redux';
+import ProfileNavigation from '../../containers/ProfilePage/ProfileNavigationContainer/ProfileNavigationContainer';
+import { RootState } from '../../store/reducers/root';
 
 const ProfileHeader:FC = function () {
-  const { data } = useTypedSelector((state) => state.user);
+  const { data } = useSelector((state: RootState) => state.user);
 
   return (
     <div className="profile-header">
       <ProfileNavigation />
       <h2 className="profile-title">
         Welcome,
-        {data.data?.userName}
+        {data?.data?.userName}
         !
       </h2>
       <p className="profile-subtitle">Your list of shortened links</p>

@@ -1,72 +1,17 @@
-import { put, call } from 'redux-saga/effects';
-import axios from 'axios';
-import { API_URL } from '../constants';
-import { loadLinksDataSuccess, loadLinksDataFailed } from '../actions/loadLinksData/loadLinksData';
-import { loadLinkDataSuccess, loadLinkDataFailed } from '../actions/loadLinkData/loadLinkData';
-import { editLinkDataSuccess, editLinkDataFailed } from '../actions/editLinkData/editLinkData';
-import { addLinkSuccess, addLinkFailed } from '../actions/addLink/addLink';
+import { put, call, takeEvery } from 'redux-saga/effects';
+import { loadLinksDataSuccess, loadLinksDataFailed, FetchLinksAction } from '../actions/loadLinksData/loadLinksData';
+import { loadLinkDataSuccess, loadLinkDataFailed, FetchLinkAction } from '../actions/loadLinkData/loadLinkData';
+import { editLinkDataSuccess, editLinkDataFailed, EditLinkAction } from '../actions/editLinkData/editLinkData';
+import { addLinkSuccess, addLinkFailed, AddLinkAction } from '../actions/addLink/addLink';
+import { LinkData, Link } from '../../types/link';
 import {
-  LinkEdit, LinkId, AddLink, LinkData, Link,
-} from '../../types/link';
+  fetchLink, fetchLinks, fetchLinkEdit, fetchNewLink,
+} from './api/links.api';
+import {
+  LoadLinkActionTypes, LoadLinksActionTypes, EditLinkActionTypes, AddLinkActionTypes,
+} from '../actionTypes';
 
-const fetchLinks = async (token: string):Promise<Link[]> => {
-  const data = await axios({
-    url: `${API_URL}/api/link`,
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return data.data.links;
-};
-
-const fetchLink = async (linkParams: LinkId):Promise<LinkData> => {
-  const fetched = await axios({
-    url: `${API_URL}/api/link/${linkParams.id}`,
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${linkParams.token}`,
-    },
-    params: {
-      id: linkParams.id,
-    },
-  });
-  return { data: fetched.data.link };
-};
-
-const fetchLinkEdit = async (linkParams: LinkEdit):Promise<LinkData> => {
-  const fetched = await axios({
-    url: `${API_URL}/api/link/edit`,
-    method: 'POST',
-    data: {
-      description: linkParams.description,
-      tags: linkParams.tags,
-      code: linkParams.code,
-    },
-    headers: {
-      Authorization: `Bearer ${linkParams.token}`,
-    },
-  });
-  return { data: fetched.data.link };
-};
-
-const fetchNewLink = async (linkParams: AddLink):Promise<LinkData> => {
-  const fetched = await axios({
-    url: `${API_URL}/api/link/generate`,
-    method: 'POST',
-    data: {
-      from: linkParams.from,
-      tags: linkParams.tags,
-      description: linkParams.description,
-    },
-    headers: {
-      Authorization: `Bearer ${linkParams.token}`,
-    },
-  });
-  return { data: fetched.data };
-};
-
-export function* getUserLinks(action: { type: string, payload: string }) {
+export function* getUserLinks(action: FetchLinksAction) {
   try {
     const data:Link[] = yield call(
       fetchLinks,
@@ -88,7 +33,7 @@ export function* getUserLinks(action: { type: string, payload: string }) {
   }
 }
 
-export function* getUserLink(action: { type: string, payload: LinkId }) {
+export function* getUserLink(action: FetchLinkAction) {
   try {
     const data:LinkData = yield call(
       fetchLink,
@@ -110,7 +55,7 @@ export function* getUserLink(action: { type: string, payload: LinkId }) {
   }
 }
 
-export function* getEditLink(action: { type: string, payload: LinkEdit }) {
+export function* getEditLink(action: EditLinkAction) {
   try {
     const data:LinkData = yield call(fetchLinkEdit, action.payload);
     yield put(
@@ -129,7 +74,7 @@ export function* getEditLink(action: { type: string, payload: LinkEdit }) {
   }
 }
 
-export function* addLink(action: { type: string, payload: AddLink }) {
+export function* addLink(action: AddLinkAction) {
   try {
     const data:LinkData = yield call(
       fetchNewLink,
@@ -149,4 +94,11 @@ export function* addLink(action: { type: string, payload: AddLink }) {
       );
     }
   }
+}
+
+export default function* linksWatcher() {
+  yield takeEvery(LoadLinkActionTypes.LOAD_LINK_DATA, getUserLink);
+  yield takeEvery(LoadLinksActionTypes.LOAD_LINKS_DATA, getUserLinks);
+  yield takeEvery(EditLinkActionTypes.EDIT_LINK_DATA, getEditLink);
+  yield takeEvery(AddLinkActionTypes.ADD_LINK_DATA, addLink);
 }

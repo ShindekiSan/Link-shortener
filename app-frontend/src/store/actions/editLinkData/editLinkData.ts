@@ -1,12 +1,7 @@
 import { LinkData, LinkEdit } from '../../../types/link';
+import { EditLinkActionTypes } from '../../actionTypes';
 
-export enum EditLinkActionTypes {
-  EDIT_LINK_DATA = 'EDIT_LINK_DATA',
-  EDIT_LINK_FAILED = 'EDIT_LINK_FAILED',
-  EDIT_LINK_SUCCESS = 'EDIT_LINK_SUCCESS',
-}
-
-interface EditLinkAction {
+export interface EditLinkAction {
   type: EditLinkActionTypes.EDIT_LINK_DATA,
   payload: LinkEdit,
 }

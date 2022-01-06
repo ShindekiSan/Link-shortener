@@ -1,14 +1,15 @@
 import { Link } from '../../types/link';
-import { LoadLinksActionTypes, LinksActionTypes } from '../actions/loadLinksData/loadLinksData';
+import { LinksActionTypes } from '../actions/loadLinksData/loadLinksData';
+import { LoadLinksActionTypes } from '../actionTypes';
 
-interface LinksState {
-  data: [] | Link[],
+export interface LinksState {
+  data: null | Link[],
   error: string,
   loading: boolean,
 }
 
 const initialState: LinksState = {
-  data: [],
+  data: null,
   error: '',
   loading: false,
 };
@@ -17,20 +18,19 @@ const links = (state = initialState, action: LinksActionTypes): LinksState => {
   switch (action.type) {
     case LoadLinksActionTypes.LOAD_LINKS_DATA:
       return {
+        ...state,
         loading: true,
-        error: '',
-        data: [],
       };
     case LoadLinksActionTypes.LOAD_LINKS_FAILED:
       return {
+        ...state,
         loading: false,
-        data: [],
         error: action.payload,
       };
     case LoadLinksActionTypes.LOAD_LINKS_SUCCESS:
       return {
+        ...state,
         data: action.payload,
-        error: '',
         loading: false,
       };
     default:

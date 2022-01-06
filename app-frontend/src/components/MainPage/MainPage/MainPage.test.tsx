@@ -2,25 +2,14 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { Provider } from 'react-redux';
-import { createStore, combineReducers } from 'redux';
-import user from '../../../store/reducers/authorization';
-import link from '../../../store/reducers/link';
+import { createStore } from 'redux';
 import MainPage from './MainPage';
-
-function createTestStore() {
-  const store = createStore(
-    combineReducers({
-      user,
-      link,
-    }),
-  );
-  return store;
-}
+import root from '../../../store/reducers/root';
 
 describe('<MainPage />', () => {
   describe('When rendered', () => {
     beforeEach(() => {
-      const store = createTestStore();
+      const store = createStore(root);
       render( // eslint-disable-line
         <Provider store={store}>
           <MainPage />

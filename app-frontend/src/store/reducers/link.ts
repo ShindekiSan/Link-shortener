@@ -1,16 +1,17 @@
 import { LinkData } from '../../types/link';
-import { AddLinkActionTypes, AddLinkActions } from '../actions/addLink/addLink';
-import { EditLinkActionTypes, EditLinkActions } from '../actions/editLinkData/editLinkData';
-import { LoadLinkActionTypes, LoadLinkActions } from '../actions/loadLinkData/loadLinkData';
+import { AddLinkActions } from '../actions/addLink/addLink';
+import { EditLinkActions } from '../actions/editLinkData/editLinkData';
+import { LoadLinkActions } from '../actions/loadLinkData/loadLinkData';
+import { AddLinkActionTypes, EditLinkActionTypes, LoadLinkActionTypes } from '../actionTypes';
 
 const initialState: LinkState = {
-  data: {},
+  data: null,
   error: '',
   loading: false,
 };
 
-interface LinkState {
-  data: LinkData,
+export interface LinkState {
+  data: LinkData | null,
   loading: boolean,
   error: string,
 }
@@ -21,20 +22,19 @@ const link = (state = initialState, action: LinkActionTypes): LinkState => {
   switch (action.type) {
     case LoadLinkActionTypes.LOAD_LINK_DATA:
       return {
+        ...state,
         loading: true,
-        data: {},
-        error: '',
       };
     case LoadLinkActionTypes.LOAD_LINK_FAILED:
       return {
-        loading: false,
-        data: {},
+        ...state,
         error: action.payload,
+        loading: false,
       };
     case LoadLinkActionTypes.LOAD_LINK_SUCCESS:
       return {
+        ...state,
         data: action.payload,
-        error: '',
         loading: false,
       };
     case EditLinkActionTypes.EDIT_LINK_DATA:
@@ -51,26 +51,25 @@ const link = (state = initialState, action: LinkActionTypes): LinkState => {
       };
     case EditLinkActionTypes.EDIT_LINK_SUCCESS:
       return {
-        loading: false,
+        ...state,
         data: action.payload,
-        error: '',
+        loading: false,
       };
     case AddLinkActionTypes.ADD_LINK_DATA:
       return {
+        ...state,
         loading: true,
-        data: {},
-        error: '',
       };
     case AddLinkActionTypes.ADD_LINK_SUCCESS:
       return {
-        loading: false,
+        ...state,
         data: action.payload,
-        error: '',
+        loading: false,
       };
     case AddLinkActionTypes.ADD_LINK_FAILED:
       return {
+        ...state,
         loading: false,
-        data: {},
         error: action.payload,
       };
     default:

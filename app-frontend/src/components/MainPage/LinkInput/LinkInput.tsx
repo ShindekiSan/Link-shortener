@@ -1,7 +1,8 @@
 import React, {
   ChangeEventHandler, FC, KeyboardEventHandler, MouseEventHandler,
 } from 'react';
-import useTypedSelector from '../../../hooks/typedSelector.hook';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store/reducers/root';
 
 export interface LinkInputProps {
   isAuthenticated: boolean,
@@ -14,7 +15,7 @@ export interface LinkInputProps {
 const LinkInput:FC<LinkInputProps> = function ({
   isAuthenticated, linkValue, changeHandler, pressHandler, clickHandler,
 }) {
-  const { error, data } = useTypedSelector((state) => state.link);
+  const { error, data } = useSelector((state: RootState) => state.link);
   return (
     <div>
       <div className="url-input-form">
@@ -39,7 +40,7 @@ const LinkInput:FC<LinkInputProps> = function ({
         {isAuthenticated
           ? (
             <span>
-              {data.data?.message ? (
+              {data?.data?.message ? (
                 `${data.data?.message}`
               ) : (
                 `${error}`

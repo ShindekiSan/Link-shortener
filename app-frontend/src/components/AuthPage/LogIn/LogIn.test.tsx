@@ -1,7 +1,7 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
-import user from '@testing-library/user-event';
+import userEvent from '@testing-library/user-event';
 import LogIn, { LogInProps } from './LogIn';
 
 function noop() {}
@@ -33,7 +33,7 @@ describe('<LogIn />', () => {
   it('Should call an authorization function after pressing Log in', () => {
     const logInButton = screen.getByRole('button', { name: 'Log in', exact: false });
 
-    user.click(logInButton);
+    userEvent.click(logInButton);
     expect(props.authorizationHandler).toHaveBeenCalledTimes(1);
   });
 
@@ -41,11 +41,11 @@ describe('<LogIn />', () => {
     const logInEmailInput = screen.getByRole('textbox');
     const logInPasswordInput = screen.getByPlaceholderText('password', { exact: false });
 
-    user.type(logInEmailInput, '12');
+    userEvent.type(logInEmailInput, '12');
     expect(props.changeHandler).toHaveBeenCalled();
     expect(logInEmailInput).toHaveValue('12');
 
-    user.type(logInPasswordInput, '12');
+    userEvent.type(logInPasswordInput, '12');
     expect(props.changeHandler).toHaveBeenCalled();
     expect(logInPasswordInput).toHaveValue('12');
   });

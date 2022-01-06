@@ -1,14 +1,9 @@
 import { Link } from '../../../types/link';
+import { LoadLinksActionTypes } from '../../actionTypes';
 
-export enum LoadLinksActionTypes {
-  LOAD_LINKS_SUCCESS = 'LOAD_LINKS_SUCCESS',
-  LOAD_LINKS_FAILED = 'LOAD_LINKS_FAILED',
-  LOAD_LINKS_DATA = 'LOAD_LINKS_DATA',
-}
-
-interface FetchLinksAction {
+export interface FetchLinksAction {
   type: LoadLinksActionTypes.LOAD_LINKS_DATA,
-  payload?: string,
+  payload: string,
 }
 
 interface FetchLinksSuccessAction {
@@ -23,7 +18,7 @@ interface FetchLinksFailedAction {
 
 export type LinksActionTypes = FetchLinksAction | FetchLinksSuccessAction | FetchLinksFailedAction;
 
-const loadLinksData = (token?: string): FetchLinksAction => ({
+const loadLinksData = (token: string): FetchLinksAction => ({
   type: LoadLinksActionTypes.LOAD_LINKS_DATA,
   payload: token,
 });

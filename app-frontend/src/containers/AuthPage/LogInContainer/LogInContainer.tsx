@@ -1,9 +1,8 @@
 import React, { FC, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import LogIn from '../../components/AuthPage/LogIn/LogIn';
-import loginUser from '../../store/actions/authorizeUser/login';
-import useTypedSelector from '../../hooks/typedSelector.hook';
+import { useDispatch, useSelector } from 'react-redux';
+import LogIn from '../../../components/AuthPage/LogIn/LogIn';
+import loginUser from '../../../store/actions/authorizeUser/login';
+import { RootState } from '../../../store/reducers/root';
 
 type LoginForm = {
   email: string,
@@ -12,15 +11,13 @@ type LoginForm = {
 
 const LogInContainer:FC = function LogInContainer() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { error, loading } = useTypedSelector((state) => state.user);
+  const { error, loading } = useSelector((state: RootState) => state.user);
   const [form, setForm] = useState<LoginForm>({
     email: '', password: '',
   });
 
   const authorizationHandler = (): void => {
     dispatch(loginUser(form));
-    navigate('/');
   };
 
   const changeHandler = (evt: React.ChangeEvent<HTMLInputElement>): void => {

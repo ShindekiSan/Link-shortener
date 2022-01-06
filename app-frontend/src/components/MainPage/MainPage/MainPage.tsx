@@ -1,11 +1,12 @@
 import React, { FC } from 'react';
+import { useSelector } from 'react-redux';
 import Footer from '../Footer';
 import Header from '../Header/Header';
-import LinkInput from '../../../containers/MainPage/LinkInputContainer';
-import useTypedSelector from '../../../hooks/typedSelector.hook';
+import LinkInput from '../../../containers/MainPage/LinkInputContainer/LinkInputContainer';
+import { RootState } from '../../../store/reducers/root';
 
 const MainPage:FC = function () {
-  const { loading, error } = useTypedSelector((state) => state.user);
+  const { loading, error } = useSelector((state: RootState) => state.user);
   return (
     <div>
       {loading

@@ -1,24 +1,24 @@
 import React, { FC } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import SearchLinksPageHeader from './SearchLinksPageHeader';
 import SearchedLinksBlock from './SearchedLinksBlock';
 import Loader from '../UI/Loader';
-import useTypedSelector from '../../hooks/typedSelector.hook';
-import loadSearchedLinksData from '../../store/actions/loadSearchedLinksData/loadSearchedLinksData';
+import { RootState } from '../../store/reducers/root';
 
 const SearchLinksPage:FC = function () {
-  const { data, loading, error } = useTypedSelector((state) => state.searchedLinks);
-  const dispatch = useDispatch();
-
-  const searchLinks = (tag: string) => {
-    dispatch(loadSearchedLinksData(tag));
-  };
+  const { data, loading, error } = useSelector((state: RootState) => state.searchedLinks);
 
   return (
     <div>
-      <SearchLinksPageHeader searchHandler={searchLinks} />
+      <SearchLinksPageHeader />
       {!loading && data
-        ? <SearchedLinksBlock links={data} error={error} /> : <Loader />}
+        ? <SearchedLinksBlock links={data} error={error} />
+        : (
+          <div>
+            {loading
+              ? <Loader /> : <span>{}</span> }
+          </div>
+        )}
     </div>
   );
 };

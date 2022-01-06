@@ -1,12 +1,7 @@
 import { LoginData, UserData } from '../../../types/user';
+import { AuthorizeActionTypes } from '../../actionTypes';
 
-export enum AuthorizeActionTypes {
-  AUTHORIZE_USER_SUCCESS = 'AUTHORIZE_USER_SUCCESS',
-  AUTHORIZE_USER_DATA = 'AUTHORIZE_USER_DATA',
-  AUTHORIZE_USER_FAILED = 'AUTHORIZE_USER_FAILED',
-}
-
-interface AuthrorizeUserAction {
+export interface AuthrorizeUserAction {
   type: AuthorizeActionTypes.AUTHORIZE_USER_DATA,
   payload: LoginData,
 }

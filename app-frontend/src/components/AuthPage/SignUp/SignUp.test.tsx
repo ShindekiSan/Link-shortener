@@ -1,7 +1,7 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
-import user from '@testing-library/user-event';
+import userEvent from '@testing-library/user-event';
 import SignUp, { SignUpProps } from './SignUp';
 
 function noop() {}
@@ -33,7 +33,7 @@ describe('<SignUp />', () => {
   test('Should call a registration function after a button click', () => {
     const signUpButton = screen.getByRole('button', { name: 'Create an account' });
 
-    user.click(signUpButton);
+    userEvent.click(signUpButton);
     expect(props.registerHandler).toHaveBeenCalledTimes(1);
   });
 });

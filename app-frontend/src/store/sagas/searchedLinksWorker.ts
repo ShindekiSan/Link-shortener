@@ -1,33 +1,13 @@
-import { put, call } from 'redux-saga/effects';
-import axios from 'axios';
-import { API_URL } from '../constants';
-import { loadSearchedLinksDataSuccess, loadSearchedLinksDataFailed } from '../actions/loadSearchedLinksData/loadSearchedLinksData';
-import { loadSearchedLinkDataSuccess, loadSearchedLinkDataFailed } from '../actions/loadSearchedLinkData/loadSearchedLinkData';
+import { put, call, takeEvery } from 'redux-saga/effects';
+import { loadSearchedLinksDataSuccess, loadSearchedLinksDataFailed, FetchSearchedLinksAction } from '../actions/loadSearchedLinksData/loadSearchedLinksData';
+import { loadSearchedLinkDataSuccess, loadSearchedLinkDataFailed, FetchSearchedLinkAction } from '../actions/loadSearchedLinkData/loadSearchedLinkData';
 import { SearchedLink, SearchedLinkData } from '../../types/link';
+import { fetchLink, fetchLinks } from './api/searchedLinks.api';
+import {
+  LoadSearchedLinkActionTypes, LoadSearchedLinksActionTypes,
+} from '../actionTypes';
 
-const fetchLinks = async (tag: string):Promise<SearchedLink[]> => {
-  const data = await axios({
-    url: `${API_URL}/api/link/search/${tag}`,
-    method: 'GET',
-    params: {
-      tagName: tag,
-    },
-  });
-  return data.data.links;
-};
-
-const fetchLink = async (linkId: string | undefined):Promise<SearchedLinkData> => {
-  const fetched = await axios({
-    url: `${API_URL}/api/link/link-info/${linkId}`,
-    method: 'GET',
-    params: {
-      id: linkId,
-    },
-  });
-  return { data: fetched.data.link };
-};
-
-export function* getSearchedLinks(action: { type: string, payload: string }) {
+export function* getSearchedLinks(action: FetchSearchedLinksAction) {
   try {
     const data:SearchedLink[] = yield call(
       fetchLinks,
@@ -49,7 +29,7 @@ export function* getSearchedLinks(action: { type: string, payload: string }) {
   }
 }
 
-export function* getSearchedLink(action: { type: string, payload: string | undefined }) {
+export function* getSearchedLink(action: FetchSearchedLinkAction) {
   try {
     const data:SearchedLinkData = yield call(
       fetchLink,
@@ -69,4 +49,9 @@ export function* getSearchedLink(action: { type: string, payload: string | undef
       );
     }
   }
+}
+
+export default function* searchedLinksWatcher() {
+  yield takeEvery(LoadSearchedLinkActionTypes.LOAD_SEARCHED_LINK_DATA, getSearchedLink);
+  yield takeEvery(LoadSearchedLinksActionTypes.LOAD_SEARCHED_LINKS_DATA, getSearchedLinks);
 }
