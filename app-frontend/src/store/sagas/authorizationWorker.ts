@@ -1,4 +1,5 @@
 import { put, call, takeEvery } from 'redux-saga/effects';
+import { push } from 'connected-react-router';
 import { loginUserSuccess, loginUserFailed, AuthrorizeUserAction } from '../actions/authorizeUser/login';
 import { signupUserSuccess, signupUserFailed, RegisterUserAction } from '../actions/authorizeUser/signup';
 import { getCurrentUserSuccess, getCurrentUserFailed, GetCurrentUserAction } from '../actions/authorizeUser/getCurrentUser';
@@ -27,7 +28,7 @@ export function* authorizeUser(action: AuthrorizeUserAction) {
     yield put(
       loginUserSuccess(data),
     );
-    window.location.assign('/');
+    yield put(push('/'));
   } catch (e: unknown) {
     yield put(
       loginUserFailed(handleError(e)),
@@ -42,7 +43,7 @@ export function* registerUser(action: RegisterUserAction) {
     yield put(
       signupUserSuccess(data),
     );
-    window.location.assign('/');
+    yield put(push('/'));
   } catch (e: unknown) {
     yield put(
       signupUserFailed(handleError(e)),
@@ -65,7 +66,7 @@ export function* getUser(action: GetCurrentUserAction) {
 
 export function* logoutUser() {
   yield call(deleteUserCookie, 'user');
-  window.location.assign('/');
+  yield put(push('/'));
 }
 
 export default function* authorizationWatcher() {

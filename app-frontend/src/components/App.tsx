@@ -1,14 +1,15 @@
 import React, {
   Suspense, lazy, FC, useEffect,
 } from 'react';
-import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
+import { ConnectedRouter } from 'connected-react-router';
 import { useCookies } from 'react-cookie';
 import { useDispatch, useSelector } from 'react-redux';
 import getCurrentUser from '../store/actions/authorizeUser/getCurrentUser';
 import '../styles/app.css';
 import '../styles/normalize.css';
 import Loader from './UI/Loader';
-import { RootState } from '../store/reducers/root';
+import { RootState, history } from '../store/reducers/root';
 
 const LogIn = lazy(() => import('../containers/AuthPage/LogInContainer/LogInContainer'));
 const SignUp = lazy(() => import('../containers/AuthPage/SignUpContainer/SignUpContainer'));
@@ -32,7 +33,7 @@ const App:FC = function () {
 
   return (
     <Suspense fallback={<Loader />}>
-      <BrowserRouter>
+      <ConnectedRouter history={history}>
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/login" element={<LogIn />} />
@@ -43,7 +44,7 @@ const App:FC = function () {
           <Route path="/search" element={<SearchLinksPage />} />
           <Route path="/link-info/:id" element={<SearchedLinkDetails />} />
         </Routes>
-      </BrowserRouter>
+      </ConnectedRouter>
     </Suspense>
   );
 };
