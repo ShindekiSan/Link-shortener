@@ -12,7 +12,7 @@ const LinkDetails:FC = function () {
   const dispatch = useDispatch();
   const { data } = useSelector((state: RootState) => state.user);
   const linkState = useSelector((state: RootState) => state.link);
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
 
   const getLink = useCallback(() => {
     dispatch(loadLinkData({ token: data?.data?.token, id }));

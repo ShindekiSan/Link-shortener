@@ -66,7 +66,7 @@ export function* getUser(action: GetCurrentUserAction) {
 
 export function* logoutUser() {
   yield call(deleteUserCookie, 'user');
-  yield put(push('/'));
+  window.location.reload();
 }
 
 export default function* authorizationWatcher() {

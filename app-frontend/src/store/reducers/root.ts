@@ -1,13 +1,13 @@
 import { combineReducers } from 'redux';
 import { connectRouter } from 'connected-react-router';
-import { BrowserHistory, createBrowserHistory } from 'history';
+import { createBrowserHistory } from 'history';
 import links from './links';
 import link from './link';
 import searchedLinks from './searchedLinks';
 import searchedLink from './searchedLink';
 import user from './authorization';
 
-export const history: BrowserHistory = createBrowserHistory();
+export const history = createBrowserHistory();
 
 const root = combineReducers({
   router: connectRouter(history),

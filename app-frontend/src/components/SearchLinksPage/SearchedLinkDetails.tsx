@@ -11,7 +11,7 @@ import { RootState } from '../../store/reducers/root';
 const SearchedLinkDetails:FC = function () {
   const { data, loading, error } = useSelector((state: RootState) => state.searchedLink);
   const dispatch = useDispatch();
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
 
   const getLink = useCallback(() => {
     dispatch(loadSearchedLinkData(id));

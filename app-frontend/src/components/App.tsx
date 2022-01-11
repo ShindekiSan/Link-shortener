@@ -1,7 +1,7 @@
 import React, {
   Suspense, lazy, FC, useEffect,
 } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import { useCookies } from 'react-cookie';
 import { useDispatch, useSelector } from 'react-redux';
@@ -34,16 +34,32 @@ const App:FC = function () {
   return (
     <Suspense fallback={<Loader />}>
       <ConnectedRouter history={history}>
-        <Routes>
-          <Route path="/" element={<MainPage />} />
-          <Route path="/login" element={<LogIn />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/link-detail/:id" element={<LinkDetails />} />
-          <Route path="/shortener" element={<ShortenerPage />} />
-          <Route path="/search" element={<SearchLinksPage />} />
-          <Route path="/link-info/:id" element={<SearchedLinkDetails />} />
-        </Routes>
+        <Switch>
+          <Route exact path="/">
+            <MainPage />
+          </Route>
+          <Route path="/login">
+            <LogIn />
+          </Route>
+          <Route path="/signup">
+            <SignUp />
+          </Route>
+          <Route path="/profile">
+            <Profile />
+          </Route>
+          <Route path="/link-detail/:id">
+            <LinkDetails />
+          </Route>
+          <Route path="/shortener">
+            <ShortenerPage />
+          </Route>
+          <Route path="/search">
+            <SearchLinksPage />
+          </Route>
+          <Route path="/link-info/:id">
+            <SearchedLinkDetails />
+          </Route>
+        </Switch>
       </ConnectedRouter>
     </Suspense>
   );
