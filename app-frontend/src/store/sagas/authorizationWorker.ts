@@ -7,8 +7,7 @@ import { fetchCurrentUser, fetchRegistration, fecthAuthorization } from './api/a
 import {
   AuthorizeActionTypes, RegisterActionTypes, GetCurrentUserActionTypes, LogoutActionType,
 } from '../actionTypes';
-
-const MAIN_PAGE_LOCATION = 'http://localhost:8081';
+import handleError from '../../utils/errorHandler';
 
 const setUserCookie = (name: string, value?: string): void => {
   document.cookie = `${name}=${value}; path=/`;
@@ -28,17 +27,11 @@ export function* authorizeUser(action: AuthrorizeUserAction) {
     yield put(
       loginUserSuccess(data),
     );
-    window.location.replace(MAIN_PAGE_LOCATION);
+    window.location.assign('/');
   } catch (e: unknown) {
-    if (e instanceof Error) {
-      yield put(
-        loginUserFailed(e.message),
-      );
-    } else {
-      yield put(
-        loginUserFailed(String(e)),
-      );
-    }
+    yield put(
+      loginUserFailed(handleError(e)),
+    );
   }
 }
 
@@ -49,17 +42,11 @@ export function* registerUser(action: RegisterUserAction) {
     yield put(
       signupUserSuccess(data),
     );
-    window.location.replace(MAIN_PAGE_LOCATION);
+    window.location.assign('/');
   } catch (e: unknown) {
-    if (e instanceof Error) {
-      yield put(
-        signupUserFailed(e.message),
-      );
-    } else {
-      yield put(
-        signupUserFailed(String(e)),
-      );
-    }
+    yield put(
+      signupUserFailed(handleError(e)),
+    );
   }
 }
 
@@ -70,21 +57,15 @@ export function* getUser(action: GetCurrentUserAction) {
       getCurrentUserSuccess(data),
     );
   } catch (e) {
-    if (e instanceof Error) {
-      yield put(
-        getCurrentUserFailed(e.message),
-      );
-    } else {
-      yield put(
-        getCurrentUserFailed(String(e)),
-      );
-    }
+    yield put(
+      getCurrentUserFailed(handleError(e)),
+    );
   }
 }
 
 export function* logoutUser() {
   yield call(deleteUserCookie, 'user');
-  window.location.replace(MAIN_PAGE_LOCATION);
+  window.location.assign('/');
 }
 
 export default function* authorizationWatcher() {

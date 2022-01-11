@@ -6,6 +6,7 @@ import { fetchLink, fetchLinks } from './api/searchedLinks.api';
 import {
   LoadSearchedLinkActionTypes, LoadSearchedLinksActionTypes,
 } from '../actionTypes';
+import handleError from '../../utils/errorHandler';
 
 export function* getSearchedLinks(action: FetchSearchedLinksAction) {
   try {
@@ -17,15 +18,9 @@ export function* getSearchedLinks(action: FetchSearchedLinksAction) {
       loadSearchedLinksDataSuccess(data),
     );
   } catch (e: unknown) {
-    if (e instanceof Error) {
-      yield put(
-        loadSearchedLinksDataFailed(e.message),
-      );
-    } else {
-      yield put(
-        loadSearchedLinksDataFailed(String(e)),
-      );
-    }
+    yield put(
+      loadSearchedLinksDataFailed(handleError(e)),
+    );
   }
 }
 
@@ -39,15 +34,9 @@ export function* getSearchedLink(action: FetchSearchedLinkAction) {
       loadSearchedLinkDataSuccess(data),
     );
   } catch (e: unknown) {
-    if (e instanceof Error) {
-      yield put(
-        loadSearchedLinkDataFailed(e.message),
-      );
-    } else {
-      yield put(
-        loadSearchedLinkDataFailed(String(e)),
-      );
-    }
+    yield put(
+      loadSearchedLinkDataFailed(handleError(e)),
+    );
   }
 }
 

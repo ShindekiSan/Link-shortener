@@ -10,6 +10,7 @@ import {
 import {
   LoadLinkActionTypes, LoadLinksActionTypes, EditLinkActionTypes, AddLinkActionTypes,
 } from '../actionTypes';
+import handleError from '../../utils/errorHandler';
 
 export function* getUserLinks(action: FetchLinksAction) {
   try {
@@ -21,15 +22,9 @@ export function* getUserLinks(action: FetchLinksAction) {
       loadLinksDataSuccess(data),
     );
   } catch (e: unknown) {
-    if (e instanceof Error) {
-      yield put(
-        loadLinksDataFailed(e.message),
-      );
-    } else {
-      yield put(
-        loadLinksDataFailed(String(e)),
-      );
-    }
+    yield put(
+      loadLinksDataFailed(handleError(e)),
+    );
   }
 }
 
@@ -43,15 +38,9 @@ export function* getUserLink(action: FetchLinkAction) {
       loadLinkDataSuccess(data),
     );
   } catch (e: unknown) {
-    if (e instanceof Error) {
-      yield put(
-        loadLinkDataFailed(e.message),
-      );
-    } else {
-      yield put(
-        loadLinkDataFailed(String(e)),
-      );
-    }
+    yield put(
+      loadLinkDataFailed(handleError(e)),
+    );
   }
 }
 
@@ -62,15 +51,9 @@ export function* getEditLink(action: EditLinkAction) {
       editLinkDataSuccess(data),
     );
   } catch (e) {
-    if (e instanceof Error) {
-      yield put(
-        editLinkDataFailed(e.message),
-      );
-    } else {
-      yield put(
-        editLinkDataFailed(String(e)),
-      );
-    }
+    yield put(
+      editLinkDataFailed(handleError(e)),
+    );
   }
 }
 
@@ -84,15 +67,9 @@ export function* addLink(action: AddLinkAction) {
       addLinkSuccess(data),
     );
   } catch (e: unknown) {
-    if (e instanceof Error) {
-      yield put(
-        addLinkFailed(e.message),
-      );
-    } else {
-      yield put(
-        addLinkFailed(String(e)),
-      );
-    }
+    yield put(
+      addLinkFailed(handleError(e)),
+    );
   }
 }
 

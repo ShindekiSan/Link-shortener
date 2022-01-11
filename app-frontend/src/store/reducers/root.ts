@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux';
-
 import links from './links';
 import link from './link';
 import searchedLinks from './searchedLinks';

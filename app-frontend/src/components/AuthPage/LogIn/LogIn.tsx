@@ -46,7 +46,9 @@ const LogIn:FC<LogInProps> = function ({
             Log in
           </button>
         </div>
-        <p className="auth-fail-message">{ error }</p>
+        {loading
+          ? <p className="auth-fail-message">Loading...</p>
+          : <p className="auth-fail-message">{ error }</p>}
         <h3 className="auth-subtitle">You do not have an account?</h3>
         <Link to="/signup">
           <MyBytton
