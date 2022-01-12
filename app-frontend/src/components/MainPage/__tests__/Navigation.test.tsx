@@ -1,7 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { MemoryRouter } from 'react-router';
+import { shallow } from 'enzyme';
 import Navigation, { NavProps } from '../Navigation';
 
 function noop() {}
@@ -14,52 +12,41 @@ const baseProps: NavProps = {
 
 const authProps = {
   ...baseProps,
-  userName: 'hello',
+  userName: 'test',
   isAuthenticated: true,
 };
 
 describe('<Navigation />', () => {
   describe('Initialized without authentication', () => {
-    beforeEach(() => {
-      render(<Navigation {...baseProps} />, { wrapper: MemoryRouter }); // eslint-disable-line
-    });
-
-    it('Should have a navigation which has logo and search button', () => {
-      const navigation = screen.getByRole('navigation');
-      const logo = screen.getByText('calibri');
-      const searchButton = screen.getByText('search for links');
-
-      expect(logo).toBeInTheDocument();
-      expect(navigation).toBeInTheDocument();
-      expect(searchButton).toBeInTheDocument();
-    });
-
     it('Should have an authentication buttons', () => {
-      const buttons = screen.getAllByRole('button');
+      const wrapper = shallow(
+        <Navigation
+          userName={baseProps.userName}
+          isAuthenticated={baseProps.isAuthenticated}
+          logoutHandler={baseProps.logoutHandler}
+        />,
+      );
 
-      expect(buttons[1]).toHaveClass('auth-button');
-      expect(buttons[2]).toHaveClass('auth-button');
+      const buttons = wrapper.find('MyAuthButton');
+
+      expect(buttons).toHaveLength(2);
     });
   });
 
   describe('Initialized with authentication', () => {
-    beforeEach(() => {
-      render(<Navigation {...authProps} />, { wrapper: MemoryRouter }); // eslint-disable-line
-    });
-
     it('Should have a userName and logout button', () => {
-      const buttons = screen.getAllByRole('button');
-      const userName = screen.getByText(authProps.userName);
+      const wrapper = shallow(
+        <Navigation
+          userName={authProps.userName}
+          isAuthenticated={authProps.isAuthenticated}
+          logoutHandler={authProps.logoutHandler}
+        />,
+      );
+      const buttons = wrapper.find('MyAuthButton');
+      const userName = wrapper.find('.authorized-user-name');
 
-      expect(buttons[1]).toHaveClass('auth-button');
-      expect(userName).toBeTruthy();
-    });
-
-    it('Should show authentication buttons after logout', async () => {
-      const logoutButton = screen.getByText('log out');
-
-      userEvent.click(logoutButton);
-      expect(authProps.logoutHandler).toHaveBeenCalledTimes(1);
+      expect(buttons).toHaveLength(1);
+      expect(userName.text()).toEqual(authProps.userName);
     });
   });
 });

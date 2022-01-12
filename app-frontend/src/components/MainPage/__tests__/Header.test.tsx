@@ -15,38 +15,8 @@ const initialState: InitialMockState = {
 };
 
 describe('<Header />', () => {
-  describe('Should be rendered with', () => {
-    beforeEach(() => {
-      const store = createMockStore(initialState);
-      render( // eslint-disable-line
-        <Provider store={store}>
-          <Header />
-        </Provider>,
-        { wrapper: MemoryRouter },
-      );
-    });
-
-    it('Navigation', () => {
-      const headerNavigation = screen.getByRole('navigation');
-
-      expect(headerNavigation).toBeInTheDocument();
-    });
-
-    it('Heading', () => {
-      const headerHeading = screen.getByRole('heading');
-
-      expect(headerHeading).toBeInTheDocument();
-    });
-
-    it('Description paragraph', () => {
-      const headerDescription = screen.getByText(/Make your link/);
-
-      expect(headerDescription).toBeTruthy();
-    });
-  });
-
   describe('Rendered for unauthorized user', () => {
-    it('Should have an authorization buttons both in navigation and header', () => {
+    it('Should have an authorization buttons in header', () => {
       const store = createMockStore(initialState);
       render(
         <Provider store={store}>
@@ -54,6 +24,7 @@ describe('<Header />', () => {
         </Provider>,
         { wrapper: MemoryRouter },
       );
+
       const logInButtons = screen.getAllByRole('button', { name: 'log in' });
       const signUpButtons = screen.getAllByRole('button', { name: 'sign up' });
 
@@ -63,7 +34,7 @@ describe('<Header />', () => {
   });
 
   describe('Rendered for authorized user', () => {
-    beforeEach(() => {
+    it('Should have a start button in header', () => {
       const userState: InitialMockState = {
         user: {
           ...initialState.user!,
@@ -79,17 +50,6 @@ describe('<Header />', () => {
         </Provider>,
         { wrapper: MemoryRouter },
       );
-    });
-
-    it('Should have a log out button and username link in navigation', () => {
-      const logoutButton = screen.getByRole('button', { name: 'log out' });
-      const usernameLink = screen.getByRole('link', { name: 'test' });
-
-      expect(logoutButton).toBeInTheDocument();
-      expect(usernameLink).toBeInTheDocument();
-    });
-
-    it('Should have a start button in header', () => {
       const startButton = screen.getByRole('button', { name: 'start' });
 
       expect(startButton).toBeInTheDocument();

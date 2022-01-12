@@ -1,6 +1,5 @@
 import React from 'react';
-import { MemoryRouter } from 'react-router';
-import { render, screen } from '@testing-library/react';
+import { shallow } from 'enzyme';
 import LinksBlock, { Props } from '../LinksBlock';
 
 const linksProps: Props = {
@@ -27,23 +26,31 @@ const linksErrorProps: Props = {
 describe('<LinksBlock />', () => {
   describe('Initialized with props, containing array with 2 links', () => {
     it('Should have a 2 div elements', () => {
-      render(<LinksBlock {...linksProps} />, { wrapper: MemoryRouter }); // eslint-disable-line
+      const wrapper = shallow(
+        <LinksBlock
+          linksArray={linksProps.linksArray}
+          error={linksProps.error}
+        />,
+      );
 
-      const firstLink = screen.getByText(linksProps.linksArray[0].from);
-      const secondLink = screen.getByText(linksProps.linksArray[1].from);
+      const links = wrapper.find('LinkInfo');
 
-      expect(firstLink).toBeInTheDocument();
-      expect(secondLink).toBeInTheDocument();
+      expect(links).toHaveLength(2);
     });
   });
 
   describe('Initialized with error', () => {
     it('Should have a paragraph with error message', () => {
-      render(<LinksBlock {...linksErrorProps} />, { wrapper: MemoryRouter }) // eslint-disable-line
+      const wrapper = shallow(
+        <LinksBlock
+          linksArray={linksErrorProps.linksArray}
+          error={linksErrorProps.error}
+        />,
+      );
 
-      const errorMessage = screen.getByText(linksErrorProps.error);
+      const errorMessage = wrapper.find('.searched-links-error');
 
-      expect(errorMessage).toBeTruthy();
+      expect(errorMessage.text()).toEqual(linksErrorProps.error);
     });
   });
 });
