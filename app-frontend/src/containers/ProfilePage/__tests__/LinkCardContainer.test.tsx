@@ -7,6 +7,7 @@ import userEvent from '@testing-library/user-event';
 import LinkCardContainer from '../LinkCardContainer';
 import { InitialMockState } from '../../../mocks/store/mockStore';
 import { userData, testLink } from '../../../mocks/store/constants';
+import { EditLinkActionTypes } from '../../../store/actionTypes';
 
 describe('<LinkCardContainer />', () => {
   describe('Initialized with LinkCard component', () => {
@@ -46,7 +47,7 @@ describe('<LinkCardContainer />', () => {
       expect(editInputs).toHaveLength(2);
       userEvent.click(confirmButton);
       const actions = store.getActions();
-      expect(actions[0].type).toBe('EDIT_LINK_DATA');
+      expect(actions[0].type).toBe(EditLinkActionTypes.EDIT_LINK_DATA);
     });
   });
 });

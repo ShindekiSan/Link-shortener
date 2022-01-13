@@ -6,6 +6,7 @@ import userEvent from '@testing-library/user-event';
 import ShortenerNavigationContainer from '../ShortenerNavigationContainer';
 import { createMockStore, InitialMockState } from '../../../mocks/store/mockStore';
 import { userData } from '../../../mocks/store/constants';
+import { LogoutActionType } from '../../../store/actionTypes';
 
 describe('<ShortenerNavigationContainer />', () => {
   describe('Initializeed with ShortenerNavigation component', () => {
@@ -35,7 +36,7 @@ describe('<ShortenerNavigationContainer />', () => {
       const logoutButton = screen.getByRole('button', { name: 'log out' });
       userEvent.click(logoutButton);
       const actions = store.getActions();
-      expect(actions[0].type).toBe('LOGOUT_USER');
+      expect(actions[0].type).toBe(LogoutActionType.LOGOUT_USER);
     });
   });
 });

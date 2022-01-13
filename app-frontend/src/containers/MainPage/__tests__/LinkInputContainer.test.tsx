@@ -8,6 +8,7 @@ import LinkInputContainer from '../LinkInputContainer';
 import root from '../../../store/reducers/root';
 import { createMockStore, InitialMockState } from '../../../mocks/store/mockStore';
 import { userData } from '../../../mocks/store/constants';
+import { AddLinkActionTypes } from '../../../store/actionTypes';
 
 const initialState: InitialMockState = {
   user: {
@@ -55,7 +56,7 @@ describe('<LinkInputContainer />', () => {
       const shortenButton = screen.getByRole('button', { name: 'shorten' });
       userEvent.click(shortenButton);
       const actions = store.getActions();
-      expect(actions[0].type).toBe('ADD_LINK_DATA');
+      expect(actions[0].type).toBe(AddLinkActionTypes.ADD_LINK_DATA);
     });
 
     describe('Should return a message for user after action dispatching', () => {

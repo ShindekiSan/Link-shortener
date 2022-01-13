@@ -6,6 +6,7 @@ import userEvent from '@testing-library/user-event';
 import SearchLinksPageNavigationContainer from '../SearchLinksPageNavigationContainer';
 import { createMockStore, InitialMockState } from '../../../mocks/store/mockStore';
 import { userData } from '../../../mocks/store/constants';
+import { LogoutActionType, LoadSearchedLinksActionTypes } from '../../../store/actionTypes';
 
 const initialState: InitialMockState = {
   user: {
@@ -36,7 +37,7 @@ describe('<SearchLinksPageContainer />', () => {
       searchInput.focus();
       userEvent.keyboard('{enter}');
       const actions = store.getActions();
-      expect(actions[0].type).toBe('LOAD_SEARCHED_LINKS_DATA');
+      expect(actions[0].type).toBe(LoadSearchedLinksActionTypes.LOAD_SEARCHED_LINKS_DATA);
       expect(actions[0].payload).toBe('123');
     });
 
@@ -61,7 +62,7 @@ describe('<SearchLinksPageContainer />', () => {
       const logoutButton = screen.getByRole('button', { name: 'log out' });
       userEvent.click(logoutButton);
       const actions = store.getActions();
-      expect(actions[0].type).toBe('LOGOUT_USER');
+      expect(actions[0].type).toBe(LogoutActionType.LOGOUT_USER);
     });
   });
 });

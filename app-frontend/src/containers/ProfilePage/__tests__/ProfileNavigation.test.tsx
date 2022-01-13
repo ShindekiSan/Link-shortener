@@ -6,6 +6,7 @@ import userEvent from '@testing-library/user-event';
 import ProfileNavigationContainer from '../ProfileNavigationContainer';
 import { createMockStore, InitialMockState } from '../../../mocks/store/mockStore';
 import { userData } from '../../../mocks/store/constants';
+import { LogoutActionType } from '../../../store/actionTypes';
 
 describe('<ProfileNavigationContainer />', () => {
   describe('Rendered with ProfileNavigationContainer component', () => {
@@ -30,7 +31,7 @@ describe('<ProfileNavigationContainer />', () => {
       const logOutButton = screen.getByRole('button', { name: 'log out' });
       userEvent.click(logOutButton);
       const actions = store.getActions();
-      expect(actions[0].type).toBe('LOGOUT_USER');
+      expect(actions[0].type).toBe(LogoutActionType.LOGOUT_USER);
     });
   });
 });

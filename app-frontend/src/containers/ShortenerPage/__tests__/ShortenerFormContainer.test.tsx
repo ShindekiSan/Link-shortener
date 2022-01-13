@@ -7,6 +7,7 @@ import userEvent from '@testing-library/user-event';
 import ShortenerFormContainer from '../ShortenerFormContainer';
 import { createMockStore, InitialMockState } from '../../../mocks/store/mockStore';
 import { userData } from '../../../mocks/store/constants';
+import { AddLinkActionTypes } from '../../../store/actionTypes';
 
 const initialState: InitialMockState = {
   user: {
@@ -46,7 +47,7 @@ describe('<ShortenerFormContainer />', () => {
 
       const actions = store.getActions();
       const action = actions[0];
-      expect(action.type).toBe('ADD_LINK_DATA');
+      expect(action.type).toBe(AddLinkActionTypes.ADD_LINK_DATA);
       expect(action.payload.from).toBe('link');
       expect(action.payload.description).toBe('test description');
       expect(action.payload.tags).toStrictEqual([{ tagName: 'test' }]);
