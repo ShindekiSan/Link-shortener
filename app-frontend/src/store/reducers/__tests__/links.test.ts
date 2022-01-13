@@ -9,7 +9,8 @@ const linksState = [
 describe('links reducer', () => {
   describe('should return loading=true', () => {
     it('When dispatching LOAD_LINKS_DATA action', () => {
-      const reducer = links(initialState, loadLinksData('123'));
+      const userToken = '123';
+      const reducer = links(initialState, loadLinksData(userToken));
       expect(reducer).toEqual({
         ...initialState,
         loading: true,

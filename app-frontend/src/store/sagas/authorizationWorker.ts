@@ -10,11 +10,11 @@ import {
 } from '../actionTypes';
 import handleError from '../../utils/errorHandler';
 
-const setUserCookie = (name: string, value?: string): void => {
+export const setUserCookie = (name: string, value?: string): void => {
   document.cookie = `${name}=${value}; path=/`;
 };
 
-const deleteUserCookie = (name: string): void => {
+export const deleteUserCookie = (name: string): void => {
   document.cookie = `${name}=; max-age=${-1}`;
 };
 
@@ -24,10 +24,10 @@ export function* authorizeUser(action: AuthrorizeUserAction) {
       fecthAuthorization,
       action.payload,
     );
-    yield call(setUserCookie, 'user', data.data?.userId);
     yield put(
       loginUserSuccess(data),
     );
+    yield call(setUserCookie, 'user', data.data?.userId);
     yield put(push('/'));
   } catch (e: unknown) {
     yield put(
@@ -39,10 +39,10 @@ export function* authorizeUser(action: AuthrorizeUserAction) {
 export function* registerUser(action: RegisterUserAction) {
   try {
     const data:UserData = yield call(fetchRegistration, action.payload);
-    yield call(setUserCookie, 'user', data.data?.userId);
     yield put(
       signupUserSuccess(data),
     );
+    yield call(setUserCookie, 'user', data.data?.userId);
     yield put(push('/'));
   } catch (e: unknown) {
     yield put(
@@ -66,6 +66,7 @@ export function* getUser(action: GetCurrentUserAction) {
 
 export function* logoutUser() {
   yield call(deleteUserCookie, 'user');
+  yield put(push('/'));
   window.location.reload();
 }
 

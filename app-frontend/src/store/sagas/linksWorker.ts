@@ -57,7 +57,7 @@ export function* getEditLink(action: EditLinkAction) {
   }
 }
 
-export function* addLink(action: AddLinkAction) {
+export function* addUserLink(action: AddLinkAction) {
   try {
     const data:LinkData = yield call(
       fetchNewLink,
@@ -77,5 +77,5 @@ export default function* linksWatcher() {
   yield takeEvery(LoadLinkActionTypes.LOAD_LINK_DATA, getUserLink);
   yield takeEvery(LoadLinksActionTypes.LOAD_LINKS_DATA, getUserLinks);
   yield takeEvery(EditLinkActionTypes.EDIT_LINK_DATA, getEditLink);
-  yield takeEvery(AddLinkActionTypes.ADD_LINK_DATA, addLink);
+  yield takeEvery(AddLinkActionTypes.ADD_LINK_DATA, addUserLink);
 }

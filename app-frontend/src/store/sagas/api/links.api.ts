@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {
-  LinkData, Link, LinkEdit, AddLink, LinkId,
+  LinkData, Link, LinkEdit, AddLink, LinkId, SearchedLinkData, SearchedLink,
 } from '../../../types/link';
 
 const API_URL = 'http://localhost:5000';
@@ -60,4 +60,20 @@ export const fetchNewLink = async (linkParams: AddLink):Promise<LinkData> => {
     },
   });
   return { data: fetched.data };
+};
+
+export const fetchSearchedLinks = async (tag: string):Promise<SearchedLink[]> => {
+  const fetched = await axios({
+    url: `${API_URL}/api/link/search/${tag}`,
+    method: 'GET',
+  });
+  return fetched.data.links;
+};
+
+export const fetchSearchedLink = async (id: string | undefined):Promise<SearchedLinkData> => {
+  const fetched = await axios({
+    url: `${API_URL}/api/link/link-info/${id}`,
+    method: 'GET',
+  });
+  return { data: fetched.data.link };
 };

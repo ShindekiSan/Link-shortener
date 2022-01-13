@@ -6,7 +6,7 @@ export const userData = {
 
 export const testLink = {
   code: '1',
-  from: 'hi',
+  from: '12',
   to: 'bye',
   clicks: 0,
   tags: [],

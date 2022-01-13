@@ -38,7 +38,8 @@ describe('user reducer', () => {
     });
 
     it('When dispatching GET_CURRENT_USER_DATA action', () => {
-      const reducer = authorizeUser(initialState, getCurrentUser('522'));
+      const userId = '522';
+      const reducer = authorizeUser(initialState, getCurrentUser(userId));
       expect(reducer).toEqual({
         ...initialState,
         loading: true,
