@@ -1,11 +1,18 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
 import LinkInput, { LinkInputProps } from '../LinkInput';
-import root from '../../../store/reducers/root';
+import { createMockStore, InitialMockState } from '../../../mocks/store/mockStore';
 
 function noop() {}
+
+const initialState: InitialMockState = {
+  link: {
+    data: null,
+    loading: false,
+    error: '',
+  },
+};
 
 const props: LinkInputProps = {
   isAuthenticated: false,
@@ -23,7 +30,7 @@ const authorizedProps: LinkInputProps = {
 describe('<LinkInput />', () => {
   describe('Rendered for unauthorized user', () => {
     it('Should have disabled input field and submit button', () => {
-      const store = createStore(root);
+      const store = createMockStore(initialState);
       render(
         <Provider store={store}>
           {/* eslint-disable-next-line */}
@@ -43,7 +50,7 @@ describe('<LinkInput />', () => {
 
   describe('Rendered for authorized user', () => {
     beforeEach(() => {
-      const store = createStore(root);
+      const store = createMockStore(initialState);
       render( // eslint-disable-line
         <Provider store={store}>
           {/* eslint-disable-next-line */}

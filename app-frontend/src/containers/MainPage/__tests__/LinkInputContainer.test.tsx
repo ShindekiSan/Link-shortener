@@ -1,11 +1,9 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import LinkInputContainer from '../LinkInputContainer';
-import root from '../../../store/reducers/root';
 import { createMockStore, InitialMockState } from '../../../mocks/store/mockStore';
 import { userData } from '../../../mocks/store/constants';
 import { AddLinkActionTypes } from '../../../store/actionTypes';
@@ -28,7 +26,7 @@ const initialState: InitialMockState = {
 describe('<LinkInputContainer />', () => {
   describe('Initialized with LinkInput component', () => {
     it('Should not dispatch a link action when unauthorized user clicks on a button', () => {
-      const store = createStore(root);
+      const store = createMockStore(initialState);
       render(
         <Provider store={store}>
           <LinkInputContainer />
@@ -38,8 +36,8 @@ describe('<LinkInputContainer />', () => {
 
       const shortenButton = screen.getByRole('button', { name: 'shorten' });
       userEvent.click(shortenButton);
-      const state = store.getState();
-      expect(state.link.loading).toBe(false);
+      const actions = store.getActions();
+      expect(actions).toHaveLength(0);
     });
   });
 
