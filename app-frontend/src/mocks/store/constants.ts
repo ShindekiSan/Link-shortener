@@ -14,3 +14,23 @@ export const testLink = {
   _id: '555',
   date: new Date(Date.now()),
 };
+
+export const loadLink = {
+  id: '123',
+  token: '123',
+};
+
+export const editData = {
+  code: '12',
+  description: '',
+  tags: [],
+  token: '123',
+};
+
+export const linkState = {
+  data: testLink,
+};
+
+export const linksState = [
+  testLink,
+];

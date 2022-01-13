@@ -2,23 +2,7 @@ import link, { initialState } from '../link';
 import addLink, { addLinkFailed, addLinkSuccess } from '../../actions/addLink/addLink';
 import editLinkData, { editLinkDataFailed, editLinkDataSuccess } from '../../actions/editLinkData/editLinkData';
 import loadLinkData, { loadLinkDataFailed, loadLinkDataSuccess } from '../../actions/loadLinkData/loadLinkData';
-import { testLink } from '../../../mocks/store/constants';
-
-const loadLink = {
-  id: '123',
-  token: '123',
-};
-
-const linkState = {
-  data: testLink,
-};
-
-const editData = {
-  code: '12',
-  description: '',
-  tags: [],
-  token: '123',
-};
+import { loadLink, editData, linkState } from '../../../mocks/store/constants';
 
 const newLink = {
   from: '12',

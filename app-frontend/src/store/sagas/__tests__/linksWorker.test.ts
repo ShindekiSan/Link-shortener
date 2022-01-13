@@ -3,7 +3,9 @@ import loadLinksData, { loadLinksDataSuccess } from '../../actions/loadLinksData
 import {
   getUserLink, getUserLinks, getEditLink, addUserLink,
 } from '../linksWorker';
-import { testLink, userData } from '../../../mocks/store/constants';
+import {
+  testLink, userData, loadLink, editData,
+} from '../../../mocks/store/constants';
 import {
   fetchLinks, fetchLink, fetchLinkEdit, fetchNewLink,
 } from '../api/links.api';
@@ -17,18 +19,6 @@ const links = [
 
 const link = {
   data: testLink,
-};
-
-const loadLink = {
-  id: '123',
-  token: '123',
-};
-
-const editData = {
-  code: '12',
-  description: '',
-  tags: [],
-  token: '123',
 };
 
 const newLink = {

@@ -1,10 +1,6 @@
 import links, { initialState } from '../links';
 import loadLinksData, { loadLinksDataFailed, loadLinksDataSuccess } from '../../actions/loadLinksData/loadLinksData';
-import { testLink } from '../../../mocks/store/constants';
-
-const linksState = [
-  testLink,
-];
+import { linksState } from '../../../mocks/store/constants';
 
 describe('links reducer', () => {
   describe('should return loading=true', () => {
