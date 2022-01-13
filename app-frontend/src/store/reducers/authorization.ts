@@ -7,7 +7,7 @@ import {
   AuthorizeActionTypes, RegisterActionTypes, GetCurrentUserActionTypes, LogoutActionType,
 } from '../actionTypes';
 
-const initialState: UserState = {
+export const initialState: UserState = {
   data: null,
   error: '',
   loading: false,

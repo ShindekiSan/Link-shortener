@@ -8,7 +8,7 @@ export interface SearchedLinkState {
   error: string,
 }
 
-const initialState: SearchedLinkState = {
+export const initialState: SearchedLinkState = {
   data: null,
   loading: false,
   error: '',

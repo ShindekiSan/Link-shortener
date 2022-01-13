@@ -6,13 +6,10 @@ import userEvent from '@testing-library/user-event';
 import LinkInputContainer from '../LinkInputContainer';
 import { createMockStore, InitialMockState } from '../../../mocks/store/mockStore';
 import { userData } from '../../../mocks/store/constants';
-import { AddLinkActionTypes } from '../../../store/actionTypes';
 
 const initialState: InitialMockState = {
   user: {
-    data: {
-      data: userData,
-    },
+    data: null,
     loading: false,
     error: '',
   },
@@ -54,13 +51,18 @@ describe('<LinkInputContainer />', () => {
       const shortenButton = screen.getByRole('button', { name: 'shorten' });
       userEvent.click(shortenButton);
       const actions = store.getActions();
-      expect(actions[0].type).toBe(AddLinkActionTypes.ADD_LINK_DATA);
+      expect(actions).toHaveLength(0);
     });
 
     describe('Should return a message for user after action dispatching', () => {
       it('Message if request went successfull', () => {
         const linkMessageState: InitialMockState = {
-          ...initialState,
+          user: {
+            ...initialState.user!,
+            data: {
+              data: userData,
+            },
+          },
           link: {
             ...initialState.link!,
             data: {
@@ -84,7 +86,12 @@ describe('<LinkInputContainer />', () => {
 
       it('Error if request went unsuccessfull', () => {
         const linkErrorState: InitialMockState = {
-          ...initialState,
+          user: {
+            ...initialState.user!,
+            data: {
+              data: userData,
+            },
+          },
           link: {
             ...initialState.link!,
             error: 'error',

@@ -29,7 +29,7 @@ describe('<LogInContainer />', () => {
       const logInButton = screen.getByRole('button', { name: 'Create an account' });
       userEvent.click(logInButton);
       const actions = store.getActions();
-      expect(actions[0]).toEqual(RegisterActionTypes.REGISTER_USER_DATA);
+      expect(actions[0].type).toEqual(RegisterActionTypes.REGISTER_USER_DATA);
     });
   });
 });

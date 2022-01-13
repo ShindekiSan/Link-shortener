@@ -29,7 +29,7 @@ describe('<LogInContainer />', () => {
       const logInButton = screen.getByRole('button', { name: 'Log in' });
       userEvent.click(logInButton);
       const actions = store.getActions();
-      expect(actions[0]).toEqual(AuthorizeActionTypes.AUTHORIZE_USER_DATA);
+      expect(actions[0].type).toEqual(AuthorizeActionTypes.AUTHORIZE_USER_DATA);
     });
   });
 });
