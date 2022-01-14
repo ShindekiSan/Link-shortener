@@ -3,11 +3,11 @@ import { push } from 'connected-react-router';
 import {
   authorizeUser, setUserCookie, registerUser, getUser, deleteUserCookie, logoutUser,
 } from '../authorizationWorker';
-import { userData } from '../../../mocks/store/constants';
-import loginUser, { loginUserSuccess } from '../../actions/authorizeUser/login';
+import { userData, mockError } from '../../../mocks/store/constants';
+import loginUser, { loginUserFailed, loginUserSuccess } from '../../actions/authorizeUser/login';
 import { fecthAuthorization, fetchRegistration, fetchCurrentUser } from '../api/authorization.api';
-import signupUser, { signupUserSuccess } from '../../actions/authorizeUser/signup';
-import getCurrentUser, { getCurrentUserSuccess } from '../../actions/authorizeUser/getCurrentUser';
+import signupUser, { signupUserFailed, signupUserSuccess } from '../../actions/authorizeUser/signup';
+import getCurrentUser, { getCurrentUserFailed, getCurrentUserSuccess } from '../../actions/authorizeUser/getCurrentUser';
 
 const user = {
   email: '1@gmail.com',
@@ -24,7 +24,7 @@ const data = {
 };
 
 describe('authorize user saga', () => {
-  it('should set new user cookie, put user data in store and navigate user to main page', () => {
+  it('should set new user cookie, put user data in store and navigate user to main page in try block', () => {
     const g = authorizeUser(loginUser(user));
 
     expect(g.next().value).toEqual(call(fecthAuthorization, user));
@@ -33,10 +33,21 @@ describe('authorize user saga', () => {
     expect(g.next().value).toEqual(put(push('/')));
     expect(g.next().done).toBe(true);
   });
+
+  it('should throw an error in catch block', () => {
+    const g = authorizeUser(loginUser(user));
+    const error = {
+      message: 'error',
+    };
+
+    g.next();
+    expect(g.throw(error.message).value).toEqual(put(loginUserFailed(error.message)));
+    expect(g.next().done).toBe(true);
+  });
 });
 
 describe('register user saga', () => {
-  it('should set new user cookie, put user data in store and navigate user to main page', () => {
+  it('should set new user cookie, put user data in store and navigate user to main page in try block', () => {
     const g = registerUser(signupUser(registeringUser));
 
     expect(g.next().value).toEqual(call(fetchRegistration, registeringUser));
@@ -45,15 +56,32 @@ describe('register user saga', () => {
     expect(g.next().value).toEqual(put(push('/')));
     expect(g.next().done).toBe(true);
   });
+
+  it('should throw an error in catch block', () => {
+    const g = registerUser(signupUser(registeringUser));
+
+    g.next();
+    expect(g.throw(mockError.message).value).toEqual(put(signupUserFailed(mockError.message)));
+    expect(g.next().done).toBe(true);
+  });
 });
 
 describe('get current user saga', () => {
-  it('should put user data in store', () => {
-    const id = data.data.userId;
+  const id = data.data.userId;
+
+  it('should put user data in store in try block', () => {
     const g = getUser(getCurrentUser(id));
 
     expect(g.next().value).toEqual(call(fetchCurrentUser, id));
     expect(g.next(data).value).toEqual(put(getCurrentUserSuccess(data)));
+    expect(g.next().done).toBe(true);
+  });
+
+  it('should throw an error in catch block', () => {
+    const g = getUser(getCurrentUser(id));
+
+    g.next();
+    expect(g.throw(mockError.message).value).toEqual(put(getCurrentUserFailed(mockError.message)));
     expect(g.next().done).toBe(true);
   });
 });

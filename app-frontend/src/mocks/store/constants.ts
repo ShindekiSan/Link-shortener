@@ -34,3 +34,7 @@ export const linkState = {
 export const linksState = [
   testLink,
 ];
+
+export const mockError = {
+  message: 'error',
+};
