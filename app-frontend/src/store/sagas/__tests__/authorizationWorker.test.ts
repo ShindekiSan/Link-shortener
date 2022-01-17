@@ -1,13 +1,15 @@
-import { call, put } from 'redux-saga/effects';
 import { push } from 'connected-react-router';
+import { runSaga } from 'redux-saga';
 import {
-  authorizeUser, setUserCookie, registerUser, getUser, deleteUserCookie, logoutUser,
+  authorizeUser, registerUser, getUser, logoutUser,
 } from '../authorizationWorker';
+import * as authorizationWorker from '../authorizationWorker';
 import { userData, mockError } from '../../../mocks/store/constants';
 import loginUser, { loginUserFailed, loginUserSuccess } from '../../actions/authorizeUser/login';
-import { fecthAuthorization, fetchRegistration, fetchCurrentUser } from '../api/authorization.api';
+import * as api from '../api/authorization.api';
 import signupUser, { signupUserFailed, signupUserSuccess } from '../../actions/authorizeUser/signup';
 import getCurrentUser, { getCurrentUserFailed, getCurrentUserSuccess } from '../../actions/authorizeUser/getCurrentUser';
+import { Action } from '../../../types/action';
 
 const user = {
   email: '1@gmail.com',
@@ -24,75 +26,112 @@ const data = {
 };
 
 describe('authorize user saga', () => {
-  it('should set new user cookie, put user data in store and navigate user to main page in try block', () => {
-    const g = authorizeUser(loginUser(user));
+  it('should set new user cookie, put user data in store and navigate user to main page in try block', async () => {
+    const fetchUser = jest.spyOn(api, 'fetchAuthorization')
+      .mockImplementation(() => Promise.resolve(data));
+    const setCookie = jest.spyOn(authorizationWorker, 'setUserCookie')
+      .mockImplementation(() => Promise.resolve('cookie'));
+    const dispatched: Action[] = [];
+    await runSaga({
+      dispatch: (action: Action) => dispatched.push(action),
+    }, authorizeUser, loginUser(user)).toPromise();
 
-    expect(g.next().value).toEqual(call(fecthAuthorization, user));
-    expect(g.next(data).value).toEqual(put(loginUserSuccess(data)));
-    expect(g.next().value).toEqual(call(setUserCookie, 'user', data.data.userId));
-    expect(g.next().value).toEqual(put(push('/')));
-    expect(g.next().done).toBe(true);
+    expect(fetchUser).toHaveBeenCalledTimes(1);
+    expect(setCookie).toHaveBeenCalledTimes(1);
+    expect(dispatched[0]).toEqual(loginUserSuccess(data));
+    expect(dispatched[1]).toEqual(push('/'));
+    setCookie.mockClear();
+    fetchUser.mockClear();
   });
 
-  it('should throw an error in catch block', () => {
-    const g = authorizeUser(loginUser(user));
-    const error = {
-      message: 'error',
-    };
+  it('should throw an error in catch block', async () => {
+    const fetchUser = jest.spyOn(api, 'fetchAuthorization')
+      .mockImplementation(() => Promise.reject(mockError.message));
+    const dispatched: Action[] = [];
+    await runSaga({
+      dispatch: (action: Action) => dispatched.push(action),
+    }, authorizeUser, loginUser(user)).toPromise();
 
-    g.next();
-    expect(g.throw(error.message).value).toEqual(put(loginUserFailed(error.message)));
-    expect(g.next().done).toBe(true);
+    expect(fetchUser).toHaveBeenCalledTimes(1);
+    expect(dispatched[0]).toEqual(loginUserFailed(mockError.message));
+    fetchUser.mockClear();
   });
 });
 
 describe('register user saga', () => {
-  it('should set new user cookie, put user data in store and navigate user to main page in try block', () => {
-    const g = registerUser(signupUser(registeringUser));
+  it('should set new user cookie, put user data in store and navigate user to main page in try block', async () => {
+    const fetchUser = jest.spyOn(api, 'fetchRegistration')
+      .mockImplementation(() => Promise.resolve(data));
+    const setCookie = jest.spyOn(authorizationWorker, 'setUserCookie')
+      .mockImplementation(() => Promise.resolve('cookie'));
+    const dispatched: Action[] = [];
+    await runSaga({
+      dispatch: (action: Action) => dispatched.push(action),
+    }, registerUser, signupUser(registeringUser)).toPromise();
 
-    expect(g.next().value).toEqual(call(fetchRegistration, registeringUser));
-    expect(g.next(data).value).toEqual(put(signupUserSuccess(data)));
-    expect(g.next().value).toEqual(call(setUserCookie, 'user', data.data.userId));
-    expect(g.next().value).toEqual(put(push('/')));
-    expect(g.next().done).toBe(true);
+    expect(fetchUser).toHaveBeenCalledTimes(1);
+    expect(setCookie).toHaveBeenCalledTimes(1);
+    expect(dispatched[0]).toEqual(signupUserSuccess(data));
+    expect(dispatched[1]).toEqual(push('/'));
+    setCookie.mockClear();
+    fetchUser.mockClear();
   });
 
-  it('should throw an error in catch block', () => {
-    const g = registerUser(signupUser(registeringUser));
+  it('should throw an error in catch block', async () => {
+    const fetchUser = jest.spyOn(api, 'fetchRegistration')
+      .mockImplementation(() => Promise.reject(mockError.message));
+    const dispatched: Action[] = [];
+    await runSaga({
+      dispatch: (action: Action) => dispatched.push(action),
+    }, registerUser, signupUser(registeringUser)).toPromise();
 
-    g.next();
-    expect(g.throw(mockError.message).value).toEqual(put(signupUserFailed(mockError.message)));
-    expect(g.next().done).toBe(true);
+    expect(fetchUser).toHaveBeenCalledTimes(1);
+    expect(dispatched[0]).toEqual(signupUserFailed(mockError.message));
+    fetchUser.mockClear();
   });
 });
 
 describe('get current user saga', () => {
   const id = data.data.userId;
 
-  it('should put user data in store in try block', () => {
-    const g = getUser(getCurrentUser(id));
+  it('should put user data in store in try block', async () => {
+    const fetchUser = jest.spyOn(api, 'fetchCurrentUser')
+      .mockImplementation(() => Promise.resolve(data));
+    const dispatched: Action[] = [];
+    await runSaga({
+      dispatch: (action: Action) => dispatched.push(action),
+    }, getUser, getCurrentUser(id)).toPromise();
 
-    expect(g.next().value).toEqual(call(fetchCurrentUser, id));
-    expect(g.next(data).value).toEqual(put(getCurrentUserSuccess(data)));
-    expect(g.next().done).toBe(true);
+    expect(fetchUser).toHaveBeenCalledTimes(1);
+    expect(dispatched[0]).toEqual(getCurrentUserSuccess(data));
+    fetchUser.mockClear();
   });
 
-  it('should throw an error in catch block', () => {
-    const g = getUser(getCurrentUser(id));
+  it('should throw an error in catch block', async () => {
+    const fetchUser = jest.spyOn(api, 'fetchCurrentUser')
+      .mockImplementation(() => Promise.reject(mockError.message));
+    const dispatched: Action[] = [];
+    await runSaga({
+      dispatch: (action: Action) => dispatched.push(action),
+    }, getUser, getCurrentUser(id)).toPromise();
 
-    g.next();
-    expect(g.throw(mockError.message).value).toEqual(put(getCurrentUserFailed(mockError.message)));
-    expect(g.next().done).toBe(true);
+    expect(fetchUser).toHaveBeenCalledTimes(1);
+    expect(dispatched[0]).toEqual(getCurrentUserFailed(mockError.message));
+    fetchUser.mockClear();
   });
 });
 
 describe('logout user saga', () => {
-  it('should delete user cookie and navigate user to main page', () => {
-    const g = logoutUser();
+  it('should delete user cookie and navigate user to main page', async () => {
+    const deleteCookie = jest.spyOn(authorizationWorker, 'deleteUserCookie')
+      .mockImplementation(() => Promise.resolve('cookie'));
+    const dispatched: Action[] = [];
+    await runSaga({
+      dispatch: (action: Action) => dispatched.push(action),
+    }, logoutUser).toPromise();
 
-    expect(g.next().value).toEqual(call(deleteUserCookie, 'user'));
-    expect(g.next().value).toEqual(put(push('/')));
-    expect(g.next().value).toEqual(window.location.reload());
-    expect(g.next().done).toBe(true);
+    expect(deleteCookie).toHaveBeenCalledTimes(1);
+    expect(dispatched[0]).toEqual(push('/'));
+    deleteCookie.mockClear();
   });
 });

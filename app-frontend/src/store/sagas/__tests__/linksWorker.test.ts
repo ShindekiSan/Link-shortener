@@ -1,4 +1,4 @@
-import { call, put } from 'redux-saga/effects';
+import { runSaga } from 'redux-saga';
 import loadLinksData, { loadLinksDataFailed, loadLinksDataSuccess } from '../../actions/loadLinksData/loadLinksData';
 import {
   getUserLink, getUserLinks, getEditLink, addUserLink,
@@ -6,12 +6,11 @@ import {
 import {
   userData, loadLink, editData, mockError, linkState, linksState,
 } from '../../../mocks/store/constants';
-import {
-  fetchLinks, fetchLink, fetchLinkEdit, fetchNewLink,
-} from '../api/links.api';
+import * as api from '../api/links.api';
 import loadLinkData, { loadLinkDataFailed, loadLinkDataSuccess } from '../../actions/loadLinkData/loadLinkData';
 import editLinkData, { editLinkDataFailed, editLinkDataSuccess } from '../../actions/editLinkData/editLinkData';
 import addLink, { addLinkFailed, addLinkSuccess } from '../../actions/addLink/addLink';
+import { Action } from '../../../types/action';
 
 const newLink = {
   from: '12',
@@ -20,79 +19,117 @@ const newLink = {
 describe('get user links saga', () => {
   const data = linksState;
 
-  it('should put links in store', () => {
-    const g = getUserLinks(loadLinksData(userData.token));
+  it('should put links in store', async () => {
+    const fetchLinks = jest.spyOn(api, 'fetchLinks')
+      .mockImplementation(() => Promise.resolve(data));
+    const dispatched: Action[] = [];
+    await runSaga({
+      dispatch: (action: Action) => dispatched.push(action),
+    }, getUserLinks, loadLinksData(userData.token)).toPromise();
 
-    expect(g.next().value).toEqual(call(fetchLinks, userData.token));
-    expect(g.next(data).value).toEqual(put(loadLinksDataSuccess(data)));
-    expect(g.next().done).toBe(true);
+    expect(fetchLinks).toHaveBeenCalledTimes(1);
+    expect(dispatched[0]).toEqual(loadLinksDataSuccess(data));
+    fetchLinks.mockClear();
   });
 
-  it('should throw an error in catch block', () => {
-    const g = getUserLinks(loadLinksData(userData.token));
+  it('should throw an error in catch block', async () => {
+    const fetchLinks = jest.spyOn(api, 'fetchLinks')
+      .mockImplementation(() => Promise.reject(mockError.message));
+    const dispatched: Action[] = [];
+    await runSaga({
+      dispatch: (action: Action) => dispatched.push(action),
+    }, getUserLinks, loadLinksData(userData.token)).toPromise();
 
-    g.next();
-    expect(g.throw(mockError.message).value).toEqual(put(loadLinksDataFailed(mockError.message)));
-    expect(g.next().done).toBe(true);
+    expect(fetchLinks).toHaveBeenCalledTimes(1);
+    expect(dispatched[0]).toEqual(loadLinksDataFailed(mockError.message));
+    fetchLinks.mockClear();
   });
 });
 
 describe('get user link saga', () => {
   const data = linkState;
 
-  it('should put link in store', () => {
-    const g = getUserLink(loadLinkData(loadLink));
+  it('should put link in store', async () => {
+    const fetchLink = jest.spyOn(api, 'fetchLink')
+      .mockImplementation(() => Promise.resolve(data));
+    const dispatched: Action[] = [];
+    await runSaga({
+      dispatch: (action: Action) => dispatched.push(action),
+    }, getUserLink, loadLinkData(loadLink)).toPromise();
 
-    expect(g.next().value).toEqual(call(fetchLink, loadLink));
-    expect(g.next(data).value).toEqual(put(loadLinkDataSuccess(data)));
-    expect(g.next().done).toBe(true);
+    expect(fetchLink).toHaveBeenCalledTimes(1);
+    expect(dispatched[0]).toEqual(loadLinkDataSuccess(data));
+    fetchLink.mockClear();
   });
 
-  it('should throw an error in catch block', () => {
-    const g = getUserLink(loadLinkData(loadLink));
+  it('should throw an error in catch block', async () => {
+    const fetchLink = jest.spyOn(api, 'fetchLink')
+      .mockImplementation(() => Promise.reject(mockError.message));
+    const dispatched: Action[] = [];
+    await runSaga({
+      dispatch: (action: Action) => dispatched.push(action),
+    }, getUserLink, loadLinkData(loadLink)).toPromise();
 
-    g.next();
-    expect(g.throw(mockError.message).value).toEqual(put(loadLinkDataFailed(mockError.message)));
-    expect(g.next().done).toBe(true);
+    expect(fetchLink).toHaveBeenCalledTimes(1);
+    expect(dispatched[0]).toEqual(loadLinkDataFailed(mockError.message));
+    fetchLink.mockClear();
   });
 });
 
 describe('edit link saga', () => {
   const data = linkState;
 
-  it('should put edited link in store', () => {
-    const g = getEditLink(editLinkData(editData));
+  it('should put edited link in store', async () => {
+    const fetchLink = jest.spyOn(api, 'fetchLinkEdit')
+      .mockImplementation(() => Promise.resolve(data));
+    const dispatched: Action[] = [];
+    await runSaga({
+      dispatch: (action: Action) => dispatched.push(action),
+    }, getEditLink, editLinkData(editData)).toPromise();
 
-    expect(g.next().value).toEqual(call(fetchLinkEdit, editData));
-    expect(g.next(data).value).toEqual(put(editLinkDataSuccess(data)));
-    expect(g.next().done).toBe(true);
+    expect(fetchLink).toHaveBeenCalledTimes(1);
+    expect(dispatched[0]).toEqual(editLinkDataSuccess(data));
+    fetchLink.mockClear();
   });
 
-  it('should throw an error in catch block', () => {
-    const g = getEditLink(editLinkData(editData));
+  it('should throw an error in catch block', async () => {
+    const fetchLink = jest.spyOn(api, 'fetchLinkEdit')
+      .mockImplementation(() => Promise.reject(mockError.message));
+    const dispatched: Action[] = [];
+    await runSaga({
+      dispatch: (action: Action) => dispatched.push(action),
+    }, getEditLink, editLinkData(editData)).toPromise();
 
-    g.next();
-    expect(g.throw(mockError.message).value).toEqual(put(editLinkDataFailed(mockError.message)));
-    expect(g.next().done).toBe(true);
+    expect(fetchLink).toHaveBeenCalledTimes(1);
+    expect(dispatched[0]).toEqual(editLinkDataFailed(mockError.message));
   });
 });
 
 describe('add link saga', () => {
   const data = linkState;
 
-  it('should put new link in store', () => {
-    const g = addUserLink(addLink(newLink));
+  it('should put new link in store', async () => {
+    const fetchLink = jest.spyOn(api, 'fetchNewLink')
+      .mockImplementation(() => Promise.resolve(data));
+    const dispatched: Action[] = [];
+    await runSaga({
+      dispatch: (action: Action) => dispatched.push(action),
+    }, addUserLink, addLink(newLink)).toPromise();
 
-    expect(g.next().value).toEqual(call(fetchNewLink, newLink));
-    expect(g.next(data).value).toEqual(put(addLinkSuccess(data)));
-    expect(g.next().done).toBe(true);
+    expect(fetchLink).toHaveBeenCalledTimes(1);
+    expect(dispatched[0]).toEqual(addLinkSuccess(data));
+    fetchLink.mockClear();
   });
 
-  it('should throw an error in catch block', () => {
-    const g = addUserLink(addLink(newLink));
+  it('should throw an error in catch block', async () => {
+    const fetchLink = jest.spyOn(api, 'fetchNewLink')
+      .mockImplementation(() => Promise.reject(mockError.message));
+    const dispatched: Action[] = [];
+    await runSaga({
+      dispatch: (action: Action) => dispatched.push(action),
+    }, addUserLink, addLink(newLink)).toPromise();
 
-    g.next();
-    expect(g.throw(mockError.message).value).toEqual(put(addLinkFailed(mockError.message)));
-    expect(g.next().done).toBe(true);
+    expect(fetchLink).toHaveBeenCalledTimes(1);
+    expect(dispatched[0]).toEqual(addLinkFailed(mockError.message));
   });
 });

@@ -3,7 +3,7 @@ import { SignupData, UserData, LoginData } from '../../../types/user';
 
 const API_URL = 'http://localhost:5000';
 
-export const fecthAuthorization = async (user: LoginData):Promise<UserData> => {
+export const fetchAuthorization = async (user: LoginData):Promise<UserData> => {
   const fetched = await axios({
     method: 'POST',
     url: `${API_URL}/api/auth/login`,

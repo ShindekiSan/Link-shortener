@@ -1,4 +1,5 @@
 import { put, call, takeEvery } from 'redux-saga/effects';
+import { SagaIterator } from 'redux-saga';
 import { loadSearchedLinksDataSuccess, loadSearchedLinksDataFailed, FetchSearchedLinksAction } from '../actions/loadSearchedLinksData/loadSearchedLinksData';
 import { loadSearchedLinkDataSuccess, loadSearchedLinkDataFailed, FetchSearchedLinkAction } from '../actions/loadSearchedLinkData/loadSearchedLinkData';
 import { SearchedLink, SearchedLinkData } from '../../types/link';
@@ -8,7 +9,7 @@ import {
 import handleError from '../../utils/errorHandler';
 import { fetchSearchedLink, fetchSearchedLinks } from './api/links.api';
 
-export function* getSearchedLinks(action: FetchSearchedLinksAction) {
+export function* getSearchedLinks(action: FetchSearchedLinksAction): SagaIterator<void> {
   try {
     const data:SearchedLink[] = yield call(
       fetchSearchedLinks,
@@ -24,7 +25,7 @@ export function* getSearchedLinks(action: FetchSearchedLinksAction) {
   }
 }
 
-export function* getSearchedLink(action: FetchSearchedLinkAction) {
+export function* getSearchedLink(action: FetchSearchedLinkAction): SagaIterator<void> {
   try {
     const data:SearchedLinkData = yield call(
       fetchSearchedLink,

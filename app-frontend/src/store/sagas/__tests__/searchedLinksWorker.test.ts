@@ -1,32 +1,41 @@
-import { call, put } from 'redux-saga/effects';
+import { runSaga } from 'redux-saga';
 import loadSearchedLinkData, { loadSearchedLinkDataFailed, loadSearchedLinkDataSuccess } from '../../actions/loadSearchedLinkData/loadSearchedLinkData';
 import { getSearchedLink, getSearchedLinks } from '../searchedLinksWorker';
 import {
   linkState, loadLink, linksState, mockError,
 } from '../../../mocks/store/constants';
-import { fetchSearchedLink, fetchSearchedLinks } from '../api/links.api';
+import * as api from '../api/links.api';
 import loadSearchedLinksData, { loadSearchedLinksDataFailed, loadSearchedLinksDataSuccess } from '../../actions/loadSearchedLinksData/loadSearchedLinksData';
+import { Action } from '../../../types/action';
 
 describe('get searched link saga', () => {
   const { id } = loadLink;
   const data = linkState;
 
-  it('should put searched link in store', () => {
-    const g = getSearchedLink(loadSearchedLinkData(id));
+  it('should put searched link in store', async () => {
+    const fetchLink = jest.spyOn(api, 'fetchSearchedLink')
+      .mockImplementation(() => Promise.resolve(data));
+    const dispatched: Action[] = [];
+    await runSaga({
+      dispatch: (action: Action) => dispatched.push(action),
+    }, getSearchedLink, loadSearchedLinkData(id)).toPromise();
 
-    expect(g.next().value).toEqual(call(fetchSearchedLink, id));
-    expect(g.next(data).value).toEqual(put(loadSearchedLinkDataSuccess(data)));
-    expect(g.next().done).toBe(true);
+    expect(fetchLink).toHaveBeenCalledTimes(1);
+    expect(dispatched[0]).toEqual(loadSearchedLinkDataSuccess(data));
+    fetchLink.mockClear();
   });
 
-  it('should throw an error in catch block', () => {
-    const g = getSearchedLink(loadSearchedLinkData(id));
+  it('should throw an error in catch block', async () => {
+    const fetchLink = jest.spyOn(api, 'fetchSearchedLink')
+      .mockImplementation(() => Promise.reject(mockError.message));
+    const dispatched: Action[] = [];
+    await runSaga({
+      dispatch: (action: Action) => dispatched.push(action),
+    }, getSearchedLink, loadSearchedLinkData(id)).toPromise();
 
-    g.next();
-    expect(g.throw(
-      mockError.message,
-    ).value).toEqual(put(loadSearchedLinkDataFailed(mockError.message)));
-    expect(g.next().done).toBe(true);
+    expect(fetchLink).toHaveBeenCalledTimes(1);
+    expect(dispatched[0]).toEqual(loadSearchedLinkDataFailed(mockError.message));
+    fetchLink.mockClear();
   });
 });
 
@@ -34,21 +43,29 @@ describe('get searched links saga', () => {
   const tag = 'hi';
   const data = linksState;
 
-  it('should put searched links in store', () => {
-    const g = getSearchedLinks(loadSearchedLinksData(tag));
+  it('should put searched links in store', async () => {
+    const fetchLinks = jest.spyOn(api, 'fetchSearchedLinks')
+      .mockImplementation(() => Promise.resolve(data));
+    const dispatched: Action[] = [];
+    await runSaga({
+      dispatch: (action: Action) => dispatched.push(action),
+    }, getSearchedLinks, loadSearchedLinksData(tag)).toPromise();
 
-    expect(g.next().value).toEqual(call(fetchSearchedLinks, tag));
-    expect(g.next(data).value).toEqual(put(loadSearchedLinksDataSuccess(data)));
-    expect(g.next().done).toBe(true);
+    expect(fetchLinks).toHaveBeenCalledTimes(1);
+    expect(dispatched[0]).toEqual(loadSearchedLinksDataSuccess(data));
+    fetchLinks.mockClear();
   });
 
-  it('should throw an error in catch block', () => {
-    const g = getSearchedLinks(loadSearchedLinksData(tag));
+  it('should throw an error in catch block', async () => {
+    const fetchLinks = jest.spyOn(api, 'fetchSearchedLinks')
+      .mockImplementation(() => Promise.reject(mockError.message));
+    const dispatched: Action[] = [];
+    await runSaga({
+      dispatch: (action: Action) => dispatched.push(action),
+    }, getSearchedLinks, loadSearchedLinksData(tag)).toPromise();
 
-    g.next();
-    expect(g.throw(
-      mockError.message,
-    ).value).toEqual(put(loadSearchedLinksDataFailed(mockError.message)));
-    expect(g.next().done).toBe(true);
+    expect(fetchLinks).toHaveBeenCalledTimes(1);
+    expect(dispatched[0]).toEqual(loadSearchedLinksDataFailed(mockError.message));
+    fetchLinks.mockClear();
   });
 });
