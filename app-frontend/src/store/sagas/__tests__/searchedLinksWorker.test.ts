@@ -6,7 +6,7 @@ import {
 } from '../../../mocks/store/constants';
 import * as api from '../api/links.api';
 import loadSearchedLinksData, { loadSearchedLinksDataFailed, loadSearchedLinksDataSuccess } from '../../actions/loadSearchedLinksData/loadSearchedLinksData';
-import { Action } from '../../../types/action';
+import { SearchedLinkAction } from '../../../mocks/store/actionTypes';
 
 describe('get searched link saga', () => {
   const { id } = loadLink;
@@ -15,9 +15,9 @@ describe('get searched link saga', () => {
   it('should put searched link in store', async () => {
     const fetchLink = jest.spyOn(api, 'fetchSearchedLink')
       .mockImplementation(() => Promise.resolve(data));
-    const dispatched: Action[] = [];
+    const dispatched: SearchedLinkAction[] = [];
     await runSaga({
-      dispatch: (action: Action) => dispatched.push(action),
+      dispatch: (action: SearchedLinkAction) => dispatched.push(action),
     }, getSearchedLink, loadSearchedLinkData(id)).toPromise();
 
     expect(fetchLink).toHaveBeenCalledTimes(1);
@@ -28,9 +28,9 @@ describe('get searched link saga', () => {
   it('should throw an error in catch block', async () => {
     const fetchLink = jest.spyOn(api, 'fetchSearchedLink')
       .mockImplementation(() => Promise.reject(mockError.message));
-    const dispatched: Action[] = [];
+    const dispatched: SearchedLinkAction[] = [];
     await runSaga({
-      dispatch: (action: Action) => dispatched.push(action),
+      dispatch: (action: SearchedLinkAction) => dispatched.push(action),
     }, getSearchedLink, loadSearchedLinkData(id)).toPromise();
 
     expect(fetchLink).toHaveBeenCalledTimes(1);
@@ -46,9 +46,9 @@ describe('get searched links saga', () => {
   it('should put searched links in store', async () => {
     const fetchLinks = jest.spyOn(api, 'fetchSearchedLinks')
       .mockImplementation(() => Promise.resolve(data));
-    const dispatched: Action[] = [];
+    const dispatched: SearchedLinkAction[] = [];
     await runSaga({
-      dispatch: (action: Action) => dispatched.push(action),
+      dispatch: (action: SearchedLinkAction) => dispatched.push(action),
     }, getSearchedLinks, loadSearchedLinksData(tag)).toPromise();
 
     expect(fetchLinks).toHaveBeenCalledTimes(1);
@@ -59,9 +59,9 @@ describe('get searched links saga', () => {
   it('should throw an error in catch block', async () => {
     const fetchLinks = jest.spyOn(api, 'fetchSearchedLinks')
       .mockImplementation(() => Promise.reject(mockError.message));
-    const dispatched: Action[] = [];
+    const dispatched: SearchedLinkAction[] = [];
     await runSaga({
-      dispatch: (action: Action) => dispatched.push(action),
+      dispatch: (action: SearchedLinkAction) => dispatched.push(action),
     }, getSearchedLinks, loadSearchedLinksData(tag)).toPromise();
 
     expect(fetchLinks).toHaveBeenCalledTimes(1);

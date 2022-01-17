@@ -9,7 +9,7 @@ import loginUser, { loginUserFailed, loginUserSuccess } from '../../actions/auth
 import * as api from '../api/authorization.api';
 import signupUser, { signupUserFailed, signupUserSuccess } from '../../actions/authorizeUser/signup';
 import getCurrentUser, { getCurrentUserFailed, getCurrentUserSuccess } from '../../actions/authorizeUser/getCurrentUser';
-import { Action } from '../../../types/action';
+import { AuthorizationAction } from '../../../mocks/store/actionTypes';
 
 const user = {
   email: '1@gmail.com',
@@ -31,9 +31,9 @@ describe('authorize user saga', () => {
       .mockImplementation(() => Promise.resolve(data));
     const setCookie = jest.spyOn(authorizationWorker, 'setUserCookie')
       .mockImplementation(() => Promise.resolve('cookie'));
-    const dispatched: Action[] = [];
+    const dispatched: AuthorizationAction[] = [];
     await runSaga({
-      dispatch: (action: Action) => dispatched.push(action),
+      dispatch: (action: AuthorizationAction) => dispatched.push(action),
     }, authorizeUser, loginUser(user)).toPromise();
 
     expect(fetchUser).toHaveBeenCalledTimes(1);
@@ -47,9 +47,9 @@ describe('authorize user saga', () => {
   it('should throw an error in catch block', async () => {
     const fetchUser = jest.spyOn(api, 'fetchAuthorization')
       .mockImplementation(() => Promise.reject(mockError.message));
-    const dispatched: Action[] = [];
+    const dispatched: AuthorizationAction[] = [];
     await runSaga({
-      dispatch: (action: Action) => dispatched.push(action),
+      dispatch: (action: AuthorizationAction) => dispatched.push(action),
     }, authorizeUser, loginUser(user)).toPromise();
 
     expect(fetchUser).toHaveBeenCalledTimes(1);
@@ -64,9 +64,9 @@ describe('register user saga', () => {
       .mockImplementation(() => Promise.resolve(data));
     const setCookie = jest.spyOn(authorizationWorker, 'setUserCookie')
       .mockImplementation(() => Promise.resolve('cookie'));
-    const dispatched: Action[] = [];
+    const dispatched: AuthorizationAction[] = [];
     await runSaga({
-      dispatch: (action: Action) => dispatched.push(action),
+      dispatch: (action: AuthorizationAction) => dispatched.push(action),
     }, registerUser, signupUser(registeringUser)).toPromise();
 
     expect(fetchUser).toHaveBeenCalledTimes(1);
@@ -80,9 +80,9 @@ describe('register user saga', () => {
   it('should throw an error in catch block', async () => {
     const fetchUser = jest.spyOn(api, 'fetchRegistration')
       .mockImplementation(() => Promise.reject(mockError.message));
-    const dispatched: Action[] = [];
+    const dispatched: AuthorizationAction[] = [];
     await runSaga({
-      dispatch: (action: Action) => dispatched.push(action),
+      dispatch: (action: AuthorizationAction) => dispatched.push(action),
     }, registerUser, signupUser(registeringUser)).toPromise();
 
     expect(fetchUser).toHaveBeenCalledTimes(1);
@@ -97,9 +97,9 @@ describe('get current user saga', () => {
   it('should put user data in store in try block', async () => {
     const fetchUser = jest.spyOn(api, 'fetchCurrentUser')
       .mockImplementation(() => Promise.resolve(data));
-    const dispatched: Action[] = [];
+    const dispatched: AuthorizationAction[] = [];
     await runSaga({
-      dispatch: (action: Action) => dispatched.push(action),
+      dispatch: (action: AuthorizationAction) => dispatched.push(action),
     }, getUser, getCurrentUser(id)).toPromise();
 
     expect(fetchUser).toHaveBeenCalledTimes(1);
@@ -110,9 +110,9 @@ describe('get current user saga', () => {
   it('should throw an error in catch block', async () => {
     const fetchUser = jest.spyOn(api, 'fetchCurrentUser')
       .mockImplementation(() => Promise.reject(mockError.message));
-    const dispatched: Action[] = [];
+    const dispatched: AuthorizationAction[] = [];
     await runSaga({
-      dispatch: (action: Action) => dispatched.push(action),
+      dispatch: (action: AuthorizationAction) => dispatched.push(action),
     }, getUser, getCurrentUser(id)).toPromise();
 
     expect(fetchUser).toHaveBeenCalledTimes(1);
@@ -125,9 +125,9 @@ describe('logout user saga', () => {
   it('should delete user cookie and navigate user to main page', async () => {
     const deleteCookie = jest.spyOn(authorizationWorker, 'deleteUserCookie')
       .mockImplementation(() => Promise.resolve('cookie'));
-    const dispatched: Action[] = [];
+    const dispatched: AuthorizationAction[] = [];
     await runSaga({
-      dispatch: (action: Action) => dispatched.push(action),
+      dispatch: (action: AuthorizationAction) => dispatched.push(action),
     }, logoutUser).toPromise();
 
     expect(deleteCookie).toHaveBeenCalledTimes(1);
