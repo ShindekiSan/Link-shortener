@@ -1,72 +1,19 @@
-import { put, call } from 'redux-saga/effects';
-import axios from 'axios';
-import { API_URL } from '../constants';
-import { loadLinksDataSuccess, loadLinksDataFailed } from '../actions/loadLinksData/loadLinksData';
-import { loadLinkDataSuccess, loadLinkDataFailed } from '../actions/loadLinkData/loadLinkData';
-import { editLinkDataSuccess, editLinkDataFailed } from '../actions/editLinkData/editLinkData';
-import { addLinkSuccess, addLinkFailed } from '../actions/addLink/addLink';
+import { put, call, takeEvery } from 'redux-saga/effects';
+import { SagaIterator } from 'redux-saga';
+import { loadLinksDataSuccess, loadLinksDataFailed, FetchLinksAction } from '../actions/loadLinksData/loadLinksData';
+import { loadLinkDataSuccess, loadLinkDataFailed, FetchLinkAction } from '../actions/loadLinkData/loadLinkData';
+import { editLinkDataSuccess, editLinkDataFailed, EditLinkAction } from '../actions/editLinkData/editLinkData';
+import { addLinkSuccess, addLinkFailed, AddLinkAction } from '../actions/addLink/addLink';
+import { LinkData, Link } from '../../types/link';
 import {
-  LinkEdit, LinkId, AddLink, LinkData, Link,
-} from '../../types/link';
+  fetchLink, fetchLinks, fetchLinkEdit, fetchNewLink,
+} from './api/links.api';
+import {
+  LoadLinkActionTypes, LoadLinksActionTypes, EditLinkActionTypes, AddLinkActionTypes,
+} from '../actionTypes';
+import handleError from '../../utils/errorHandler';
 
-const fetchLinks = async (token: string):Promise<Link[]> => {
-  const data = await axios({
-    url: `${API_URL}/api/link`,
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return data.data.links;
-};
-
-const fetchLink = async (linkParams: LinkId):Promise<LinkData> => {
-  const fetched = await axios({
-    url: `${API_URL}/api/link/${linkParams.id}`,
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${linkParams.token}`,
-    },
-    params: {
-      id: linkParams.id,
-    },
-  });
-  return { data: fetched.data.link };
-};
-
-const fetchLinkEdit = async (linkParams: LinkEdit):Promise<LinkData> => {
-  const fetched = await axios({
-    url: `${API_URL}/api/link/edit`,
-    method: 'POST',
-    data: {
-      description: linkParams.description,
-      tags: linkParams.tags,
-      code: linkParams.code,
-    },
-    headers: {
-      Authorization: `Bearer ${linkParams.token}`,
-    },
-  });
-  return { data: fetched.data.link };
-};
-
-const fetchNewLink = async (linkParams: AddLink):Promise<LinkData> => {
-  const fetched = await axios({
-    url: `${API_URL}/api/link/generate`,
-    method: 'POST',
-    data: {
-      from: linkParams.from,
-      tags: linkParams.tags,
-      description: linkParams.description,
-    },
-    headers: {
-      Authorization: `Bearer ${linkParams.token}`,
-    },
-  });
-  return { data: fetched.data };
-};
-
-export function* getUserLinks(action: { type: string, payload: string }) {
+export function* getUserLinks(action: FetchLinksAction): SagaIterator<void> {
   try {
     const data:Link[] = yield call(
       fetchLinks,
@@ -76,19 +23,13 @@ export function* getUserLinks(action: { type: string, payload: string }) {
       loadLinksDataSuccess(data),
     );
   } catch (e: unknown) {
-    if (e instanceof Error) {
-      yield put(
-        loadLinksDataFailed(e.message),
-      );
-    } else {
-      yield put(
-        loadLinksDataFailed(String(e)),
-      );
-    }
+    yield put(
+      loadLinksDataFailed(handleError(e)),
+    );
   }
 }
 
-export function* getUserLink(action: { type: string, payload: LinkId }) {
+export function* getUserLink(action: FetchLinkAction): SagaIterator<void> {
   try {
     const data:LinkData = yield call(
       fetchLink,
@@ -98,38 +39,26 @@ export function* getUserLink(action: { type: string, payload: LinkId }) {
       loadLinkDataSuccess(data),
     );
   } catch (e: unknown) {
-    if (e instanceof Error) {
-      yield put(
-        loadLinkDataFailed(e.message),
-      );
-    } else {
-      yield put(
-        loadLinkDataFailed(String(e)),
-      );
-    }
+    yield put(
+      loadLinkDataFailed(handleError(e)),
+    );
   }
 }
 
-export function* getEditLink(action: { type: string, payload: LinkEdit }) {
+export function* getEditLink(action: EditLinkAction): SagaIterator<void> {
   try {
     const data:LinkData = yield call(fetchLinkEdit, action.payload);
     yield put(
       editLinkDataSuccess(data),
     );
   } catch (e) {
-    if (e instanceof Error) {
-      yield put(
-        editLinkDataFailed(e.message),
-      );
-    } else {
-      yield put(
-        editLinkDataFailed(String(e)),
-      );
-    }
+    yield put(
+      editLinkDataFailed(handleError(e)),
+    );
   }
 }
 
-export function* addLink(action: { type: string, payload: AddLink }) {
+export function* addUserLink(action: AddLinkAction): SagaIterator<void> {
   try {
     const data:LinkData = yield call(
       fetchNewLink,
@@ -139,14 +68,15 @@ export function* addLink(action: { type: string, payload: AddLink }) {
       addLinkSuccess(data),
     );
   } catch (e: unknown) {
-    if (e instanceof Error) {
-      yield put(
-        addLinkFailed(e.message),
-      );
-    } else {
-      yield put(
-        addLinkFailed(String(e)),
-      );
-    }
+    yield put(
+      addLinkFailed(handleError(e)),
+    );
   }
+}
+
+export default function* linksWatcher() {
+  yield takeEvery(LoadLinkActionTypes.LOAD_LINK_DATA, getUserLink);
+  yield takeEvery(LoadLinksActionTypes.LOAD_LINKS_DATA, getUserLinks);
+  yield takeEvery(EditLinkActionTypes.EDIT_LINK_DATA, getEditLink);
+  yield takeEvery(AddLinkActionTypes.ADD_LINK_DATA, addUserLink);
 }

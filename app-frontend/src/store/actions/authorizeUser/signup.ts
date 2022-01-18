@@ -1,12 +1,7 @@
 import { SignupData, UserData } from '../../../types/user';
+import { RegisterActionTypes } from '../../actionTypes';
 
-export enum RegisterActionTypes {
-  REGISTER_USER_SUCCESS = 'REGISTER_USER_SUCCESS',
-  REGISTER_USER_DATA = 'REGISTER_USER_DATA',
-  REGISTER_USER_FAILED = 'REGISTER_USER_FAILED',
-}
-
-interface RegisterUserAction {
+export interface RegisterUserAction {
   type: RegisterActionTypes.REGISTER_USER_DATA,
   payload: SignupData,
 }

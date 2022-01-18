@@ -2,21 +2,21 @@ import React, {
   useEffect, useCallback, FC,
 } from 'react';
 import { useParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../UI/Loader';
-import useTypedSelector from '../../hooks/typedSelector.hook';
 import LinkCard from '../../containers/ProfilePage/LinkCardContainer';
 import loadLinkData from '../../store/actions/loadLinkData/loadLinkData';
+import { RootState } from '../../store/reducers/root';
 
 const LinkDetails:FC = function () {
   const dispatch = useDispatch();
-  const { data } = useTypedSelector((state) => state.user);
-  const linkState = useTypedSelector((state) => state.link);
-  const { id } = useParams();
+  const { data } = useSelector((state: RootState) => state.user);
+  const linkState = useSelector((state: RootState) => state.link);
+  const { id } = useParams<{ id: string }>();
 
   const getLink = useCallback(() => {
-    dispatch(loadLinkData({ token: data.data?.token, id }));
-  }, [data.data?.token, id]);
+    dispatch(loadLinkData({ token: data?.data?.token, id }));
+  }, [data?.data?.token, id]);
 
   useEffect(() => {
     getLink();
@@ -24,7 +24,7 @@ const LinkDetails:FC = function () {
 
   return (
     <div>
-      {!linkState.loading && linkState.data.data
+      {!linkState.loading && linkState.data?.data
         ? <LinkCard link={linkState.data.data} error={linkState.error} /> : <Loader />}
     </div>
   );

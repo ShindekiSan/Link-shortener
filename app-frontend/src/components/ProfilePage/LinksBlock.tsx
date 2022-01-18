@@ -8,7 +8,7 @@ interface LinkElement {
   clicks: number,
 }
 
-interface Props {
+export interface Props {
   linksArray: LinkElement[],
   error: string,
 }

@@ -1,14 +1,15 @@
 import React, {
   Suspense, lazy, FC, useEffect,
 } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
+import { ConnectedRouter } from 'connected-react-router';
 import { useCookies } from 'react-cookie';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import getCurrentUser from '../store/actions/authorizeUser/getCurrentUser';
-import useTypedSelector from '../hooks/typedSelector.hook';
 import '../styles/app.css';
 import '../styles/normalize.css';
 import Loader from './UI/Loader';
+import { RootState, history } from '../store/reducers/root';
 
 const LogIn = lazy(() => import('../containers/AuthPage/LogInContainer'));
 const SignUp = lazy(() => import('../containers/AuthPage/SignUpContainer'));
@@ -21,29 +22,45 @@ const SearchedLinkDetails = lazy(() => import('./SearchLinksPage/SearchedLinkDet
 
 const App:FC = function () {
   const [cookies] = useCookies(['user']);
-  const { data } = useTypedSelector((state) => state.user);
+  const { data } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!data.data?.userId && cookies.user) {
+    if (!data?.data?.userId && cookies.user) {
       dispatch(getCurrentUser(cookies.user));
     }
-  }, [data.data?.userId]);
+  }, [data?.data?.userId]);
 
   return (
     <Suspense fallback={<Loader />}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<MainPage />} />
-          <Route path="/login" element={<LogIn />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/link-detail/:id" element={<LinkDetails />} />
-          <Route path="/shortener" element={<ShortenerPage />} />
-          <Route path="/search" element={<SearchLinksPage />} />
-          <Route path="/link-info/:id" element={<SearchedLinkDetails />} />
-        </Routes>
-      </BrowserRouter>
+      <ConnectedRouter history={history}>
+        <Switch>
+          <Route exact path="/">
+            <MainPage />
+          </Route>
+          <Route path="/login">
+            <LogIn />
+          </Route>
+          <Route path="/signup">
+            <SignUp />
+          </Route>
+          <Route path="/profile">
+            <Profile />
+          </Route>
+          <Route path="/link-detail/:id">
+            <LinkDetails />
+          </Route>
+          <Route path="/shortener">
+            <ShortenerPage />
+          </Route>
+          <Route path="/search">
+            <SearchLinksPage />
+          </Route>
+          <Route path="/link-info/:id">
+            <SearchedLinkDetails />
+          </Route>
+        </Switch>
+      </ConnectedRouter>
     </Suspense>
   );
 };

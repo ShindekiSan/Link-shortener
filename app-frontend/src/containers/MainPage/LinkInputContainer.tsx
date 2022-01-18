@@ -1,13 +1,13 @@
 import React, { FC, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import LinkInput from '../../components/MainPage/LinkInput';
-import useTypedSelector from '../../hooks/typedSelector.hook';
 import addLink from '../../store/actions/addLink/addLink';
+import { RootState } from '../../store/reducers/root';
 
 const LinkInputContainer:FC = function () {
   const [link, setLink] = useState<string>('');
   const [input, setInput] = useState<string>('');
-  const { data } = useTypedSelector((state) => state.user);
+  const { data } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
 
   const changeHandler = (evt: React.ChangeEvent<HTMLInputElement>): void => {
@@ -17,7 +17,7 @@ const LinkInputContainer:FC = function () {
 
   const clickHandler = (): void => {
     dispatch(addLink({
-      from: link, tags: [], description: '', token: data.data?.token,
+      from: link, tags: [], description: '', token: data?.data?.token,
     }));
     setInput('');
   };
@@ -30,7 +30,7 @@ const LinkInputContainer:FC = function () {
 
   return (
     <LinkInput
-      isAuthenticated={!!data.data?.userName}
+      isAuthenticated={!!data?.data?.userName}
       linkValue={input}
       changeHandler={changeHandler}
       clickHandler={clickHandler}

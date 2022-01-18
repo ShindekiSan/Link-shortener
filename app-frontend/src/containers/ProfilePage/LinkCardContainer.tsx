@@ -1,11 +1,11 @@
 import React, {
   useEffect, useState, FC,
 } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import LinkCard from '../../components/ProfilePage/LinkCard';
 import { Link } from '../../types/link';
-import useTypedSelector from '../../hooks/typedSelector.hook';
 import editLinkData from '../../store/actions/editLinkData/editLinkData';
+import { RootState } from '../../store/reducers/root';
 
 interface LinkProps {
   link: Link,
@@ -24,8 +24,8 @@ const LinkCardContainer:FC<LinkProps> = function ({ link, error }) {
   const [description, setDescription] = useState<string>(linkInfo.description);
   const [tags, setTags] = useState<string>('');
   const [tagsArray, setTagsArray] = useState<TagState[]>(linkInfo.tags);
-  const { data } = useTypedSelector((state) => state.user);
-  const linkState = useTypedSelector((state) => state.link);
+  const { data } = useSelector((state: RootState) => state.user);
+  const linkState = useSelector((state: RootState) => state.link);
   const dispatch = useDispatch();
 
   const formatDate = (): void => {
@@ -61,7 +61,7 @@ const LinkCardContainer:FC<LinkProps> = function ({ link, error }) {
   const confirmChanges = (): void => {
     setUpload('loading...');
     dispatch(editLinkData({
-      code: link.code, tags: tagsArray, description, token: data.data?.token,
+      code: link.code, tags: tagsArray, description, token: data?.data?.token,
     }));
     setEditState(false);
     setUpload('confirm');

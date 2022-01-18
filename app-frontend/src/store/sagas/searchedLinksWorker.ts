@@ -1,72 +1,47 @@
-import { put, call } from 'redux-saga/effects';
-import axios from 'axios';
-import { API_URL } from '../constants';
-import { loadSearchedLinksDataSuccess, loadSearchedLinksDataFailed } from '../actions/loadSearchedLinksData/loadSearchedLinksData';
-import { loadSearchedLinkDataSuccess, loadSearchedLinkDataFailed } from '../actions/loadSearchedLinkData/loadSearchedLinkData';
+import { put, call, takeEvery } from 'redux-saga/effects';
+import { SagaIterator } from 'redux-saga';
+import { loadSearchedLinksDataSuccess, loadSearchedLinksDataFailed, FetchSearchedLinksAction } from '../actions/loadSearchedLinksData/loadSearchedLinksData';
+import { loadSearchedLinkDataSuccess, loadSearchedLinkDataFailed, FetchSearchedLinkAction } from '../actions/loadSearchedLinkData/loadSearchedLinkData';
 import { SearchedLink, SearchedLinkData } from '../../types/link';
+import {
+  LoadSearchedLinkActionTypes, LoadSearchedLinksActionTypes,
+} from '../actionTypes';
+import handleError from '../../utils/errorHandler';
+import { fetchSearchedLink, fetchSearchedLinks } from './api/links.api';
 
-const fetchLinks = async (tag: string):Promise<SearchedLink[]> => {
-  const data = await axios({
-    url: `${API_URL}/api/link/search/${tag}`,
-    method: 'GET',
-    params: {
-      tagName: tag,
-    },
-  });
-  return data.data.links;
-};
-
-const fetchLink = async (linkId: string | undefined):Promise<SearchedLinkData> => {
-  const fetched = await axios({
-    url: `${API_URL}/api/link/link-info/${linkId}`,
-    method: 'GET',
-    params: {
-      id: linkId,
-    },
-  });
-  return { data: fetched.data.link };
-};
-
-export function* getSearchedLinks(action: { type: string, payload: string }) {
+export function* getSearchedLinks(action: FetchSearchedLinksAction): SagaIterator<void> {
   try {
     const data:SearchedLink[] = yield call(
-      fetchLinks,
+      fetchSearchedLinks,
       action.payload,
     );
     yield put(
       loadSearchedLinksDataSuccess(data),
     );
   } catch (e: unknown) {
-    if (e instanceof Error) {
-      yield put(
-        loadSearchedLinksDataFailed(e.message),
-      );
-    } else {
-      yield put(
-        loadSearchedLinksDataFailed(String(e)),
-      );
-    }
+    yield put(
+      loadSearchedLinksDataFailed(handleError(e)),
+    );
   }
 }
 
-export function* getSearchedLink(action: { type: string, payload: string | undefined }) {
+export function* getSearchedLink(action: FetchSearchedLinkAction): SagaIterator<void> {
   try {
     const data:SearchedLinkData = yield call(
-      fetchLink,
+      fetchSearchedLink,
       action.payload,
     );
     yield put(
       loadSearchedLinkDataSuccess(data),
     );
   } catch (e: unknown) {
-    if (e instanceof Error) {
-      yield put(
-        loadSearchedLinkDataFailed(e.message),
-      );
-    } else {
-      yield put(
-        loadSearchedLinkDataFailed(String(e)),
-      );
-    }
+    yield put(
+      loadSearchedLinkDataFailed(handleError(e)),
+    );
   }
+}
+
+export default function* searchedLinksWatcher() {
+  yield takeEvery(LoadSearchedLinkActionTypes.LOAD_SEARCHED_LINK_DATA, getSearchedLink);
+  yield takeEvery(LoadSearchedLinksActionTypes.LOAD_SEARCHED_LINKS_DATA, getSearchedLinks);
 }

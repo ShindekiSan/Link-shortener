@@ -1,11 +1,14 @@
 import { UserData } from '../../types/user';
-import { AuthorizeActionTypes, AuthrorizeUserActions } from '../actions/authorizeUser/login';
-import { RegisterActionTypes, RegisterUserActions } from '../actions/authorizeUser/signup';
-import { GetCurrentUserActionTypes, GetCurrentUserActions } from '../actions/authorizeUser/getCurrentUser';
-import { LogoutActionType, LogoutActions } from '../actions/authorizeUser/logout';
+import { AuthrorizeUserActions } from '../actions/authorizeUser/login';
+import { RegisterUserActions } from '../actions/authorizeUser/signup';
+import { GetCurrentUserActions } from '../actions/authorizeUser/getCurrentUser';
+import { LogoutActions } from '../actions/authorizeUser/logout';
+import {
+  AuthorizeActionTypes, RegisterActionTypes, GetCurrentUserActionTypes, LogoutActionType,
+} from '../actionTypes';
 
-const initialState: UserState = {
-  data: {},
+export const initialState: UserState = {
+  data: null,
   error: '',
   loading: false,
 };
@@ -13,8 +16,8 @@ const initialState: UserState = {
 type UserActionTypes =
 AuthrorizeUserActions | RegisterUserActions | GetCurrentUserActions | LogoutActions;
 
-interface UserState {
-  data: UserData,
+export interface UserState {
+  data: UserData | null,
   error: string,
   loading: boolean
 }
@@ -25,15 +28,14 @@ const authorizeUser = (state = initialState, action: UserActionTypes): UserState
     case RegisterActionTypes.REGISTER_USER_DATA:
     case GetCurrentUserActionTypes.GET_CURRENT_USER_DATA:
       return {
-        data: {},
+        ...state,
         loading: true,
-        error: '',
       };
     case AuthorizeActionTypes.AUTHORIZE_USER_FAILED:
     case RegisterActionTypes.REGISTER_USER_FAILED:
     case GetCurrentUserActionTypes.GET_CURRENT_USER_FAILED:
       return {
-        data: {},
+        ...state,
         loading: false,
         error: action.payload,
       };
@@ -41,16 +43,12 @@ const authorizeUser = (state = initialState, action: UserActionTypes): UserState
     case RegisterActionTypes.REGISTER_USER_SUCCESS:
     case GetCurrentUserActionTypes.GET_CURRENT_USER_SUCCESS:
       return {
+        ...state,
         data: action.payload,
         loading: false,
-        error: '',
       };
     case LogoutActionType.LOGOUT_USER:
-      return {
-        data: {},
-        loading: false,
-        error: '',
-      };
+      return state;
     default:
       return state;
   }

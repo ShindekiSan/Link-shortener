@@ -2,7 +2,7 @@ import React, { ChangeEventHandler, FC } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../UI/Logo';
 
-interface SignUpProps {
+export interface SignUpProps {
   changeHandler: ChangeEventHandler,
   registerHandler: () => void,
   loading: boolean,
@@ -53,7 +53,9 @@ const SignUp:FC<SignUpProps> = function ({
             Create an account
           </button>
         </div>
-        <p className="auth-fail-message">{ error }</p>
+        {loading
+          ? <p className="auth-fail-message">Loading...</p>
+          : <p className="auth-fail-message">{ error }</p>}
         <h3 className="auth-subtitle">Do you already have an account?</h3>
         <Link to="/login">
           <button className="button green-button other-auth-method-button" type="button">

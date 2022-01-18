@@ -1,39 +1,34 @@
 import { LinkData, LinkId } from '../../../types/link';
+import { LoadLinkActionTypes } from '../../actionTypes';
 
-export enum LoadLinkActionTypes {
-  LOAD_LINK_DATA = 'LOAD_LINK_DATA',
-  LOAD_LINK_FAILED = 'LOAD_LINK_FAILED',
-  LOAD_LINK_SUCCESS = 'LOAD_LINK_SUCCESS',
-}
-
-interface LoadLinkAction {
+export interface FetchLinkAction {
   type: LoadLinkActionTypes.LOAD_LINK_DATA,
   payload: LinkId,
 }
 
-interface LoadLinkActionSuccess {
+interface FetchLinkActionSuccess {
   type: LoadLinkActionTypes.LOAD_LINK_SUCCESS,
   payload: LinkData,
 }
 
-interface LoadLinkActionFailed {
+interface FetchLinkActionFailed {
   type: LoadLinkActionTypes.LOAD_LINK_FAILED,
   payload: string,
 }
 
-export type LoadLinkActions = LoadLinkAction | LoadLinkActionFailed | LoadLinkActionSuccess;
+export type LoadLinkActions = FetchLinkAction | FetchLinkActionFailed | FetchLinkActionSuccess;
 
-const loadLinkData = (LinkParams: LinkId): LoadLinkAction => ({
+const loadLinkData = (LinkParams: LinkId): FetchLinkAction => ({
   type: LoadLinkActionTypes.LOAD_LINK_DATA,
   payload: LinkParams,
 });
 
-export const loadLinkDataFailed = (error: string): LoadLinkActionFailed => ({
+export const loadLinkDataFailed = (error: string): FetchLinkActionFailed => ({
   type: LoadLinkActionTypes.LOAD_LINK_FAILED,
   payload: error,
 });
 
-export const loadLinkDataSuccess = (data: LinkData): LoadLinkActionSuccess => ({
+export const loadLinkDataSuccess = (data: LinkData): FetchLinkActionSuccess => ({
   type: LoadLinkActionTypes.LOAD_LINK_SUCCESS,
   payload: data,
 });

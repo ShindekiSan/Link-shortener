@@ -1,28 +1,22 @@
 import React, { useState, FC } from 'react';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import SearchLinksPageNavigation from '../../components/SearchLinksPage/SearchLinksPageNavigation';
-import useTypedSelector from '../../hooks/typedSelector.hook';
 import logoutUser from '../../store/actions/authorizeUser/logout';
+import loadSearchedLinksData from '../../store/actions/loadSearchedLinksData/loadSearchedLinksData';
+import { RootState } from '../../store/reducers/root';
 
-interface FuncProps {
-  searchHandler: (tag: string) => void
-}
-
-const SearchLinksPageNavigationContainer:FC<FuncProps> = function ({ searchHandler }) {
-  const navigate = useNavigate();
+const SearchLinksPageNavigationContainer:FC = function () {
   const dispatch = useDispatch();
-  const { data } = useTypedSelector((state) => state.user);
+  const { data } = useSelector((state: RootState) => state.user);
   const [tag, setTag] = useState<string>('');
 
   const handleLogout = (): void => {
-    dispatch(logoutUser);
-    navigate('/');
+    dispatch(logoutUser());
   };
 
   const searchLinks = (evt: React.KeyboardEvent): void => {
     if (evt.key === 'Enter') {
-      searchHandler(tag);
+      dispatch(loadSearchedLinksData(tag));
       setTag('');
     }
   };
@@ -35,8 +29,8 @@ const SearchLinksPageNavigationContainer:FC<FuncProps> = function ({ searchHandl
     <SearchLinksPageNavigation
       searchHandler={searchLinks}
       changeTagHandler={changeTagHandler}
-      isAuthenticated={!!data.data?.userName}
-      userName={data.data?.userName}
+      isAuthenticated={!!data?.data?.userName}
+      userName={data?.data?.userName}
       logoutHandler={handleLogout}
       tag={tag}
     />

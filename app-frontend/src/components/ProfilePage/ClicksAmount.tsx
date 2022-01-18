@@ -2,7 +2,7 @@ import React, {
   useEffect, useState, useCallback, FC,
 } from 'react';
 
-interface LinkClicks {
+export interface LinkClicks {
   clicks: number
 }
 

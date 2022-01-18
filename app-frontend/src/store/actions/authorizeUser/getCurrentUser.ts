@@ -1,12 +1,7 @@
 import { UserData } from '../../../types/user';
+import { GetCurrentUserActionTypes } from '../../actionTypes';
 
-export enum GetCurrentUserActionTypes {
-  GET_CURRENT_USER_DATA = 'GET_CURRENT_USER_DATA',
-  GET_CURRENT_USER_FAILED = 'GET_CURRENT_USER_FAILED',
-  GET_CURRENT_USER_SUCCESS = 'GET_CURRENT_USER_SUCCESS',
-}
-
-interface GetCurrentUserAction {
+export interface GetCurrentUserAction {
   type: GetCurrentUserActionTypes.GET_CURRENT_USER_DATA,
   payload: string,
 }
