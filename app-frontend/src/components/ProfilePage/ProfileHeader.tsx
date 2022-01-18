@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { useSelector } from 'react-redux';
-import ProfileNavigation from '../../containers/ProfilePage/ProfileNavigationContainer/ProfileNavigationContainer';
+import ProfileNavigation from '../../containers/ProfilePage/ProfileNavigationContainer';
 import { RootState } from '../../store/reducers/root';
 
 const ProfileHeader:FC = function () {

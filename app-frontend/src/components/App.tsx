@@ -10,8 +10,8 @@ import '../styles/normalize.css';
 import Loader from './UI/Loader';
 import { RootState } from '../store/reducers/root';
 
-const LogIn = lazy(() => import('../containers/AuthPage/LogInContainer/LogInContainer'));
-const SignUp = lazy(() => import('../containers/AuthPage/SignUpContainer/SignUpContainer'));
+const LogIn = lazy(() => import('../containers/AuthPage/LogInContainer'));
+const SignUp = lazy(() => import('../containers/AuthPage/SignUpContainer'));
 const MainPage = lazy(() => import('./MainPage/MainPage'));
 const Profile = lazy(() => import('./ProfilePage/Profile'));
 const LinkDetails = lazy(() => import('./ProfilePage/LinkDetails'));

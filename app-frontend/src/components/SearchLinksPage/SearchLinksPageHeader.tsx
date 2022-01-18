@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import SearchLinksPageNavigation from '../../containers/SearchLinksPage/SearchLinksPageContainer/SearchLinksPageNavigationContainer';
+import SearchLinksPageNavigation from '../../containers/SearchLinksPage/SearchLinksPageNavigationContainer';
 
 const SearchLinksPageHeader:FC = function () {
   return (
