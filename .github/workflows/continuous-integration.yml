@@ -5,12 +5,12 @@ on: [push, pull_request]
 jobs:
   testFrontend:
     name: Test frontend
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest\
+    defaults:
+      run:
+        working-directory: ./app-frontend
     steps:
       - uses: actions/checkout@v2
-
-      - name: checkout frontend folder
-        run: cd app-backend
       
       - name: Install packages
         run: yarn
@@ -24,11 +24,11 @@ jobs:
   testBackend:
     name: Test backend
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./app-backend
     steps:
       - uses: action/checkout@v2
-
-      - name: checkout backend folder
-        run: cd app-backend
 
       - name: Install packages
         run: yarn
