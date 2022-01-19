@@ -25,7 +25,7 @@ jobs:
     name: Test backend
     runs-on: ubuntu-latest
     steps:
-      - uses: action/checkout@v2
+      - uses: actions/checkout@v2
 
       - name: Install packages
         working-directory: ./app-backend
@@ -34,7 +34,3 @@ jobs:
       - name: Run ESLint
         working-directory: ./app-backend
         run: yarn lint
-
-      - name: Run tests
-        working-directory: ./app-backend
-        run: yarn test --watchAll=false
