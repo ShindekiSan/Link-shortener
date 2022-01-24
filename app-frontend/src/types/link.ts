@@ -13,11 +13,6 @@ export interface Link {
   message?: string,
 }
 
-export interface NewLink {
-  link: Link,
-  message: string,
-}
-
 export interface LinkEdit {
   description?: string,
   tags?: {
