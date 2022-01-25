@@ -1,21 +1,23 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, {
+  useState, useEffect, FC,
+} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import ShortenerForm from '../../components/ShortenerPage/ShortenerForm';
-import AuthContext from '../../context/AuthContext';
-import useHttp, { RequestPromise } from '../../hooks/http.hook';
+import addLink from '../../store/actions/addLink/addLink';
+import { RootState } from '../../store/reducers/root';
 
 interface TagsList {
   tagName: string
 }
 
-const ShortenerFormContainer = function () {
-  const [notify, setNotify] = useState<string>('');
+const ShortenerFormContainer:FC = function () {
   const [input, setInput] = useState<string>('');
   const [link, setLink] = useState<string>('');
+  const dispatch = useDispatch();
   const [tags, setTags] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [tagsArray, setTagsArray] = useState<Array<TagsList>>([]);
-  const auth = useContext(AuthContext);
-  const { request } = useHttp();
+  const { data } = useSelector((state: RootState) => state.user);
 
   const changeHandler = (evt: React.ChangeEvent<HTMLInputElement>): void => {
     setLink(evt.target.value);
@@ -34,19 +36,10 @@ const ShortenerFormContainer = function () {
     setTagsArray(tags.split(' ').map((tag) => ({ tagName: tag })));
   }, [tags]);
 
-  const clickHandler = async (): Promise<void> => {
-    if (!link) {
-      setNotify('Enter a link for shortening');
-    } else {
-      try {
-        const data: RequestPromise = await request('http://localhost:5000/api/link/generate', 'POST', { from: link, tags: tagsArray, description }, {
-          Authorization: `Bearer ${auth.token}`,
-        });
-        setNotify(data.message);
-      } catch (e: any) {
-        setNotify(`Error:', ${e.message}`);
-      }
-    }
+  const clickHandler = (): void => {
+    dispatch(addLink({
+      from: link, tags: tagsArray, description, token: data?.data?.token,
+    }));
     setInput('');
     setTags('');
     setDescription('');
@@ -58,7 +51,6 @@ const ShortenerFormContainer = function () {
       clickHandler={clickHandler}
       changeDescription={changeDescription}
       changeTagsHandler={changeTagsHandler}
-      notify={notify}
       input={input}
       description={description}
       tags={tags}

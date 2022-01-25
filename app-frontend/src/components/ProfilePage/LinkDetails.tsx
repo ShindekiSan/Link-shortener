@@ -1,32 +1,22 @@
 import React, {
-  useContext, useState, useEffect, useCallback,
+  useEffect, useCallback, FC,
 } from 'react';
 import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../UI/Loader';
-
-import AuthContext, { ContextValue } from '../../context/AuthContext';
-import useHttp, { RequestPromise } from '../../hooks/http.hook';
 import LinkCard from '../../containers/ProfilePage/LinkCardContainer';
-import { Link } from '../../types/link';
+import loadLinkData from '../../store/actions/loadLinkData/loadLinkData';
+import { RootState } from '../../store/reducers/root';
 
-const LinkDetails = function () {
-  const { request, loading } = useHttp();
-  const auth: ContextValue = useContext(AuthContext);
-  const [link, setLink] = useState<Link | null>(null);
-  const [error, setError] = useState<string>('');
-  const { id } = useParams();
+const LinkDetails:FC = function () {
+  const dispatch = useDispatch();
+  const { data } = useSelector((state: RootState) => state.user);
+  const linkState = useSelector((state: RootState) => state.link);
+  const { id } = useParams<{ id: string }>();
 
-  const getLink = useCallback(async () => {
-    try {
-      const fetched: RequestPromise = await request(`http://localhost:5000/api/link/${id}`, 'GET', null, {
-        Authorization: `Bearer ${auth.token}`,
-      });
-
-      setLink(fetched.link);
-    } catch (e: any) {
-      setError(e.message);
-    }
-  }, [auth.token, id, request]);
+  const getLink = useCallback(() => {
+    dispatch(loadLinkData({ token: data?.data?.token, id }));
+  }, [data?.data?.token, id]);
 
   useEffect(() => {
     getLink();
@@ -34,7 +24,8 @@ const LinkDetails = function () {
 
   return (
     <div>
-      {!loading && link ? <LinkCard link={link} error={error} /> : <Loader />}
+      {!linkState.loading && linkState.data?.data
+        ? <LinkCard link={linkState.data.data} error={linkState.error} /> : <Loader />}
     </div>
   );
 };

@@ -1,13 +1,22 @@
-import { Router } from 'express';
+import { Router, Request } from 'express';
 import config from 'config';
 import jwt from 'jsonwebtoken';
 import * as expressValidator from 'express-validator';
 import { HydratedDocument } from 'mongoose';
 import { TypedRequest, TypedResponse } from '../types/api';
-import { UserModel } from '../types/models';
+import { UserInterface, UserModel, UserStoreModel } from '../types/models';
 import User from '../models/User';
 
 const router = Router();
+
+interface GetCurrentUserResponse {
+  message: string,
+  user?: {
+    token: string,
+    userId: string,
+    userName: string,
+  }
+}
 
 interface TypedRegisterRequest {
   password: string,
@@ -48,7 +57,7 @@ router.post(
         });
       }
 
-      User.findOne({ email: req.body.email }).then((user) => {
+      User.findOne({ email: req.body.email }).then((user: UserModel) => {
         if (user) {
           return resp.status(400).json({ message: 'A user has already registered with this email' });
         }
@@ -102,7 +111,7 @@ router.post(
         });
       }
 
-      User.findOne({ email: req.body.email }).then((user) => {
+      User.findOne({ email: req.body.email }).then((user: UserInterface) => {
         if (!user) {
           return resp.status(400).json({ message: 'There is no user with this email' });
         }
@@ -125,5 +134,28 @@ router.post(
     }
   },
 );
+
+router.get('/get-user/:id', async (req: Request, resp: TypedResponse<GetCurrentUserResponse>) => {
+  try {
+    const userId:string = req.params.id;
+    const currentUser:UserInterface = await User.findOne({ _id: userId });
+
+    const token:string = jwt.sign(
+      { userId: currentUser.id },
+      config.get('jwtSecret'),
+      { expiresIn: 36000 },
+    );
+
+    const user:UserStoreModel = {
+      token,
+      userId: currentUser.id,
+      userName: currentUser.userName,
+    };
+
+    resp.json({ user, message: 'user has been found successfully!' });
+  } catch (e) {
+    return resp.status(500).json({ message: 'Something went wrong, try again' });
+  }
+});
 
 export default router;

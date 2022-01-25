@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { FC } from 'react';
 import Footer from './Footer';
 import Header from './Header';
 import LinkInput from '../../containers/MainPage/LinkInputContainer';
 
-const MainPage = function () {
+const MainPage:FC = function () {
   return (
     <main>
       <Header />

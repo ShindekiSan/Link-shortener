@@ -1,11 +1,12 @@
 import React, { ChangeEventHandler, FC } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/reducers/root';
 
 interface FormProps {
   changeHandler: ChangeEventHandler,
-  clickHandler: () => Promise<void>,
+  clickHandler: () => void,
   changeDescription: ChangeEventHandler,
   changeTagsHandler: ChangeEventHandler,
-  notify: string,
   input: string,
   description: string,
   tags: string
@@ -16,11 +17,11 @@ const ShortenerForm:FC<FormProps> = function ({
   clickHandler,
   changeDescription,
   changeTagsHandler,
-  notify,
   input,
   description,
   tags,
 }) {
+  const { data, error } = useSelector((state: RootState) => state.link);
   return (
     <div className="shortener-block">
       <h2 className="shortener-title">Shorten your link</h2>
@@ -45,7 +46,15 @@ const ShortenerForm:FC<FormProps> = function ({
         />
         <button className="button green-button" onClick={clickHandler} type="button">shorten</button>
       </div>
-      <p className="shortening-block__notification">{notify}</p>
+      <p className="shortening-block__notification">
+        <span>
+          {data?.data?.message ? (
+            `${data.data?.message}`
+          ) : (
+            `${error}`
+          )}
+        </span>
+      </p>
     </div>
 
   );

@@ -5,17 +5,21 @@ export interface Link {
   clicks: number,
   tags: {
     tagName: string,
+    _id: string,
   }[],
   description: string,
   _id: string,
   date: Date,
+  message?: string,
 }
 
 export interface LinkEdit {
   description?: string,
   tags?: {
     tagName: string,
-  }[]
+  }[],
+  code: string,
+  token?: string,
 }
 
 export interface LinkEditData {
@@ -27,12 +31,18 @@ export interface LinksData {
 }
 
 export interface LinkData {
-  data: Link
+  data?: Link
 }
 
 export interface LinkIdAction {
   type: string,
-  id: string
+  id: string,
+  token: string,
+}
+
+export interface LinkId {
+  id?: string,
+  token?: string,
 }
 
 export interface SearchedLink {
@@ -42,10 +52,11 @@ export interface SearchedLink {
     tagName: string
   }[],
   description: string,
+  _id: string,
 }
 
 export interface SearchedLinkData {
-  data: SearchedLink
+  data?: SearchedLink
 }
 
 export interface SearchedLinksData {
@@ -58,11 +69,12 @@ export interface SearchedLinks {
 }
 
 export interface AddLink {
-  to: string,
+  from: string,
   tags?: {
     tagName: string,
   }[],
   description?: string,
+  token?: string,
 }
 
 export interface AddLinkData {

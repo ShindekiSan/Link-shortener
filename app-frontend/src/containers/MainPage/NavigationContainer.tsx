@@ -1,27 +1,22 @@
-import React, { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import AuthContext from '../../context/AuthContext';
-import useAuth from '../../hooks/auth.hook';
+import React, { FC } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Navigation from '../../components/MainPage/Navigation';
-import initialState from '../../store/initialState';
+import logoutUser from '../../store/actions/authorizeUser/logout';
+import { RootState } from '../../store/reducers/root';
 
-const NavigationContainer = function () {
-  const auth = useContext(AuthContext);
-  const navigate = useNavigate();
-  const { logout } = useAuth();
-  const isAuthenticated:boolean = !initialState.user.data;
+const NavigationContainer:FC = function () {
+  const dispatch = useDispatch();
+  const { data } = useSelector((state: RootState) => state.user);
 
   const handleLogout = (): void => {
-    logout();
-    navigate('/');
-    window.location.reload();
+    dispatch(logoutUser());
   };
 
   return (
     <Navigation
       logoutHandler={handleLogout}
-      isAuthenticated={isAuthenticated}
-      userName={auth.userName}
+      isAuthenticated={!!data?.data?.userName}
+      userName={data?.data?.userName}
     />
   );
 };

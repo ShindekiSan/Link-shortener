@@ -3,3 +3,17 @@ export interface UserModel {
   email: string,
   password: string,
 }
+
+export interface UserInterface {
+  id: string,
+  email: string,
+  userName: string,
+  token: string,
+  password: string,
+}
+
+export interface UserStoreModel {
+  userId: string,
+  userName: string,
+  token: string
+}

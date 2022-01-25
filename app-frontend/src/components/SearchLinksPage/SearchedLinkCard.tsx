@@ -1,13 +1,15 @@
 import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 
+interface Tag {
+  tagName: string,
+}
+
 interface LinkProps {
   link: {
     to: string,
     from: string,
-    tags: {
-      tagName: string
-    }[],
+    tags: Tag[],
     description: string
   },
   error: string,
@@ -33,7 +35,7 @@ const SearchedLinkCard:FC<LinkProps> = function ({ link, error }) {
             </p>
             <p>
               tags:
-              {link.tags.slice(0).map(((tag) => `${tag.tagName} `))}
+              {link.tags ? link.tags.slice(0).map(((tag:Tag) => `${tag.tagName} `)) : 'Loading....'}
             </p>
             <p>
               description:

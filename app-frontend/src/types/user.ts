@@ -18,5 +18,5 @@ export interface SignupData {
 }
 
 export interface UserData {
-  data: UserInterface
+  data?: UserInterface
 }

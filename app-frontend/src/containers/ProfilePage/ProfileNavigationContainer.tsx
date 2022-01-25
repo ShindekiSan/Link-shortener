@@ -1,16 +1,13 @@
-import React from 'react';
-import { useNavigate } from 'react-router';
-import useAuth from '../../hooks/auth.hook';
+import React, { FC } from 'react';
+import { useDispatch } from 'react-redux';
 import ProfileNavigation from '../../components/ProfilePage/ProfileNavigation';
+import logoutUser from '../../store/actions/authorizeUser/logout';
 
-const ProfileNavigationContainer = function () {
-  const { logout } = useAuth();
-  const navigate = useNavigate();
+const ProfileNavigationContainer:FC = function () {
+  const dispatch = useDispatch();
 
   const handleLogout = (): void => {
-    logout();
-    navigate('/');
-    window.location.reload();
+    dispatch(logoutUser());
   };
 
   return (

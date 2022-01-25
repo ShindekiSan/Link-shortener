@@ -1,23 +1,19 @@
-import React, { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-
-import AuthContext from '../../context/AuthContext';
-import useAuth from '../../hooks/auth.hook';
+import React, { FC } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import ShortenerNavigation from '../../components/ShortenerPage/ShortenerNavigation';
+import logoutUser from '../../store/actions/authorizeUser/logout';
+import { RootState } from '../../store/reducers/root';
 
-const ShortenerNavigationContainer = function () {
-  const auth = useContext(AuthContext);
-  const { logout } = useAuth();
-  const navigate = useNavigate();
+const ShortenerNavigationContainer:FC = function () {
+  const dispatch = useDispatch();
+  const { data } = useSelector((state: RootState) => state.user);
 
   const handleLogout = (): void => {
-    logout();
-    navigate('/');
-    window.location.reload();
+    dispatch(logoutUser());
   };
 
   return (
-    <ShortenerNavigation logoutHandler={handleLogout} userName={auth.userName} />
+    <ShortenerNavigation logoutHandler={handleLogout} userName={data?.data?.userName} />
   );
 };
 

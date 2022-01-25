@@ -1,19 +1,21 @@
 import React, {
   ChangeEventHandler, FC, KeyboardEventHandler, MouseEventHandler,
 } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/reducers/root';
 
-interface LinkInputProps {
+export interface LinkInputProps {
   isAuthenticated: boolean,
   linkValue: string,
   changeHandler: ChangeEventHandler,
   pressHandler: KeyboardEventHandler,
   clickHandler: MouseEventHandler,
-  notify: string,
 }
 
 const LinkInput:FC<LinkInputProps> = function ({
-  isAuthenticated, linkValue, changeHandler, pressHandler, clickHandler, notify,
+  isAuthenticated, linkValue, changeHandler, pressHandler, clickHandler,
 }) {
+  const { error, data } = useSelector((state: RootState) => state.link);
   return (
     <div>
       <div className="url-input-form">
@@ -34,7 +36,20 @@ const LinkInput:FC<LinkInputProps> = function ({
           shorten
         </button>
       </div>
-      <p className="url-input__notification">{isAuthenticated ? `${notify}` : 'Can only be used by authorized user' }</p>
+      <p className="url-input__notification">
+        {isAuthenticated
+          ? (
+            <span>
+              {data?.data?.message ? (
+                `${data.data?.message}`
+              ) : (
+                `${error}`
+              )}
+            </span>
+          ) : (
+            'Can only be used by authorized user'
+          )}
+      </p>
     </div>
 
   );

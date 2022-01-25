@@ -1,26 +1,21 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, {
+  useEffect, useCallback, FC,
+} from 'react';
 import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../UI/Loader';
 import SearchedLinkCard from './SearchedLinkCard';
-import { Link } from '../../types/link';
+import loadSearchedLinkData from '../../store/actions/loadSearchedLinkData/loadSearchedLinkData';
+import { RootState } from '../../store/reducers/root';
 
-import useHttp, { RequestPromise } from '../../hooks/http.hook';
+const SearchedLinkDetails:FC = function () {
+  const { data, loading, error } = useSelector((state: RootState) => state.searchedLink);
+  const dispatch = useDispatch();
+  const { id } = useParams<{ id: string }>();
 
-const SearchedLinkDetails = function () {
-  const { request, loading } = useHttp();
-  const [link, setLink] = useState<Link | null>(null);
-  const [error, setError] = useState<string>('');
-  const { id } = useParams();
-
-  const getLink = useCallback(async () => {
-    try {
-      const fetched: RequestPromise = await request(`http://localhost:5000/api/link/link-info/${id}`, 'GET', null);
-
-      setLink(fetched.link);
-    } catch (e: any) {
-      setError(e.message);
-    }
-  }, [id, request]);
+  const getLink = useCallback(() => {
+    dispatch(loadSearchedLinkData(id));
+  }, [id]);
 
   useEffect(() => {
     getLink();
@@ -28,7 +23,7 @@ const SearchedLinkDetails = function () {
 
   return (
     <div>
-      {!loading && link ? <SearchedLinkCard link={link} error={error} /> : <Loader />}
+      {!loading && data?.data ? <SearchedLinkCard link={data.data} error={error} /> : <Loader />}
     </div>
   );
 };

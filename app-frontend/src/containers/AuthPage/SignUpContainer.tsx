@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router';
-import { useDispatch } from 'react-redux';
-import useHttp from '../../hooks/http.hook';
+import React, { FC, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import SignUp from '../../components/AuthPage/SignUp';
 import signupUser from '../../store/actions/authorizeUser/signup';
+import { RootState } from '../../store/reducers/root';
 
 type SignupForm = {
   email: string,
@@ -11,24 +10,15 @@ type SignupForm = {
   username: string,
 };
 
-const SignUpContainer = function () {
+const SignUpContainer:FC = function () {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [error, setError] = useState('');
-  const {
-    loading,
-  } = useHttp();
+  const { error, loading } = useSelector((state: RootState) => state.user);
   const [form, setForm] = useState<SignupForm>({
     username: '', email: '', password: '',
   });
 
-  const registerHandler = async (): Promise<void> => {
-    try {
-      dispatch(signupUser({ ...form }));
-      navigate('/');
-    } catch (e: any) {
-      setError(e.message);
-    }
+  const registerHandler = (): void => {
+    dispatch(signupUser(form));
   };
 
   const changeHandler = (evt: React.ChangeEvent<HTMLInputElement>): void => {
