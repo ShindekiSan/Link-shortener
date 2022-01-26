@@ -7,7 +7,7 @@ import {
   LoadSearchedLinkActionTypes, LoadSearchedLinksActionTypes,
 } from '../actionTypes';
 import handleError from '../../utils/errorHandler';
-import { fetchSearchedLink, fetchSearchedLinks } from './api/links.api';
+import { fetchSearchedLink, fetchSearchedLinks } from '../../api/links.api';
 
 export function* getSearchedLinks(action: FetchSearchedLinksAction): SagaIterator<void> {
   try {

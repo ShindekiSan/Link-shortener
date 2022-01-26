@@ -19,6 +19,16 @@ const authorizedUser = {
   data: userData,
 };
 
+const loadingState = {
+  ...initialState,
+  loading: true,
+};
+
+const userState = {
+  ...initialState,
+  data: authorizedUser,
+};
+
 describe('user reducer', () => {
   describe('should return loading=true', () => {
     it('When dispatching AUTHORIZE_USER_DATA action', () => {
@@ -49,7 +59,7 @@ describe('user reducer', () => {
 
   describe('Should return an error', () => {
     it('When dispatching AUTHORIZE_USER_FAILED action', () => {
-      const reducer = authorizeUser(initialState, loginUserFailed('error'));
+      const reducer = authorizeUser(loadingState, loginUserFailed('error'));
       expect(reducer).toEqual({
         ...initialState,
         error: 'error',
@@ -57,7 +67,7 @@ describe('user reducer', () => {
     });
 
     it('When dispatching REGISTER_USER_FAILED action', () => {
-      const reducer = authorizeUser(initialState, signupUserFailed('error'));
+      const reducer = authorizeUser(loadingState, signupUserFailed('error'));
       expect(reducer).toEqual({
         ...initialState,
         error: 'error',
@@ -65,7 +75,7 @@ describe('user reducer', () => {
     });
 
     it('When dispatching GET_CURRENT_USER_FAILED action', () => {
-      const reducer = authorizeUser(initialState, getCurrentUserFailed('error'));
+      const reducer = authorizeUser(loadingState, getCurrentUserFailed('error'));
       expect(reducer).toEqual({
         ...initialState,
         error: 'error',
@@ -75,7 +85,7 @@ describe('user reducer', () => {
 
   describe('Should return a user data', () => {
     it('When dispatching AUTHORIZE_USER_SUCCESS action', () => {
-      const reducer = authorizeUser(initialState, loginUserSuccess(authorizedUser));
+      const reducer = authorizeUser(loadingState, loginUserSuccess(authorizedUser));
       expect(reducer).toEqual({
         ...initialState,
         data: authorizedUser,
@@ -83,7 +93,7 @@ describe('user reducer', () => {
     });
 
     it('When dispatching REGISTER_USER_SUCCESS action', () => {
-      const reducer = authorizeUser(initialState, signupUserSuccess(authorizedUser));
+      const reducer = authorizeUser(loadingState, signupUserSuccess(authorizedUser));
       expect(reducer).toEqual({
         ...initialState,
         data: authorizedUser,
@@ -91,7 +101,7 @@ describe('user reducer', () => {
     });
 
     it('When dispatching GET_CURRENT_USER_SUCCESS action', () => {
-      const reducer = authorizeUser(initialState, getCurrentUserSuccess(authorizedUser));
+      const reducer = authorizeUser(loadingState, getCurrentUserSuccess(authorizedUser));
       expect(reducer).toEqual({
         ...initialState,
         data: authorizedUser,
@@ -100,7 +110,7 @@ describe('user reducer', () => {
 
     describe('Should return initial state', () => {
       it('When dispatching LOGOUT_USER action', () => {
-        const reducer = authorizeUser(initialState, logoutUser());
+        const reducer = authorizeUser(userState, logoutUser());
         expect(reducer).toEqual(initialState);
       });
     });

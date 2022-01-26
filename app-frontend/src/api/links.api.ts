@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {
   LinkData, Link, LinkEdit, AddLink, LinkId, SearchedLinkData, SearchedLink,
-} from '../../../types/link';
+} from '../types/link';
 
 const API_URL = 'http://localhost:5000';
 

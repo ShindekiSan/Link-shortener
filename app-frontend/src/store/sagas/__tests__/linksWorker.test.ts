@@ -6,7 +6,7 @@ import {
 import {
   userData, loadLink, editData, mockError, linkState, linksState,
 } from '../../../mocks/store/constants';
-import * as api from '../api/links.api';
+import * as api from '../../../api/links.api';
 import loadLinkData, { loadLinkDataFailed, loadLinkDataSuccess } from '../../actions/loadLinkData/loadLinkData';
 import editLinkData, { editLinkDataFailed, editLinkDataSuccess } from '../../actions/editLinkData/editLinkData';
 import addLink, { addLinkFailed, addLinkSuccess } from '../../actions/addLink/addLink';
@@ -17,6 +17,9 @@ const newLink = {
 };
 
 describe('get user links saga', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
   const data = linksState;
 
   it('should put links in store', async () => {
@@ -29,7 +32,6 @@ describe('get user links saga', () => {
 
     expect(fetchLinks).toHaveBeenCalledTimes(1);
     expect(dispatched[0]).toEqual(loadLinksDataSuccess(data));
-    fetchLinks.mockClear();
   });
 
   it('should throw an error in catch block', async () => {
@@ -42,11 +44,13 @@ describe('get user links saga', () => {
 
     expect(fetchLinks).toHaveBeenCalledTimes(1);
     expect(dispatched[0]).toEqual(loadLinksDataFailed(mockError.message));
-    fetchLinks.mockClear();
   });
 });
 
 describe('get user link saga', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
   const data = linkState;
 
   it('should put link in store', async () => {
@@ -59,7 +63,6 @@ describe('get user link saga', () => {
 
     expect(fetchLink).toHaveBeenCalledTimes(1);
     expect(dispatched[0]).toEqual(loadLinkDataSuccess(data));
-    fetchLink.mockClear();
   });
 
   it('should throw an error in catch block', async () => {
@@ -72,11 +75,13 @@ describe('get user link saga', () => {
 
     expect(fetchLink).toHaveBeenCalledTimes(1);
     expect(dispatched[0]).toEqual(loadLinkDataFailed(mockError.message));
-    fetchLink.mockClear();
   });
 });
 
 describe('edit link saga', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
   const data = linkState;
 
   it('should put edited link in store', async () => {
@@ -89,7 +94,6 @@ describe('edit link saga', () => {
 
     expect(fetchLink).toHaveBeenCalledTimes(1);
     expect(dispatched[0]).toEqual(editLinkDataSuccess(data));
-    fetchLink.mockClear();
   });
 
   it('should throw an error in catch block', async () => {
@@ -106,6 +110,9 @@ describe('edit link saga', () => {
 });
 
 describe('add link saga', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
   const data = linkState;
 
   it('should put new link in store', async () => {
@@ -118,7 +125,6 @@ describe('add link saga', () => {
 
     expect(fetchLink).toHaveBeenCalledTimes(1);
     expect(dispatched[0]).toEqual(addLinkSuccess(data));
-    fetchLink.mockClear();
   });
 
   it('should throw an error in catch block', async () => {

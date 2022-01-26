@@ -48,7 +48,7 @@ const authorizeUser = (state = initialState, action: UserActionTypes): UserState
         loading: false,
       };
     case LogoutActionType.LOGOUT_USER:
-      return state;
+      return initialState;
     default:
       return state;
   }

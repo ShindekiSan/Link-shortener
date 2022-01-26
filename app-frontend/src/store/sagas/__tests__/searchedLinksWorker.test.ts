@@ -4,11 +4,14 @@ import { getSearchedLink, getSearchedLinks } from '../searchedLinksWorker';
 import {
   linkState, loadLink, linksState, mockError,
 } from '../../../mocks/store/constants';
-import * as api from '../api/links.api';
+import * as api from '../../../api/links.api';
 import loadSearchedLinksData, { loadSearchedLinksDataFailed, loadSearchedLinksDataSuccess } from '../../actions/loadSearchedLinksData/loadSearchedLinksData';
 import { SearchedLinkAction } from '../../../mocks/store/actionTypes';
 
 describe('get searched link saga', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
   const { id } = loadLink;
   const data = linkState;
 
@@ -22,7 +25,6 @@ describe('get searched link saga', () => {
 
     expect(fetchLink).toHaveBeenCalledTimes(1);
     expect(dispatched[0]).toEqual(loadSearchedLinkDataSuccess(data));
-    fetchLink.mockClear();
   });
 
   it('should throw an error in catch block', async () => {
@@ -35,11 +37,13 @@ describe('get searched link saga', () => {
 
     expect(fetchLink).toHaveBeenCalledTimes(1);
     expect(dispatched[0]).toEqual(loadSearchedLinkDataFailed(mockError.message));
-    fetchLink.mockClear();
   });
 });
 
 describe('get searched links saga', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
   const tag = 'hi';
   const data = linksState;
 
@@ -53,7 +57,6 @@ describe('get searched links saga', () => {
 
     expect(fetchLinks).toHaveBeenCalledTimes(1);
     expect(dispatched[0]).toEqual(loadSearchedLinksDataSuccess(data));
-    fetchLinks.mockClear();
   });
 
   it('should throw an error in catch block', async () => {
@@ -66,6 +69,5 @@ describe('get searched links saga', () => {
 
     expect(fetchLinks).toHaveBeenCalledTimes(1);
     expect(dispatched[0]).toEqual(loadSearchedLinksDataFailed(mockError.message));
-    fetchLinks.mockClear();
   });
 });

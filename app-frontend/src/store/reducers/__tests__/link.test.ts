@@ -8,6 +8,11 @@ const newLink = {
   from: '12',
 };
 
+const loadingState = {
+  ...initialState,
+  loading: true,
+};
+
 describe('link reducer', () => {
   describe('should return loading=true', () => {
     it('When dispatching LOAD_LINK_DATA action', () => {
@@ -37,7 +42,7 @@ describe('link reducer', () => {
 
   describe('should return an error', () => {
     it('When dispatching LOAD_LINK_FAILED action', () => {
-      const reducer = link(initialState, loadLinkDataFailed('error'));
+      const reducer = link(loadingState, loadLinkDataFailed('error'));
       expect(reducer).toEqual({
         ...initialState,
         error: 'error',
@@ -45,7 +50,7 @@ describe('link reducer', () => {
     });
 
     it('When dispatching EDIT_LINK_FAILED action', () => {
-      const reducer = link(initialState, editLinkDataFailed('error'));
+      const reducer = link(loadingState, editLinkDataFailed('error'));
       expect(reducer).toEqual({
         ...initialState,
         error: 'error',
@@ -53,7 +58,7 @@ describe('link reducer', () => {
     });
 
     it('When dispatching ADD_LINK_FAILED action', () => {
-      const reducer = link(initialState, addLinkFailed('error'));
+      const reducer = link(loadingState, addLinkFailed('error'));
       expect(reducer).toEqual({
         ...initialState,
         error: 'error',
@@ -63,7 +68,7 @@ describe('link reducer', () => {
 
   describe('should return a link', () => {
     it('When dispatch LOAD_LINK_SUCCESS action', () => {
-      const reducer = link(initialState, loadLinkDataSuccess(linkState));
+      const reducer = link(loadingState, loadLinkDataSuccess(linkState));
       expect(reducer).toEqual({
         ...initialState,
         data: linkState,
@@ -71,7 +76,7 @@ describe('link reducer', () => {
     });
 
     it('When dispatch EDIT_LINK_SUCCESS action', () => {
-      const reducer = link(initialState, editLinkDataSuccess(linkState));
+      const reducer = link(loadingState, editLinkDataSuccess(linkState));
       expect(reducer).toEqual({
         ...initialState,
         data: linkState,
@@ -79,7 +84,7 @@ describe('link reducer', () => {
     });
 
     it('When dispatch ADD_LINK_SUCCESS action', () => {
-      const reducer = link(initialState, addLinkSuccess(linkState));
+      const reducer = link(loadingState, addLinkSuccess(linkState));
       expect(reducer).toEqual({
         ...initialState,
         data: linkState,
