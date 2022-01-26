@@ -4,7 +4,7 @@
   "description": "test project for instinctools",
   "main": "src/index.tsx",
   "scripts": {
-    "test": "jest",
+    "test": "jest --coverage",
     "test-watch": "jest --watch",
     "start": "webpack-dev-server --config webpack/development.js --open --hot",
     "build": "webpack --config webpack/production.js",

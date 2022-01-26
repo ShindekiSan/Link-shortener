@@ -7,7 +7,7 @@ import { addLinkSuccess, addLinkFailed, AddLinkAction } from '../actions/addLink
 import { LinkData, Link } from '../../types/link';
 import {
   fetchLink, fetchLinks, fetchLinkEdit, fetchNewLink,
-} from './api/links.api';
+} from '../../api/links.api';
 import {
   LoadLinkActionTypes, LoadLinksActionTypes, EditLinkActionTypes, AddLinkActionTypes,
 } from '../actionTypes';

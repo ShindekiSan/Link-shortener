@@ -1,31 +1,9 @@
 import configureStore from 'redux-mock-store';
+import { LinkState } from '../../store/reducers/link';
 import { UserState } from '../../store/reducers/authorization';
 import { LinksState } from '../../store/reducers/links';
 import { SearchedLinkState } from '../../store/reducers/searchedLink';
 import { SearchedLinksState } from '../../store/reducers/searchedLinks';
-
-interface Link {
-  code?: string,
-  to?: string,
-  from?: string,
-  clicks?: number,
-  tags?: {
-    tagName: string,
-    _id: string,
-  }[],
-  description?: string,
-  _id?: string,
-  date?: Date,
-  message?: string,
-}
-
-interface LinkState {
-  data: {
-    data?: Link,
-  } | null
-  loading: boolean
-  error: string
-}
 
 export interface InitialMockState {
   user?: UserState

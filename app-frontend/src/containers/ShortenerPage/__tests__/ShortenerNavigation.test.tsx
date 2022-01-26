@@ -18,6 +18,7 @@ describe('<ShortenerNavigationContainer />', () => {
           },
           loading: false,
           error: '',
+          userCookie: null,
         },
         searchedLinks: {
           data: null,

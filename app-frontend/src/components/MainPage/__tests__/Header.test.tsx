@@ -11,6 +11,7 @@ const initialState: InitialMockState = {
     data: null,
     loading: false,
     error: '',
+    userCookie: null,
   },
 };
 

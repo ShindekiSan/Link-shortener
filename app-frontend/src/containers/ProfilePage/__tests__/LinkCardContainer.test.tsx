@@ -19,6 +19,7 @@ describe('<LinkCardContainer />', () => {
           },
           loading: false,
           error: '',
+          userCookie: null,
         },
         link: {
           data: {

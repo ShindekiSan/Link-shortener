@@ -11,18 +11,23 @@ const props: LogInProps = {
   changeHandler: jest.fn(noop),
 };
 
-const setUp = () => shallow(
-  <LogIn
-    loading={props.loading}
-    error={props.error}
-    authorizationHandler={props.authorizationHandler}
-    changeHandler={props.changeHandler}
-  />,
+const loadingProps: LogInProps = {
+  ...props,
+  loading: true,
+};
+
+const errorProps: LogInProps = {
+  ...props,
+  error: 'error',
+};
+
+const setUp = (componentProps: LogInProps) => shallow(
+  <LogIn {...componentProps} />, // eslint-disable-line
 );
 
 describe('<LogIn />', () => {
   it('Should call an authorization function after pressing Log in', () => {
-    const component = setUp();
+    const component = setUp(props);
     const logInButton = component.find('.authorize-button');
 
     logInButton.simulate('click');
@@ -30,7 +35,7 @@ describe('<LogIn />', () => {
   });
 
   it('Should update inputs when user types something', () => {
-    const component = setUp();
+    const component = setUp(props);
     const logInEmailInput = component.find('#user-email');
     const logInPasswordInput = component.find('#user-password');
 
@@ -39,5 +44,19 @@ describe('<LogIn />', () => {
 
     logInPasswordInput.simulate('change', '12');
     expect(props.changeHandler).toHaveBeenCalledWith('12');
+  });
+
+  it('Should show a Loading when loading is true', () => {
+    const component = setUp(loadingProps);
+    const loadingNotify = component.find('.auth-fail-message');
+
+    expect(loadingNotify.text()).toBe('Loading...');
+  });
+
+  it('Should show an error when error isnt null', () => {
+    const component = setUp(errorProps);
+    const loadingNotify = component.find('.auth-fail-message');
+
+    expect(loadingNotify.text()).toBe('error');
   });
 });

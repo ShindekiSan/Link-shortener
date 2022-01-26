@@ -18,6 +18,7 @@ describe('<NavigationContainer />', () => {
           },
           loading: false,
           error: '',
+          userCookie: null,
         },
       };
       const store = createMockStore(initialState);
