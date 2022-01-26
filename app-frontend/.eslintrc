@@ -37,8 +37,7 @@
               "tsx": "never"
             }
         ],
-        "@typescript-eslint/default-param-last": ["off"],
-        "linebreak-style":"off",
+        "@typescript-eslint/default-param-last": ["off"]
     },
     "settings": {
         "react": {
