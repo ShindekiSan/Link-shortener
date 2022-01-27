@@ -11,6 +11,14 @@ import config from '../config/default';
 
 const app = express();
 
+app.use(cors({
+  origin: 'https://workermanager.herokuapp.com',
+  preflightContinue: true,
+  optionsSuccessStatus: 200,
+  credentials: true,
+  methods: 'GET,PUT,PATCH,POST,DELETE',
+}));
+
 app.use((req, res, next) => {
   res.append('Access-Control-Allow-Origin', ['*']);
   res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');

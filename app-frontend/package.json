@@ -10,7 +10,6 @@
     "build": "webpack --config webpack/production.js",
     "lint": "eslint src --ext .ts,.tsx"
   },
-  "proxy": "http://localhost:5000",
   "author": "M.A. Abelchuk",
   "license": "ISC",
   "devDependencies": {

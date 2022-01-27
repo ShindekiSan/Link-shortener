@@ -12,11 +12,11 @@
     "build": "cd app-frontend && webpack --config webpack/production.js",
     "lint": "eslint src --ext .ts"
   },
-  "proxy": "http://localhost:5000",
   "author": "M.A. Abelchuk",
   "license": "ISC",
   "devDependencies": {
     "@types/config": "^0.0.40",
+    "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
     "@types/jsonwebtoken": "^8.5.6",
     "@types/mongoose": "^5.11.97",
@@ -52,6 +52,7 @@
     "axios": "^0.24.0",
     "concurrently": "^6.4.0",
     "config": "^3.3.6",
+    "cors": "^2.8.5",
     "dotenv": "^14.3.2",
     "express": "^4.17.1",
     "express-validator": "^6.13.0",
