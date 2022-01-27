@@ -1,8 +1,8 @@
-import links, { initialState } from '../links';
+import links, { initialState, LinksState } from '../links';
 import loadLinksData, { loadLinksDataFailed, loadLinksDataSuccess } from '../../actions/loadLinksData/loadLinksData';
 import { linksState } from '../../../mocks/store/constants';
 
-const loadingState = {
+const loadingState: LinksState = {
   ...initialState,
   loading: true,
 };

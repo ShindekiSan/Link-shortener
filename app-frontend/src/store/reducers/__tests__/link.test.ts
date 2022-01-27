@@ -1,14 +1,10 @@
-import link, { initialState } from '../link';
+import link, { initialState, LinkState } from '../link';
 import addLink, { addLinkFailed, addLinkSuccess } from '../../actions/addLink/addLink';
 import editLinkData, { editLinkDataFailed, editLinkDataSuccess } from '../../actions/editLinkData/editLinkData';
 import loadLinkData, { loadLinkDataFailed, loadLinkDataSuccess } from '../../actions/loadLinkData/loadLinkData';
 import { loadLink, editData, linkState } from '../../../mocks/store/constants';
 
-const newLink = {
-  from: '12',
-};
-
-const loadingState = {
+const loadingState: LinkState = {
   ...initialState,
   loading: true,
 };
@@ -32,6 +28,9 @@ describe('link reducer', () => {
     });
 
     it('When dispatching ADD_LINK_DATA action', () => {
+      const newLink = {
+        from: '12',
+      };
       const reducer = link(initialState, addLink(newLink));
       expect(reducer).toEqual({
         ...initialState,

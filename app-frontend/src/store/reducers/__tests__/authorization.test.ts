@@ -1,37 +1,26 @@
-import authorizeUser, { initialState } from '../authorization';
+import authorizeUser, { initialState, UserState } from '../authorization';
 import signupUser, { signupUserFailed, signupUserSuccess } from '../../actions/authorizeUser/signup';
 import loginUser, { loginUserFailed, loginUserSuccess } from '../../actions/authorizeUser/login';
 import logoutUser from '../../actions/authorizeUser/logout';
 import getCurrentUser, { getCurrentUserFailed, getCurrentUserSuccess } from '../../actions/authorizeUser/getCurrentUser';
 import { userData } from '../../../mocks/store/constants';
 
-const user = {
-  email: '1@gmail.com',
-  password: '111111',
-};
-
-const registerUser = {
-  ...user,
-  username: 'test',
-};
-
 const authorizedUser = {
   data: userData,
 };
 
-const loadingState = {
+const loadingState: UserState = {
   ...initialState,
   loading: true,
-};
-
-const userState = {
-  ...initialState,
-  data: authorizedUser,
 };
 
 describe('user reducer', () => {
   describe('should return loading=true', () => {
     it('When dispatching AUTHORIZE_USER_DATA action', () => {
+      const user = {
+        email: '1@gmail.com',
+        password: '111111',
+      };
       const reducer = authorizeUser(initialState, loginUser(user));
       expect(reducer).toEqual({
         ...initialState,
@@ -40,6 +29,11 @@ describe('user reducer', () => {
     });
 
     it('When dispatching REGISTER_USER_DATA action', () => {
+      const registerUser = {
+        email: '1@gmail.com',
+        password: '111111',
+        username: 'test',
+      };
       const reducer = authorizeUser(initialState, signupUser(registerUser));
       expect(reducer).toEqual({
         ...initialState,
@@ -110,6 +104,10 @@ describe('user reducer', () => {
 
     describe('Should return initial state', () => {
       it('When dispatching LOGOUT_USER action', () => {
+        const userState: UserState = {
+          ...initialState,
+          data: authorizedUser,
+        };
         const reducer = authorizeUser(userState, logoutUser());
         expect(reducer).toEqual(initialState);
       });

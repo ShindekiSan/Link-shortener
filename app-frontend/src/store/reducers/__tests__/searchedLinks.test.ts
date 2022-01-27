@@ -1,8 +1,8 @@
-import searchedLinks, { initialState } from '../searchedLinks';
+import searchedLinks, { initialState, SearchedLinksState } from '../searchedLinks';
 import loadSearchedLinksData, { loadSearchedLinksDataFailed, loadSearchedLinksDataSuccess } from '../../actions/loadSearchedLinksData/loadSearchedLinksData';
 import { linksState } from '../../../mocks/store/constants';
 
-const loadingState = {
+const loadingState: SearchedLinksState = {
   ...initialState,
   loading: true,
 };
