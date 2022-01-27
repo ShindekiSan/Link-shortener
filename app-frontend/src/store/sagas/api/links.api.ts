@@ -13,6 +13,7 @@ export const fetchLinks = async (token: string):Promise<Link[]> => {
       Authorization: `Bearer ${token}`,
     },
   });
+  console.log(data.data.links);
   return data.data.links;
 };
 
@@ -67,6 +68,7 @@ export const fetchSearchedLinks = async (tag: string):Promise<SearchedLink[]> =>
     url: `${API_URL}/api/link/search/${tag}`,
     method: 'GET',
   });
+  console.log(fetched.data.links);
   return fetched.data.links;
 };
 

@@ -1,7 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import path from 'path';
-import cors from 'cors';
 import authRoute from './api/auth.routes';
 import linkRoute from './api/link.routes';
 import redirectRoute from './api/redirect.routes';
@@ -29,15 +28,17 @@ app.use((req, res, next) => {
 
 // @ts-ignore
 app.use(express.json({ extended: true }));
+
+app.use('/api/auth', authRoute);
+app.use('/api/link', linkRoute);
+app.use('/t', redirectRoute);
+
 app.use(express.static(path.resolve(__dirname, '../app-frontend/dist')));
 
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../app-frontend/dist', 'index.html'));
 });
 
-app.use('/api/auth', authRoute);
-app.use('/api/link', linkRoute);
-app.use('/t', redirectRoute);
 
 const PORT = config.port || 5000;
 
