@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import path from 'path';
+import cors from 'cors';
 import authRoute from './api/auth.routes';
 import linkRoute from './api/link.routes';
 import redirectRoute from './api/redirect.routes';
