@@ -4,19 +4,13 @@ import Navigation, { NavProps } from '../Navigation';
 
 function noop() {}
 
-const baseProps: NavProps = {
-  userName: '',
-  isAuthenticated: false,
-  logoutHandler: jest.fn(noop),
-};
-
-const authProps = {
-  ...baseProps,
-  userName: 'test',
-  isAuthenticated: true,
-};
-
 describe('<Navigation />', () => {
+  const baseProps: NavProps = {
+    userName: '',
+    isAuthenticated: false,
+    logoutHandler: jest.fn(noop),
+  };
+
   describe('Initialized without authentication', () => {
     it('Should have an authentication buttons', () => {
       const wrapper = shallow(
@@ -34,6 +28,12 @@ describe('<Navigation />', () => {
   });
 
   describe('Initialized with authentication', () => {
+    const authProps = {
+      ...baseProps,
+      userName: 'test',
+      isAuthenticated: true,
+    };
+
     it('Should have a userName and logout button', () => {
       const wrapper = shallow(
         <Navigation

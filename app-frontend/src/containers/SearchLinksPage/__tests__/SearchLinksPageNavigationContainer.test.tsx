@@ -46,10 +46,12 @@ describe('<SearchLinksPageContainer />', () => {
       const userState: InitialMockState = {
         ...initialState,
         user: {
-          ...initialState.user!,
+          loading: false,
+          error: '',
           data: {
             data: userData,
           },
+          userCookie: null,
         },
       };
       const store = createMockStore(userState);

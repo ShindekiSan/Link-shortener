@@ -6,18 +6,17 @@ import Header from '../Header';
 import { createMockStore, InitialMockState } from '../../../mocks/store/mockStore';
 import { userData } from '../../../mocks/store/constants';
 
-const initialState: InitialMockState = {
-  user: {
-    data: null,
-    loading: false,
-    error: '',
-    userCookie: null,
-  },
-};
-
 describe('<Header />', () => {
   describe('Rendered for unauthorized user', () => {
     it('Should have an authorization buttons in header', () => {
+      const initialState: InitialMockState = {
+        user: {
+          data: null,
+          loading: false,
+          error: '',
+          userCookie: null,
+        },
+      };
       const store = createMockStore(initialState);
       render(
         <Provider store={store}>
@@ -38,10 +37,12 @@ describe('<Header />', () => {
     it('Should have a start button in header', () => {
       const userState: InitialMockState = {
         user: {
-          ...initialState.user!,
+          loading: false,
+          error: '',
           data: {
             data: userData,
           },
+          userCookie: null,
         },
       };
       const store = createMockStore(userState);

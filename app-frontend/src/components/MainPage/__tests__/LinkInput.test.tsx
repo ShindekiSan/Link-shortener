@@ -8,14 +8,6 @@ import { testLink, userData } from '../../../mocks/store/constants';
 
 function noop() {}
 
-const initialState: InitialMockState = {
-  link: {
-    data: null,
-    loading: false,
-    error: '',
-  },
-};
-
 const props: LinkInputProps = {
   isAuthenticated: false,
   linkValue: '',
@@ -32,6 +24,13 @@ const authorizedProps: LinkInputProps = {
 describe('<LinkInput />', () => {
   describe('Rendered for unauthorized user', () => {
     it('Should have disabled input field and submit button', () => {
+      const initialState: InitialMockState = {
+        link: {
+          data: null,
+          loading: false,
+          error: '',
+        },
+      };
       const store = createMockStore(initialState);
       render(
         <Provider store={store}>
@@ -51,6 +50,14 @@ describe('<LinkInput />', () => {
   });
 
   describe('Rendered for authorized user', () => {
+    const initialState: InitialMockState = {
+      link: {
+        data: null,
+        loading: false,
+        error: '',
+      },
+    };
+
     beforeEach(() => {
       const store = createMockStore(initialState);
       render( // eslint-disable-line
@@ -74,13 +81,16 @@ describe('<LinkInput />', () => {
     it('Message if request went successfull', () => {
       const linkMessageState: InitialMockState = {
         user: {
-          ...initialState.user!,
+          loading: false,
+          error: '',
           data: {
             data: userData,
           },
+          userCookie: null,
         },
         link: {
-          ...initialState.link!,
+          loading: false,
+          error: '',
           data: {
             data: testLink,
           },
@@ -102,13 +112,16 @@ describe('<LinkInput />', () => {
     it('Error if request went unsuccessfull', () => {
       const linkErrorState: InitialMockState = {
         user: {
-          ...initialState.user!,
+          loading: false,
+          error: '',
           data: {
             data: userData,
           },
+          userCookie: null,
         },
         link: {
-          ...initialState.link!,
+          data: null,
+          loading: false,
           error: 'error',
         },
       };

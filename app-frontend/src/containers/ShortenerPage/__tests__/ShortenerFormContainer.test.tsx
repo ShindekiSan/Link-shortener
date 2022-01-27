@@ -59,7 +59,8 @@ describe('<ShortenerFormContainer />', () => {
         const linkMessageState: InitialMockState = {
           ...initialState,
           link: {
-            ...initialState.link!,
+            loading: false,
+            error: '',
             data: {
               data: testLink,
             },
@@ -82,7 +83,8 @@ describe('<ShortenerFormContainer />', () => {
         const linkErrorState: InitialMockState = {
           ...initialState,
           link: {
-            ...initialState.link!,
+            data: null,
+            loading: false,
             error: 'error',
           },
         };
