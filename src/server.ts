@@ -13,7 +13,7 @@ import config from '../config/default';
 const app = express();
 
 app.use(cors({
-  origin: 'https://workermanager.herokuapp.com',
+  origin: 'https://links-shortener-api.herokuapp.com',
   preflightContinue: true,
   optionsSuccessStatus: 200,
   credentials: true,

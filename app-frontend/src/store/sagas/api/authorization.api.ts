@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { SignupData, UserData, LoginData } from '../../../types/user';
 
-const API_URL = 'https://links-shortener-api.herokuapp.com/';
+const API_URL = 'https://links-shortener-api.herokuapp.com';
 
 export const fetchAuthorization = async (user: LoginData):Promise<UserData> => {
   const fetched = await axios({

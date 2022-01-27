@@ -3,7 +3,7 @@ import {
   LinkData, Link, LinkEdit, AddLink, LinkId, SearchedLinkData, SearchedLink,
 } from '../../../types/link';
 
-const API_URL = 'https://links-shortener-api.herokuapp.com/';
+const API_URL = 'https://links-shortener-api.herokuapp.com';
 
 export const fetchLinks = async (token: string):Promise<Link[]> => {
   const data = await axios({
