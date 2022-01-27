@@ -39,7 +39,6 @@ app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../app-frontend/dist', 'index.html'));
 });
 
-
 const PORT = config.port || 5000;
 
 async function start(): Promise<void> {
