@@ -12,6 +12,9 @@
     "build": "cd app-frontend && webpack --config webpack/production.js",
     "lint": "eslint src --ext .ts"
   },
+  "engines": {
+    "node": "14.x"
+  },
   "proxy": "http://localhost:5000",
   "author": "M.A. Abelchuk",
   "license": "ISC",
