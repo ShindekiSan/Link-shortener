@@ -28,9 +28,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Install packages
-        working-directory: ./app-backend
         run: yarn
 
       - name: Run ESLint
-        working-directory: ./app-backend
         run: yarn lint

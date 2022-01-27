@@ -10,6 +10,9 @@
     "build": "webpack --config webpack/production.js",
     "lint": "eslint src --ext .ts,.tsx"
   },
+  "engines": {
+    "node": "16.x"
+  },
   "proxy": "http://localhost:5000",
   "author": "M.A. Abelchuk",
   "license": "ISC",

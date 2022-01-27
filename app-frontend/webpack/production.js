@@ -10,7 +10,6 @@ module.exports = merge(common, {
     chunkFilename: '[chunkhash].bundle.js',
   },
   plugins: [
-    new BundleAnalyzerPlugin(),
     new CleanWebpackPlugin(),
   ],
 });
