@@ -5,19 +5,9 @@ import authRoute from './api/auth.routes';
 import linkRoute from './api/link.routes';
 import redirectRoute from './api/redirect.routes';
 import config from '../config/default';
-// const express = require('express');
-// const config = require('config');
-// const mongoose = require('mongoose');
 
 const app = express();
-
-app.use(cors({
-  origin: 'https://links-shortener-api.herokuapp.com',
-  preflightContinue: true,
-  optionsSuccessStatus: 200,
-  credentials: true,
-  methods: 'GET,PUT,PATCH,POST,DELETE',
-}));
+const PORT = config.port || 5000;
 
 app.use((req, res, next) => {
   res.append('Access-Control-Allow-Origin', ['*']);
@@ -26,20 +16,18 @@ app.use((req, res, next) => {
   next();
 });
 
-// @ts-ignore
-app.use(express.json({ extended: true }));
-
 app.use('/api/auth', authRoute);
 app.use('/api/link', linkRoute);
 app.use('/t', redirectRoute);
+
+// @ts-ignore
+app.use(express.json({ extended: true }));
 
 app.use(express.static(path.resolve(__dirname, '../app-frontend/dist')));
 
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../app-frontend/dist', 'index.html'));
 });
-
-const PORT = config.port || 5000;
 
 async function start(): Promise<void> {
   try {
