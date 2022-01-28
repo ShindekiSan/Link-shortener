@@ -16,12 +16,12 @@ app.use((req, res, next) => {
   next();
 });
 
+// @ts-ignore
+app.use(express.json({ extended: true }));
+
 app.use('/api/auth', authRoute);
 app.use('/api/link', linkRoute);
 app.use('/t', redirectRoute);
-
-// @ts-ignore
-app.use(express.json({ extended: true }));
 
 app.use(express.static(path.resolve(__dirname, '../app-frontend/dist')));
 
