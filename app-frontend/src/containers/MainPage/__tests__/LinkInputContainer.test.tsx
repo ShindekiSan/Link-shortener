@@ -5,13 +5,14 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import LinkInputContainer from '../LinkInputContainer';
 import { createMockStore, InitialMockState } from '../../../mocks/store/mockStore';
-import { userData } from '../../../mocks/store/constants';
+import { userData, testLink } from '../../../mocks/store/constants';
 
 const initialState: InitialMockState = {
   user: {
     data: null,
     loading: false,
     error: '',
+    userCookie: null,
   },
   link: {
     data: null,
@@ -66,9 +67,7 @@ describe('<LinkInputContainer />', () => {
           link: {
             ...initialState.link!,
             data: {
-              data: {
-                message: 'Message!',
-              },
+              data: testLink,
             },
           },
         };
@@ -80,7 +79,7 @@ describe('<LinkInputContainer />', () => {
           { wrapper: MemoryRouter },
         );
 
-        const inputParagraph = screen.getByText('Message!');
+        const inputParagraph = screen.getByText('message!');
         expect(inputParagraph).toBeInTheDocument();
       });
 
