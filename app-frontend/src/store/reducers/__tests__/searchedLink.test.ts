@@ -1,6 +1,11 @@
-import searchedLink, { initialState } from '../searchedLink';
+import searchedLink, { initialState, SearchedLinkState } from '../searchedLink';
 import loadSearchedLinkData, { loadSearchedLinkDataFailed, loadSearchedLinkDataSuccess } from '../../actions/loadSearchedLinkData/loadSearchedLinkData';
 import { linkState } from '../../../mocks/store/constants';
+
+const loadingState: SearchedLinkState = {
+  ...initialState,
+  loading: true,
+};
 
 describe('links reducer', () => {
   describe('should return loading=true', () => {
@@ -15,7 +20,7 @@ describe('links reducer', () => {
 
   describe('should return an error', () => {
     it('When dispatching LOAD_SEARCHED_LINKS_FAILED action', () => {
-      const reducer = searchedLink(initialState, loadSearchedLinkDataFailed('error'));
+      const reducer = searchedLink(loadingState, loadSearchedLinkDataFailed('error'));
       expect(reducer).toEqual({
         ...initialState,
         error: 'error',
@@ -25,7 +30,7 @@ describe('links reducer', () => {
 
   describe('should return an array of links', () => {
     it('When disaptching LOAD_SEARCHED_LINKS_SUCCESS action', () => {
-      const reducer = searchedLink(initialState, loadSearchedLinkDataSuccess(linkState));
+      const reducer = searchedLink(loadingState, loadSearchedLinkDataSuccess(linkState));
       expect(reducer).toEqual({
         ...initialState,
         data: linkState,
