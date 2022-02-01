@@ -6,7 +6,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import ShortenerFormContainer from '../ShortenerFormContainer';
 import { createMockStore, InitialMockState } from '../../../mocks/store/mockStore';
-import { userData } from '../../../mocks/store/constants';
+import { userData, testLink } from '../../../mocks/store/constants';
 import { AddLinkActionTypes } from '../../../store/actionTypes';
 
 const initialState: InitialMockState = {
@@ -16,6 +16,7 @@ const initialState: InitialMockState = {
     },
     loading: false,
     error: '',
+    userCookie: null,
   },
   link: {
     data: null,
@@ -58,11 +59,10 @@ describe('<ShortenerFormContainer />', () => {
         const linkMessageState: InitialMockState = {
           ...initialState,
           link: {
-            ...initialState.link!,
+            loading: false,
+            error: '',
             data: {
-              data: {
-                message: 'Message!',
-              },
+              data: testLink,
             },
           },
         };
@@ -75,7 +75,7 @@ describe('<ShortenerFormContainer />', () => {
           { wrapper: MemoryRouter },
         );
 
-        const inputParagraph = screen.getByText('Message!');
+        const inputParagraph = screen.getByText('message!');
         expect(inputParagraph).toBeInTheDocument();
       });
 
@@ -83,7 +83,8 @@ describe('<ShortenerFormContainer />', () => {
         const linkErrorState: InitialMockState = {
           ...initialState,
           link: {
-            ...initialState.link!,
+            data: null,
+            loading: false,
             error: 'error',
           },
         };

@@ -9,9 +9,10 @@ import { AuthorizeActionTypes } from '../../../store/actionTypes';
 
 const initialState: InitialMockState = {
   user: {
-    data: {},
+    data: null,
     loading: false,
     error: '',
+    userCookie: null,
   },
 };
 

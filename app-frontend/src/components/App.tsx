@@ -3,13 +3,12 @@ import React, {
 } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
-import { useCookies } from 'react-cookie';
 import { useDispatch, useSelector } from 'react-redux';
 import getCurrentUser from '../store/actions/authorizeUser/getCurrentUser';
 import '../styles/app.css';
 import '../styles/normalize.css';
 import Loader from './UI/Loader';
-import { RootState, history } from '../store/reducers/root';
+import { history, RootState } from '../store/reducers/root';
 
 const LogIn = lazy(() => import('../containers/AuthPage/LogInContainer'));
 const SignUp = lazy(() => import('../containers/AuthPage/SignUpContainer'));
@@ -21,15 +20,14 @@ const SearchLinksPage = lazy(() => import('./SearchLinksPage/SearchLinksPage'));
 const SearchedLinkDetails = lazy(() => import('./SearchLinksPage/SearchedLinkDetails'));
 
 const App:FC = function () {
-  const [cookies] = useCookies(['user']);
-  const { data } = useSelector((state: RootState) => state.user);
+  const { userCookie } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!data?.data?.userId && cookies.user) {
-      dispatch(getCurrentUser(cookies.user));
+    if (userCookie) {
+      dispatch(getCurrentUser(userCookie));
     }
-  }, [data?.data?.userId]);
+  }, [userCookie]);
 
   return (
     <Suspense fallback={<Loader />}>

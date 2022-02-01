@@ -8,7 +8,7 @@ export interface GetCurrentUserAction {
 
 interface GetCurrentUserSuccessAction {
   type: GetCurrentUserActionTypes.GET_CURRENT_USER_SUCCESS,
-  payload: UserData,
+  payload: UserData | null,
 }
 
 interface GetCurrentUserFailedAction {
@@ -24,7 +24,7 @@ const getCurrentUser = (id: string): GetCurrentUserAction => ({
   payload: id,
 });
 
-export const getCurrentUserSuccess = (user: UserData): GetCurrentUserSuccessAction => ({
+export const getCurrentUserSuccess = (user: UserData | null): GetCurrentUserSuccessAction => ({
   type: GetCurrentUserActionTypes.GET_CURRENT_USER_SUCCESS,
   payload: user,
 });

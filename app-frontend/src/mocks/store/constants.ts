@@ -13,6 +13,7 @@ export const testLink = {
   description: '',
   _id: '555',
   date: new Date(Date.now()),
+  message: 'message!',
 };
 
 export const loadLink = {

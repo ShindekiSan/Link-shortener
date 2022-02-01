@@ -68,6 +68,7 @@ export function* getUser(action: GetCurrentUserAction): SagaIterator<void> {
 export function* logoutUser(): SagaIterator<void> {
   yield call(deleteUserCookie, 'user');
   yield put(push('/'));
+  window.location.reload();
 }
 
 export default function* authorizationWatcher() {

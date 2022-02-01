@@ -18,6 +18,7 @@ describe('<ProfileNavigationContainer />', () => {
           },
           loading: false,
           error: '',
+          userCookie: null,
         },
       };
       const store = createMockStore(initialState);

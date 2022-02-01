@@ -7,10 +7,20 @@ import {
   AuthorizeActionTypes, RegisterActionTypes, GetCurrentUserActionTypes, LogoutActionType,
 } from '../actionTypes';
 
+const findUserCookie = () => {
+  const cookies = document.cookie.split('; ');
+  if (cookies !== undefined) {
+    const cookieValue = cookies.find((row) => row.startsWith('user='))?.split('=')[1];
+    return cookieValue!;
+  }
+  return null;
+};
+
 export const initialState: UserState = {
   data: null,
   error: '',
   loading: false,
+  userCookie: findUserCookie(),
 };
 
 type UserActionTypes =
@@ -19,7 +29,8 @@ AuthrorizeUserActions | RegisterUserActions | GetCurrentUserActions | LogoutActi
 export interface UserState {
   data: UserData | null,
   error: string,
-  loading: boolean
+  loading: boolean,
+  userCookie: null | string,
 }
 
 const authorizeUser = (state = initialState, action: UserActionTypes): UserState => {
