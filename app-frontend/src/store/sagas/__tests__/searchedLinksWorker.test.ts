@@ -4,7 +4,7 @@ import { getSearchedLink, getSearchedLinks } from '../searchedLinksWorker';
 import {
   linkState, loadLink, linksState, mockError,
 } from '../../../mocks/store/constants';
-import * as api from '../api/links.api';
+import * as api from '../../../api/links.api';
 import loadSearchedLinksData, { loadSearchedLinksDataFailed, loadSearchedLinksDataSuccess } from '../../actions/loadSearchedLinksData/loadSearchedLinksData';
 import { SearchedLinkAction } from '../../../mocks/store/actionTypes';
 

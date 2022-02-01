@@ -6,7 +6,7 @@ import {
 import {
   userData, loadLink, editData, mockError, linkState, linksState,
 } from '../../../mocks/store/constants';
-import * as api from '../api/links.api';
+import * as api from '../../../api/links.api';
 import loadLinkData, { loadLinkDataFailed, loadLinkDataSuccess } from '../../actions/loadLinkData/loadLinkData';
 import editLinkData, { editLinkDataFailed, editLinkDataSuccess } from '../../actions/editLinkData/editLinkData';
 import addLink, { addLinkFailed, addLinkSuccess } from '../../actions/addLink/addLink';

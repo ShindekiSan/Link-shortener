@@ -6,7 +6,7 @@ import {
 import * as authorizationWorker from '../authorizationWorker';
 import { userData, mockError } from '../../../mocks/store/constants';
 import loginUser, { loginUserFailed, loginUserSuccess } from '../../actions/authorizeUser/login';
-import * as api from '../api/authorization.api';
+import * as api from '../../../api/authorization.api';
 import signupUser, { signupUserFailed, signupUserSuccess } from '../../actions/authorizeUser/signup';
 import getCurrentUser, { getCurrentUserFailed, getCurrentUserSuccess } from '../../actions/authorizeUser/getCurrentUser';
 import { AuthorizationAction } from '../../../mocks/store/actionTypes';

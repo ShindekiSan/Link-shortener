@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { SignupData, UserData, LoginData } from '../../../types/user';
+import { SignupData, UserData, LoginData } from '../types/user';
 
 const API_URL = 'https://links-shortener-api.herokuapp.com';
 
