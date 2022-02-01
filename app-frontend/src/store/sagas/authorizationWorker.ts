@@ -5,7 +5,7 @@ import { loginUserSuccess, loginUserFailed, AuthrorizeUserAction } from '../acti
 import { signupUserSuccess, signupUserFailed, RegisterUserAction } from '../actions/authorizeUser/signup';
 import { getCurrentUserSuccess, getCurrentUserFailed, GetCurrentUserAction } from '../actions/authorizeUser/getCurrentUser';
 import { UserData } from '../../types/user';
-import { fetchCurrentUser, fetchRegistration, fetchAuthorization } from './api/authorization.api';
+import { fetchCurrentUser, fetchRegistration, fetchAuthorization } from '../../api/authorization.api';
 import {
   AuthorizeActionTypes, RegisterActionTypes, GetCurrentUserActionTypes, LogoutActionType,
 } from '../actionTypes';

@@ -1,9 +1,9 @@
 export interface UserInterface {
   userId: string,
-  email: string,
+  email?: string,
   userName: string,
   token: string,
-  password: string,
+  password?: string,
 }
 
 export interface LoginData {
