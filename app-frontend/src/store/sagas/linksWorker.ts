@@ -1,4 +1,5 @@
 import { put, call, takeEvery } from 'redux-saga/effects';
+import { SagaIterator } from 'redux-saga';
 import { loadLinksDataSuccess, loadLinksDataFailed, FetchLinksAction } from '../actions/loadLinksData/loadLinksData';
 import { loadLinkDataSuccess, loadLinkDataFailed, FetchLinkAction } from '../actions/loadLinkData/loadLinkData';
 import { editLinkDataSuccess, editLinkDataFailed, EditLinkAction } from '../actions/editLinkData/editLinkData';
@@ -6,13 +7,13 @@ import { addLinkSuccess, addLinkFailed, AddLinkAction } from '../actions/addLink
 import { LinkData, Link } from '../../types/link';
 import {
   fetchLink, fetchLinks, fetchLinkEdit, fetchNewLink,
-} from './api/links.api';
+} from '../../api/links.api';
 import {
   LoadLinkActionTypes, LoadLinksActionTypes, EditLinkActionTypes, AddLinkActionTypes,
 } from '../actionTypes';
 import handleError from '../../utils/errorHandler';
 
-export function* getUserLinks(action: FetchLinksAction) {
+export function* getUserLinks(action: FetchLinksAction): SagaIterator<void> {
   try {
     const data:Link[] = yield call(
       fetchLinks,
@@ -28,7 +29,7 @@ export function* getUserLinks(action: FetchLinksAction) {
   }
 }
 
-export function* getUserLink(action: FetchLinkAction) {
+export function* getUserLink(action: FetchLinkAction): SagaIterator<void> {
   try {
     const data:LinkData = yield call(
       fetchLink,
@@ -44,7 +45,7 @@ export function* getUserLink(action: FetchLinkAction) {
   }
 }
 
-export function* getEditLink(action: EditLinkAction) {
+export function* getEditLink(action: EditLinkAction): SagaIterator<void> {
   try {
     const data:LinkData = yield call(fetchLinkEdit, action.payload);
     yield put(
@@ -57,7 +58,7 @@ export function* getEditLink(action: EditLinkAction) {
   }
 }
 
-export function* addLink(action: AddLinkAction) {
+export function* addUserLink(action: AddLinkAction): SagaIterator<void> {
   try {
     const data:LinkData = yield call(
       fetchNewLink,
@@ -77,5 +78,5 @@ export default function* linksWatcher() {
   yield takeEvery(LoadLinkActionTypes.LOAD_LINK_DATA, getUserLink);
   yield takeEvery(LoadLinksActionTypes.LOAD_LINKS_DATA, getUserLinks);
   yield takeEvery(EditLinkActionTypes.EDIT_LINK_DATA, getEditLink);
-  yield takeEvery(AddLinkActionTypes.ADD_LINK_DATA, addLink);
+  yield takeEvery(AddLinkActionTypes.ADD_LINK_DATA, addUserLink);
 }

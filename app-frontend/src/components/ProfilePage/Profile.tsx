@@ -3,7 +3,7 @@ import React, {
   useCallback, useEffect,
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import LinksBlock from './LinksBlock/LinksBlock';
+import LinksBlock from './LinksBlock';
 import ProfileHeader from './ProfileHeader';
 import Loader from '../UI/Loader';
 import loadLinksData from '../../store/actions/loadLinksData/loadLinksData';

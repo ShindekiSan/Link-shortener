@@ -7,7 +7,7 @@ import {
   AuthorizeActionTypes, RegisterActionTypes, GetCurrentUserActionTypes, LogoutActionType,
 } from '../actionTypes';
 
-const initialState: UserState = {
+export const initialState: UserState = {
   data: null,
   error: '',
   loading: false,
@@ -48,7 +48,7 @@ const authorizeUser = (state = initialState, action: UserActionTypes): UserState
         loading: false,
       };
     case LogoutActionType.LOGOUT_USER:
-      return state;
+      return initialState;
     default:
       return state;
   }

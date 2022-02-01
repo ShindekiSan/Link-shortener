@@ -4,7 +4,7 @@ import React, {
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../UI/Loader';
-import LinkCard from '../../containers/ProfilePage/LinkCardContainer/LinkCardContainer';
+import LinkCard from '../../containers/ProfilePage/LinkCardContainer';
 import loadLinkData from '../../store/actions/loadLinkData/loadLinkData';
 import { RootState } from '../../store/reducers/root';
 

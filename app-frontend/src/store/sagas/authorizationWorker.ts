@@ -1,33 +1,34 @@
 import { put, call, takeEvery } from 'redux-saga/effects';
 import { push } from 'connected-react-router';
+import { SagaIterator } from 'redux-saga';
 import { loginUserSuccess, loginUserFailed, AuthrorizeUserAction } from '../actions/authorizeUser/login';
 import { signupUserSuccess, signupUserFailed, RegisterUserAction } from '../actions/authorizeUser/signup';
 import { getCurrentUserSuccess, getCurrentUserFailed, GetCurrentUserAction } from '../actions/authorizeUser/getCurrentUser';
 import { UserData } from '../../types/user';
-import { fetchCurrentUser, fetchRegistration, fecthAuthorization } from './api/authorization.api';
+import { fetchCurrentUser, fetchRegistration, fetchAuthorization } from '../../api/authorization.api';
 import {
   AuthorizeActionTypes, RegisterActionTypes, GetCurrentUserActionTypes, LogoutActionType,
 } from '../actionTypes';
 import handleError from '../../utils/errorHandler';
 
-const setUserCookie = (name: string, value?: string): void => {
+export const setUserCookie = (name: string, value?: string): void => {
   document.cookie = `${name}=${value}; path=/`;
 };
 
-const deleteUserCookie = (name: string): void => {
+export const deleteUserCookie = (name: string): void => {
   document.cookie = `${name}=; max-age=${-1}`;
 };
 
-export function* authorizeUser(action: AuthrorizeUserAction) {
+export function* authorizeUser(action: AuthrorizeUserAction): SagaIterator<void> {
   try {
     const data:UserData = yield call(
-      fecthAuthorization,
+      fetchAuthorization,
       action.payload,
     );
-    yield call(setUserCookie, 'user', data.data?.userId);
     yield put(
       loginUserSuccess(data),
     );
+    yield call(setUserCookie, 'user', data.data?.userId);
     yield put(push('/'));
   } catch (e: unknown) {
     yield put(
@@ -36,13 +37,13 @@ export function* authorizeUser(action: AuthrorizeUserAction) {
   }
 }
 
-export function* registerUser(action: RegisterUserAction) {
+export function* registerUser(action: RegisterUserAction): SagaIterator<void> {
   try {
     const data:UserData = yield call(fetchRegistration, action.payload);
-    yield call(setUserCookie, 'user', data.data?.userId);
     yield put(
       signupUserSuccess(data),
     );
+    yield call(setUserCookie, 'user', data.data?.userId);
     yield put(push('/'));
   } catch (e: unknown) {
     yield put(
@@ -51,7 +52,7 @@ export function* registerUser(action: RegisterUserAction) {
   }
 }
 
-export function* getUser(action: GetCurrentUserAction) {
+export function* getUser(action: GetCurrentUserAction): SagaIterator<void> {
   try {
     const data:UserData = yield call(fetchCurrentUser, action.payload);
     yield put(
@@ -64,9 +65,9 @@ export function* getUser(action: GetCurrentUserAction) {
   }
 }
 
-export function* logoutUser() {
+export function* logoutUser(): SagaIterator<void> {
   yield call(deleteUserCookie, 'user');
-  window.location.reload();
+  yield put(push('/'));
 }
 
 export default function* authorizationWatcher() {

@@ -8,7 +8,7 @@ export interface LinksState {
   loading: boolean,
 }
 
-const initialState: LinksState = {
+export const initialState: LinksState = {
   data: null,
   error: '',
   loading: false,

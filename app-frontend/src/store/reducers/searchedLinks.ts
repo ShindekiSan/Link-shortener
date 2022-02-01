@@ -8,7 +8,7 @@ export interface SearchedLinksState {
   loading: boolean,
 }
 
-const initialState: SearchedLinksState = {
+export const initialState: SearchedLinksState = {
   data: null,
   error: '',
   loading: false,

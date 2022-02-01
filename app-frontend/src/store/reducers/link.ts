@@ -4,7 +4,7 @@ import { EditLinkActions } from '../actions/editLinkData/editLinkData';
 import { LoadLinkActions } from '../actions/loadLinkData/loadLinkData';
 import { AddLinkActionTypes, EditLinkActionTypes, LoadLinkActionTypes } from '../actionTypes';
 
-const initialState: LinkState = {
+export const initialState: LinkState = {
   data: null,
   error: '',
   loading: false,
