@@ -1,14 +1,13 @@
 import express from 'express';
-import config from 'config';
 import mongoose from 'mongoose';
+import path from 'path';
 import authRoute from './api/auth.routes';
 import linkRoute from './api/link.routes';
 import redirectRoute from './api/redirect.routes';
-// const express = require('express');
-// const config = require('config');
-// const mongoose = require('mongoose');
+import config from '../config/default';
 
 const app = express();
+const PORT = config.port || 5000;
 
 app.use((req, res, next) => {
   res.append('Access-Control-Allow-Origin', ['*']);
@@ -24,11 +23,15 @@ app.use('/api/auth', authRoute);
 app.use('/api/link', linkRoute);
 app.use('/t', redirectRoute);
 
-const PORT = config.get('port') || 5000;
+app.use(express.static(path.resolve(__dirname, '../app-frontend/dist')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../app-frontend/dist', 'index.html'));
+});
 
 async function start(): Promise<void> {
   try {
-    await mongoose.connect(config.get('mongoUri'));
+    await mongoose.connect(config.mongoUri);
     app.listen(PORT, () => console.log(`App has been startet on port ${PORT}...`)); // eslint-disable-line
   } catch (e) {
     console.log('Server Error', JSON.stringify(e)); // eslint-disable-line

@@ -10,7 +10,6 @@
     "build": "webpack --config webpack/production.js",
     "lint": "eslint src --ext .ts,.tsx"
   },
-  "proxy": "http://localhost:5000",
   "author": "M.A. Abelchuk",
   "license": "ISC",
   "devDependencies": {
@@ -44,7 +43,7 @@
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.6",
     "eslint": "^8.3.0",
-    "eslint-config-airbnb": "^19.0.2",
+    "eslint-config-airbnb": "19.0.2",
     "eslint-config-airbnb-typescript": "^16.1.0",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-jest": "^25.3.2",
