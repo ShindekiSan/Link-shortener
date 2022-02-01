@@ -21,7 +21,6 @@ const errorProps: SignUpProps = {
   error: 'error',
 };
 
-
 const setUp = (componentProps: SignUpProps) => shallow(
   <SignUp {...componentProps} />, // eslint-disable-line
 );

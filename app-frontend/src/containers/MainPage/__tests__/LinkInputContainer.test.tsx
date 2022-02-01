@@ -5,6 +5,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import LinkInputContainer from '../LinkInputContainer';
 import { createMockStore, InitialMockState } from '../../../mocks/store/mockStore';
+import { userData, testLink } from '../../../mocks/store/constants';
 
 const initialState: InitialMockState = {
   user: {
@@ -52,6 +53,60 @@ describe('<LinkInputContainer />', () => {
       userEvent.click(shortenButton);
       const actions = store.getActions();
       expect(actions).toHaveLength(0);
+    });
+
+    describe('Should return a message for user after action dispatching', () => {
+      it('Message if request went successfull', () => {
+        const linkMessageState: InitialMockState = {
+          user: {
+            ...initialState.user!,
+            data: {
+              data: userData,
+            },
+          },
+          link: {
+            ...initialState.link!,
+            data: {
+              data: testLink,
+            },
+          },
+        };
+        const store = createMockStore(linkMessageState);
+        render(
+          <Provider store={store}>
+            <LinkInputContainer />
+          </Provider>,
+          { wrapper: MemoryRouter },
+        );
+
+        const inputParagraph = screen.getByText('message!');
+        expect(inputParagraph).toBeInTheDocument();
+      });
+
+      it('Error if request went unsuccessfull', () => {
+        const linkErrorState: InitialMockState = {
+          user: {
+            ...initialState.user!,
+            data: {
+              data: userData,
+            },
+          },
+          link: {
+            ...initialState.link!,
+            error: 'error',
+          },
+        };
+        const store = createMockStore(linkErrorState);
+        render(
+          <Provider store={store}>
+            <LinkInputContainer />
+          </Provider>,
+          { wrapper: MemoryRouter },
+        );
+
+        const inputParagraph = screen.getByText('error');
+        expect(inputParagraph).toBeInTheDocument();
+      });
     });
   });
 });
